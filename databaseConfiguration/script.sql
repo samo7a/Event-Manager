@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `EventManager`.`CreatesEvents` (
 ENGINE = InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS `EventManger`.`CreatesUniversities` (
+CREATE TABLE IF NOT EXISTS `EventManager`.`CreatesUniversities` (
   `createdId` INT NOT NULL AUTO_INCREMENT,
   `u_id` INT NULL,
   `sa_id` INT NULL,
