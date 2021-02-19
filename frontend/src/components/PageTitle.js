@@ -1,10 +1,10 @@
-import './PageTitle.scss';
+import './PageTitle.css';
 import React from 'react';
 
 const PageTitle = () => {
     return (
-        <div className="page-title">
-            <h1>
+        <div>
+            <h1 className="page-title">
                 EventUp
             </h1>
         </div>
