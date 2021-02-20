@@ -1,12 +1,21 @@
 .register-wrapper {
     background-color: gray;
     padding: 20px;
+    border-radius: 5px;
     margin-top: 100px;
     margin-left: 100px;
 }
 
+.register-wrapper:hover {
+    border-style: outset;
+    border-color: darkgray;
+    border-width: 1px;
+    box-shadow: 2px 2px 2px;
+}
+
 .register-form {
     position: relative;
+    border-radius: 5px;
     background-color: lightgray; 
     padding: 30px;
 }
