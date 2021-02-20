@@ -1,0 +1,24 @@
+.register-wrapper {
+    background-color: gray;
+    margin-left: 50px;
+    margin-right: 10px;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.register-form {
+    position: relative;
+    background-color: lightgray; 
+    padding: 30px;
+}
+
+.register-box {
+    padding-left: 80px;
+    padding-top: 100px;
+}
+
+.register-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
