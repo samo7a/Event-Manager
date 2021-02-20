@@ -62,7 +62,7 @@ const RegisterBox = (props) => {
                                     </Form.Group>
 
                                     <Form.Group as={Col} controlId="formGridPassword">
-                                        <Form.Label>First Name</Form.Label>
+                                        <Form.Label>Password</Form.Label>
                                         <Form.Control type="password" placeholder="Password" onChange={(event) => {setPassword(event.target.value)}}/>
                                     </Form.Group>
 
