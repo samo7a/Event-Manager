@@ -1,11 +1,76 @@
 import "./RegisterBox.css";
 import { useState } from "react";
+import { useSelect } from "react-select-search";
 import PageTitle from "./PageTitle";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import ToggleButton from "react-bootstrap/ToggleButton";
+import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
+import SelectSearch from "react-select-search";
+import fuzzySearch from "./fuzzySearch";
+// Design Decisions
+// Do we want to seperate radio buttons?
+//
 
 const RegisterBox = (props) => {
+  // Array of state names
+  const options = [
+    { name: "Alabama", value: "AL" },
+    { name: "Alaska", value: "AK" },
+    { name: "Arizona", value: "AZ" },
+    { name: "Arkansas", value: "AR" },
+    { name: "California", value: "CA" },
+    { name: "Colorado", value: "CO" },
+    { name: "Connecticut", value: "CT" },
+    { name: "Delaware", value: "DE" },
+    { name: "District of Columbia", value: "DC" },
+    { name: "Florida", value: "FL" },
+    { name: "Georgia", value: "GA" },
+    { name: "Hawaii", value: "HI" },
+    { name: "Idaho", value: "ID" },
+    { name: "Illinois", value: "IL" },
+    { name: "Indiana", value: "IN" },
+    { name: "Iowa", value: "IA" },
+    { name: "Kansas", value: "KS" },
+    { name: "Kentucky", value: "KY" },
+    { name: "Louisiana", value: "LA" },
+    { name: "Maine", value: "ME" },
+    { name: "Maryland", value: "MD" },
+    { name: "Massachusetts", value: "MA" },
+    { name: "Michigan", value: "MI" },
+    { name: "Minnesota", value: "MN" },
+    { name: "Mississippi", value: "MS" },
+    { name: "Missouri", value: "MO" },
+    { name: "Montana", value: "MT" },
+    { name: "Nebraska", value: "NE" },
+    { name: "Nevada", value: "NV" },
+    { name: "New Hampshire", value: "NH" },
+    { name: "New Jersey", value: "NJ" },
+    { name: "New Mexico", value: "NM" },
+    { name: "New York", value: "NY" },
+    { name: "North Carolina", value: "NC" },
+    { name: "North Dakota", value: "ND" },
+    { name: "Ohio", value: "OH" },
+    { name: "Oklahoma", value: "OK" },
+    { name: "Oregon", value: "OR" },
+    { name: "Pennsylvania", value: "PA" },
+    { name: "Rhode Island", value: "RI" },
+    { name: "South Carolina", value: "SC" },
+    { name: "South Dakota", value: "SD" },
+    { name: "Tennessee", value: "TN" },
+    { name: "Texas", value: "TX" },
+    { name: "Utah", value: "UT" },
+    { name: "Vermont", value: "VT" },
+    { name: "Virginia", value: "VA" },
+    { name: "Washington", value: "WA" },
+    { name: "West Virginia", value: "WV" },
+    { name: "Wisconsin", value: "WI" },
+    { name: "Wyoming", value: "WY" },
+  ];
+
   // Register variables
   const [fName, setfName] = useState("");
   const [lName, setlName] = useState("");
@@ -14,18 +79,53 @@ const RegisterBox = (props) => {
   const [username, setUsername] = useState(""); // Remove this correct?
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [uniAddr1, setUniAddr1] = useState("");
+  const [uniAddr2, setUniAddr2] = useState("");
   // Registration message
   const [message, setMessage] = useState("");
   // Registration type
-  const [regstrType, setRegstrType] = useState(false);
+  const [regstrType, setRegstrType] = useState("1");
+  const [checked, setChecked] = useState(false);
+  const regstrRadios = [
+    { name: "Student", value: "1" },
+    { name: "Admin", value: "2" },
+  ];
 
-  // Toggle Registration
-  const toggleAdminRegstr = (event) => {
-    setRegstrType(true);
-  };
-  const toggleStudRegstr = (event) => {
-    setRegstrType(false);
-  };
+  // State search menu
+  const StateSelect = () => (
+    <SelectSearch
+      options={options}
+      search
+      filterOptions={fuzzySearch}
+      placeholder="Select your state"
+      style={{ listStyleType: "none" }}
+    />
+  );
+  // IMPLEMENT HOOK FUNCTIONALITY
+  // ({ options, value, multiple, disabled }) => {
+  //     const [snapshot, valueProps, optionProps] = useSelect({
+  //       options,
+  //       value,
+  //       multiple,
+  //       disabled,
+  //     });
+  //     return (
+  //       <div>
+  //         <button {...valueProps}>{snapshot.displayValue}</button>
+  //         {snapshot.focus && (
+  //           <ul>
+  //             {snapshot.options.map((option) => (
+  //               <li key={option.value}>
+  //                 <button {...optionProps} value={option.value}>
+  //                   {option.name}
+  //                 </button>
+  //               </li>
+  //             ))}
+  //           </ul>
+  //         )}
+  //       </div>
+  //     );
+  //   };
   // Register function
   const registerHandler = (event) => {
     event.preventDefault();
@@ -125,6 +225,25 @@ const RegisterBox = (props) => {
           <div className="register-form-wrapper">
             <div className="register-form">
               <Form Inline>
+                <Form.Row class="text-center">
+                  <ButtonGroup toggle>
+                    {regstrRadios.map((regType, index) => (
+                      <ToggleButton
+                        id="regstrTypeButtons"
+                        key={index}
+                        type="radio"
+                        variant="secondary"
+                        name="registrationType"
+                        value={regstrType.value}
+                        checked={regstrType === regstrType.value}
+                        onChange={(e) => setRegstrType(e.currentTarget.value)}
+                      >
+                        {regType.name}
+                      </ToggleButton>
+                    ))}
+                  </ButtonGroup>
+                </Form.Row>
+                <br></br>
                 <Form.Row>
                   <Form.Group as={Col} controlId="formGridFirstname">
                     <Form.Label>First Name</Form.Label>
@@ -172,17 +291,6 @@ const RegisterBox = (props) => {
                   </Form.Group>
                 </Form.Row>
                 <Form.Row>
-                  <Form.Group as={Col} controlId="formGridUsername">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Username"
-                      onChange={(event) => {
-                        setUsername(event.target.value);
-                      }}
-                    />
-                  </Form.Group>
-
                   <Form.Group as={Col} controlId="formGridPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
@@ -195,16 +303,63 @@ const RegisterBox = (props) => {
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="formGridPassword2">
-                    <Form.Label>Retype password</Form.Label>
+                    <Form.Label>Confirm password</Form.Label>
                     <Form.Control
                       type="password"
-                      placeholder="Retype password"
+                      placeholder="Confirm password"
                       onChange={(event) => {
                         setPassword2(event.target.value);
                       }}
                     />
                   </Form.Group>
                 </Form.Row>
+                <div
+                  style={{
+                    borderTop: "2px solid #ffff",
+                    borderColor: "black",
+                    marginTop: 5,
+                    marginBottom: 5,
+                  }}
+                >
+                  {/* <br></br> */}
+                </div>
+                <Form.Group name="Admin Reg">
+                  <Form.Row>
+                    <Form.Label>
+                      <u>University address</u>
+                    </Form.Label>
+                  </Form.Row>
+                  <Form.Row>
+                    <Form.Group as={Col} controlId="formGridUniAddr1">
+                      <Form.Control
+                        type="text"
+                        placeholder="Address line 1"
+                        onChange={(event) => {
+                          setUniAddr1(event.target.value);
+                        }}
+                      />
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="formGridUniAddr2">
+                      <Form.Control
+                        type="text"
+                        placeholder="Address line 2"
+                        onChange={(event) => {
+                          setUniAddr2(event.target.value);
+                        }}
+                      />
+                    </Form.Group>
+                  </Form.Row>
+                  <Form.Row>
+                    <StateSelect
+                      class="btn-primary"
+                      name="state"
+                      valuse="2"
+                      options={options}
+                      placeholder="State"
+                      style={{ listStyleType: "none" }}
+                    />
+                  </Form.Row>
+                </Form.Group>
                 <button
                   className="register-button"
                   type="submit"
