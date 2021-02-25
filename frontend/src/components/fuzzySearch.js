@@ -2,8 +2,8 @@ import Fuse from "fuse.js";
 
 export default function fuzzySearch(options) {
   const fuse = new Fuse(options, {
-    keys: ["name", "groupName"],
-    threshold: 0.3,
+    keys: ["name", "groupName"], // Check if this is needed
+    threshold: 0.0, // Exact matches only
   });
 
   return (value) => {
