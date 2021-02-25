@@ -1,4 +1,5 @@
 import "./RegisterBox.css";
+// import "./SelectSearch.css";
 import { useState } from "react";
 import { useSelect } from "react-select-search";
 import PageTitle from "./PageTitle";
@@ -98,12 +99,16 @@ const RegisterBox = (props) => {
     <SelectSearch
       options={options}
       search
+      id="selectSearch"
+      autoComplete="off"
+      value={stateLoc}
       filterOptions={fuzzySearch}
       placeholder="Select your state"
       style={{ listStyleType: "none" }}
+      onChange={setStateLoc}
     />
   );
-  // IMPLEMENT HOOK FUNCTIONALITY
+  //   IMPLEMENT HOOK FUNCTIONALITY
   // ({ options, value, multiple, disabled }) => {
   //     const [snapshot, valueProps, optionProps] = useSelect({
   //       options,
@@ -132,6 +137,15 @@ const RegisterBox = (props) => {
   const registerHandler = (event) => {
     event.preventDefault();
     console.log(fName);
+    console.log(lName);
+    console.log(email);
+    console.log(uni);
+    console.log(password);
+    console.log(password2);
+    console.log(uniAddr1);
+    console.log(uniAddr2);
+    console.log(stateLoc);
+    console.log(zipCode);
     // let check = email.value === checkEmail.value;
     // if (!check) {
     //   setMessage("The emails do not match!");
@@ -347,17 +361,7 @@ const RegisterBox = (props) => {
                     </Form.Row>
                     <Form.Row>
                       <Form.Group controlId="formGridState">
-                        <StateSelect
-                          class="btn-primary"
-                          name="state"
-                          valuse="2"
-                          options={options}
-                          placeholder="State"
-                          style={{ listStyleType: "none" }}
-                          onChange={(event) => {
-                            setStateLoc(event.target.value);
-                          }}
-                        />
+                        <StateSelect />
                       </Form.Group>
                       <Form.Group controlId="formGridZip">
                         <Form.Control
