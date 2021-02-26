@@ -25,7 +25,7 @@ app.post('/api/login', async (req, res, next) =>
   // req.body = { email : String, password : String }
   // res.text = { firstName : String, lastName : String, error : String }
 
-    let error = '';
+    let err = '';
     const { email, password } = req.body;
     let fn = '';
     let ln = '';
@@ -35,11 +35,11 @@ app.post('/api/login', async (req, res, next) =>
         fn = 'Stacey';
         ln = 'Dale';
     } else {
-        error = 'Invalid user name/password';
+        err = 'Invalid user name/password';
     }
 
-    let response = { "firstName" : fn, "lastName" : ln, "error" : error};
-
+    let response = { firstName : fn, lastName : ln, error : err};
+    console.log(response);
     res.status(200).json(response);
 });
 
