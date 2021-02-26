@@ -79,7 +79,7 @@ const RegisterBox = (props) => {
                     </div>
                 </div>
             </div>
-        </Container>
+        </Container> 
     )
 }
 
