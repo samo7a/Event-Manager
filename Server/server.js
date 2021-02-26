@@ -20,4 +20,27 @@ app.use((req, res, next) =>
     next();
 });
 
+app.post('/api/login', async (req, res, next) => 
+{
+  // req.body = { email : String, password : String }
+  // res.text = { firstName : String, lastName : String, error : String }
+
+    let error = '';
+    const { email, password } = req.body;
+    let fn = '';
+    let ln = '';
+
+    if ( email === 'stacey@email.com' && password === 'Test' )
+    {
+        fn = 'Stacey';
+        ln = 'Dale';
+    } else {
+        error = 'Invalid user name/password';
+    }
+
+    let response = { "firstName" : fn, "lastName" : ln, "error" : error};
+
+    res.status(200).json(response);
+});
+
 app.listen(5000);

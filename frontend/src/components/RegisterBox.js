@@ -389,7 +389,7 @@ const RegisterBox = (props) => {
         </div>
       </div>
     </Container> 
-  )
+  );
 }
 
 export default RegisterBox;
