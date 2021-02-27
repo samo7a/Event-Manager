@@ -38,7 +38,7 @@ app.post('/api/login', async (req, res, next) =>
         err = 'Invalid user name/password';
     }
 
-    let response = { firstName : fn, lastName : ln, error : err};
+    let response = { firstName:fn,lastName:ln, error:err };
     console.log(response);
     res.status(200).json(response);
 });
