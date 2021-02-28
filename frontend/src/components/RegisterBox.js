@@ -15,7 +15,8 @@ import fuzzySearch from "./fuzzySearch";
 // --Design Decisions & TO-DO
 // Do we want to seperate radio buttons?
 // Why do the radio buttons not respond after first click?
-//
+// Buttongroup -> Togglegroup
+// load in uni list afer render
 const RegisterBox = (props) => {
   // Array of state names
   const options = [
@@ -77,7 +78,6 @@ const RegisterBox = (props) => {
   const [lName, setlName] = useState("");
   const [email, setEmail] = useState("");
   const [uni, setUni] = useState("");
-  const [username, setUsername] = useState(""); // Remove this correct?
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [uniAddr1, setUniAddr1] = useState("");
@@ -87,12 +87,21 @@ const RegisterBox = (props) => {
   // Registration message
   const [message, setMessage] = useState("");
   // Registration type
-  const [regstrType, setRegstrType] = useState("false");
+  const [regstrType, setRegstrType] = useState(false);
   const [checked, setChecked] = useState(false);
   const regstrRadios = [
     { name: "Student", value: false },
     { name: "SuperAdmin", value: true },
   ];
+
+  const toggleStudReg = (event) => {
+    event.preventDefault();
+    setRegstrType(false);
+  };
+  const toggleAdminReg = (event) => {
+    event.preventDefault();
+    setRegstrType(true);
+  };
 
   // State search menu
   const StateSelect = () => (
@@ -266,23 +275,35 @@ const RegisterBox = (props) => {
             <div className="register-form">
               <Form Inline>
                 <Form.Row class="text-center">
-                  <ButtonGroup toggle>
-                    {regstrRadios.map((regType, index) => (
-                      <ToggleButton
-                        style={{ margin: "10px" }}
-                        id="regstrTypeButtons"
-                        key={index}
-                        type="radio"
-                        variant="secondary"
-                        name="registrationType"
-                        value={regstrType.value}
-                        checked={regstrType === regstrType.value}
-                        onChange={(e) => setRegstrType(e.currentTarget.value)}
-                      >
-                        {regType.name}
-                      </ToggleButton>
-                    ))}
-                  </ButtonGroup>
+                  <ToggleButtonGroup type="checkbox">
+                    <ToggleButton
+                      style={{ margin: "10px" }}
+                      id="studentRegstrButtons"
+                      type="radio"
+                      variant="secondary"
+                      name="studRegstrBut"
+                      value={false}
+                      checked={regstrType === false}
+                      onClick={toggleStudReg}
+                      onChange={(e) => setChecked(e.currentTarget.checked)}
+                    >
+                      Student
+                    </ToggleButton>
+                    <ToggleButton
+                      style={{ margin: "10px" }}
+                      id="adminRegstrButtons"
+                      type="radio"
+                      variant="secondary"
+                      name="adminRegstrBut"
+                      value={true}
+                      checked={regstrType === true}
+                      onClick={toggleAdminReg}
+                      onChange={(e) => setChecked(e.currentTarget.checked)}
+                    >
+                      Super Admin
+                    </ToggleButton>
+                    {/* ))} */}
+                  </ToggleButtonGroup>
                 </Form.Row>
                 <br></br>
                 <Form.Row>
@@ -356,7 +377,7 @@ const RegisterBox = (props) => {
                 </Form.Row>
 
                 <div>
-                  <div>{!regstrType ? <AdminReg /> : null}</div>
+                  <div>{regstrType ? <AdminReg /> : null}</div>
                   {/* {regstrType ? <AdminReg /> : null} */}
                   {/*                   
                     <Form.Group name="Admin Reg">
