@@ -45,8 +45,8 @@ const MyNavBar = (props) => {
     return (
         <div>
             {props.type === "login" ? (
-                <Navbar bg="light" variant="light">
-                    <Navbar.Brand>EvenUp</Navbar.Brand>
+                <Navbar className="banner" bg="light" variant="light">
+                    <Navbar.Brand>EventUp</Navbar.Brand>
                     <Nav className="ml-auto">
                         <Form inline>
                             <FormControl type="text" placeholder="Username" className="mr-sm-2" onChange={(e) => setUName(e.target.value)} />
@@ -62,16 +62,18 @@ const MyNavBar = (props) => {
                 </Navbar>
             ) : (
                 <Navbar bg="light" variant="light">
-                    <Navbar.Brand>EvenUp</Navbar.Brand>
-                    <p>
-                        Username + picture
-                    </p>
-                    <button 
-                        type="button"
-                        onClick={() => alert("bitch bye")}
-                    >
-                        Logout
-                    </button>
+                    <Navbar.Brand>EventUp</Navbar.Brand>
+                    <Nav className="ml-auto">
+                        <div>
+                            Username + picture
+                        </div>
+                        <button 
+                            type="button"
+                            onClick={() => alert("bitch bye")}
+                        >
+                            Logout
+                        </button>
+                    </Nav>
                 </Navbar>
             )}
         </div>

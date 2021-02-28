@@ -7,19 +7,15 @@ import Col from 'react-bootstrap/Col';
 const SideMenu = () => {
 
     return (
-        <Sidebar
-            docked={true}
-        >
-            <Col xs={2}>
-                <Nav defaultActiveKey="/Home" className="flex-column">
-                    <Nav.Link href="/Home" className="my-nav-link">Home</Nav.Link>
-                    <Nav.Link className="my-nav-link">My Events</Nav.Link>
-                    <Nav.Link className="my-nav-link">My Groups</Nav.Link>
-                    <Nav.Link className="my-nav-link">My Account</Nav.Link>
-                    <Nav.Link className="my-nav-link">My Profile</Nav.Link>
-                </Nav>
-            </Col>
-        </Sidebar>
+        <Col xs={2}>
+            <Nav defaultActiveKey="/Home" className="flex-column">
+                <Nav.Link href="/Home" className="my-nav-link">Home</Nav.Link>
+                <Nav.Link className="my-nav-link">My Events</Nav.Link>
+                <Nav.Link className="my-nav-link">My Groups</Nav.Link>
+                <Nav.Link className="my-nav-link">My Account</Nav.Link>
+                <Nav.Link className="my-nav-link">My Profile</Nav.Link>
+            </Nav>
+        </Col>
     )
 }
 

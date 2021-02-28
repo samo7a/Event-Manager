@@ -2,3 +2,7 @@
     display: inline;
     justify-content: right;
 }
+
+.banner {
+    position: absolute;
+}
