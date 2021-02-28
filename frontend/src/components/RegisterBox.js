@@ -102,7 +102,11 @@ const RegisterBox = (props) => {
       id="selectSearch"
       autoComplete="off"
       value={stateLoc}
-      filterOptions={fuzzySearch}
+      // filterOptions={fuzzySearch}
+      filterOptions={(options) => {
+        const filter = fuzzySearch(options);
+        return (q) => filter(q).slice(0, 8);
+      }}
       placeholder="Select your state"
       style={{ listStyleType: "none" }}
       onChange={setStateLoc}
