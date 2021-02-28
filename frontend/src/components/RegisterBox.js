@@ -12,10 +12,10 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import SelectSearch from "react-select-search";
 import fuzzySearch from "./fuzzySearch";
-// Design Decisions
+// --Design Decisions & TO-DO
 // Do we want to seperate radio buttons?
+// Why do the radio buttons not respond after first click?
 //
-
 const RegisterBox = (props) => {
   // Array of state names
   const options = [
@@ -87,11 +87,11 @@ const RegisterBox = (props) => {
   // Registration message
   const [message, setMessage] = useState("");
   // Registration type
-  const [regstrType, setRegstrType] = useState("1");
+  const [regstrType, setRegstrType] = useState("false");
   const [checked, setChecked] = useState(false);
   const regstrRadios = [
-    { name: "Student", value: "1" },
-    { name: "Admin", value: "0" },
+    { name: "Student", value: false },
+    { name: "SuperAdmin", value: true },
   ];
 
   // State search menu
@@ -108,31 +108,51 @@ const RegisterBox = (props) => {
       onChange={setStateLoc}
     />
   );
-  //   IMPLEMENT HOOK FUNCTIONALITY
-  // ({ options, value, multiple, disabled }) => {
-  //     const [snapshot, valueProps, optionProps] = useSelect({
-  //       options,
-  //       value,
-  //       multiple,
-  //       disabled,
-  //     });
-  //     return (
-  //       <div>
-  //         <button {...valueProps}>{snapshot.displayValue}</button>
-  //         {snapshot.focus && (
-  //           <ul>
-  //             {snapshot.options.map((option) => (
-  //               <li key={option.value}>
-  //                 <button {...optionProps} value={option.value}>
-  //                   {option.name}
-  //                 </button>
-  //               </li>
-  //             ))}
-  //           </ul>
-  //         )}
-  //       </div>
-  //     );
-  //   };
+  // Admin Registration
+  const AdminReg = (props) => (
+    <Form.Group name="Admin Reg" {...props}>
+      <Form.Row>
+        <Form.Label>
+          <u>University address</u>
+        </Form.Label>
+      </Form.Row>
+      <Form.Row>
+        <Form.Group as={Col} controlId="formGridUniAddr1">
+          <Form.Control
+            type="text"
+            placeholder="Address line 1"
+            onChange={(event) => {
+              setUniAddr1(event.target.value);
+            }}
+          />
+        </Form.Group>
+        <Form.Group as={Col} controlId="formGridUniAddr2">
+          <Form.Control
+            type="text"
+            placeholder="Address line 2"
+            onChange={(event) => {
+              setUniAddr2(event.target.value);
+            }}
+          />
+        </Form.Group>
+      </Form.Row>
+      <Form.Row>
+        <Form.Group controlId="formGridState">
+          <StateSelect />
+        </Form.Group>
+        <Form.Group controlId="formGridZip">
+          <Form.Control
+            type="text"
+            placeholder="Zip Code"
+            onChange={(event) => {
+              setZipCode(event.target.value);
+            }}
+          />
+        </Form.Group>
+      </Form.Row>
+    </Form.Group>
+  );
+
   // Register function
   const registerHandler = (event) => {
     event.preventDefault();
@@ -332,49 +352,51 @@ const RegisterBox = (props) => {
                 </Form.Row>
 
                 <div>
-                  {/* {regstrType == 1 && ( */}
-                  <Form.Group name="Admin Reg">
-                    <Form.Row>
-                      <Form.Label>
-                        <u>University address</u>
-                      </Form.Label>
-                    </Form.Row>
-                    <Form.Row>
-                      <Form.Group as={Col} controlId="formGridUniAddr1">
-                        <Form.Control
-                          type="text"
-                          placeholder="Address line 1"
-                          onChange={(event) => {
-                            setUniAddr1(event.target.value);
-                          }}
-                        />
-                      </Form.Group>
-                      <Form.Group as={Col} controlId="formGridUniAddr2">
-                        <Form.Control
-                          type="text"
-                          placeholder="Address line 2"
-                          onChange={(event) => {
-                            setUniAddr2(event.target.value);
-                          }}
-                        />
-                      </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
-                      <Form.Group controlId="formGridState">
-                        <StateSelect />
-                      </Form.Group>
-                      <Form.Group controlId="formGridZip">
-                        <Form.Control
-                          type="text"
-                          placeholder="Zip Code"
-                          onChange={(event) => {
-                            setZipCode(event.target.value);
-                          }}
-                        />
-                      </Form.Group>
-                    </Form.Row>
-                  </Form.Group>
-                  {/* )} */}
+                  <div>{!regstrType ? <AdminReg /> : null}</div>
+                  {/* {regstrType ? <AdminReg /> : null} */}
+                  {/*                   
+                    <Form.Group name="Admin Reg">
+                      <Form.Row>
+                        <Form.Label>
+                          <u>University address</u>
+                        </Form.Label>
+                      </Form.Row>
+                      <Form.Row>
+                        <Form.Group as={Col} controlId="formGridUniAddr1">
+                          <Form.Control
+                            type="text"
+                            placeholder="Address line 1"
+                            onChange={(event) => {
+                              setUniAddr1(event.target.value);
+                            }}
+                          />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridUniAddr2">
+                          <Form.Control
+                            type="text"
+                            placeholder="Address line 2"
+                            onChange={(event) => {
+                              setUniAddr2(event.target.value);
+                            }}
+                          />
+                        </Form.Group>
+                      </Form.Row>
+                      <Form.Row>
+                        <Form.Group controlId="formGridState">
+                          <StateSelect />
+                        </Form.Group>
+                        <Form.Group controlId="formGridZip">
+                          <Form.Control
+                            type="text"
+                            placeholder="Zip Code"
+                            onChange={(event) => {
+                              setZipCode(event.target.value);
+                            }}
+                          />
+                        </Form.Group>
+                      </Form.Row>
+                    </Form.Group>
+                   */}
                 </div>
                 <button
                   className="register-button"
@@ -388,8 +410,8 @@ const RegisterBox = (props) => {
           </div>
         </div>
       </div>
-    </Container> 
+    </Container>
   );
-}
+};
 
 export default RegisterBox;
