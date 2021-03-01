@@ -96,10 +96,12 @@ const RegisterBox = (props) => {
 
   const toggleStudReg = (event) => {
     event.preventDefault();
+    setChecked(false);
     setRegstrType(false);
   };
   const toggleAdminReg = (event) => {
     event.preventDefault();
+    setChecked(true);
     setRegstrType(true);
   };
 
@@ -110,6 +112,7 @@ const RegisterBox = (props) => {
       search
       id="selectSearch"
       autoComplete="off"
+      // printOptions="always" // Debug option
       value={stateLoc}
       // filterOptions={fuzzySearch}
       filterOptions={(options) => {
@@ -150,10 +153,10 @@ const RegisterBox = (props) => {
         </Form.Group>
       </Form.Row>
       <Form.Row>
-        <Form.Group controlId="formGridState">
+        <Form.Group as={Col} controlId="formGridState">
           <StateSelect />
         </Form.Group>
-        <Form.Group controlId="formGridZip">
+        <Form.Group as={Col} controlId="formGridZip">
           <Form.Control
             type="text"
             placeholder="Zip Code"
@@ -275,15 +278,19 @@ const RegisterBox = (props) => {
             <div className="register-form">
               <Form Inline>
                 <Form.Row class="text-center">
-                  <ToggleButtonGroup type="checkbox">
+                  <ToggleButtonGroup
+                    type="radio"
+                    name="reg-type"
+                    // defaultValue={false}
+                  >
                     <ToggleButton
                       style={{ margin: "10px" }}
                       id="studentRegstrButtons"
                       type="radio"
                       variant="secondary"
                       name="studRegstrBut"
-                      value={false}
-                      checked={regstrType === false}
+                      // value={}
+                      checked={!checked}
                       onClick={toggleStudReg}
                       onChange={(e) => setChecked(e.currentTarget.checked)}
                     >
@@ -295,8 +302,8 @@ const RegisterBox = (props) => {
                       type="radio"
                       variant="secondary"
                       name="adminRegstrBut"
-                      value={true}
-                      checked={regstrType === true}
+                      // value={}
+                      checked={checked}
                       onClick={toggleAdminReg}
                       onChange={(e) => setChecked(e.currentTarget.checked)}
                     >
@@ -423,13 +430,13 @@ const RegisterBox = (props) => {
                     </Form.Group>
                    */}
                 </div>
-                <button
+                <Button
                   className="register-button"
                   type="submit"
                   onClick={registerHandler}
                 >
                   Register
-                </button>
+                </Button>
               </Form>
             </div>
           </div>
