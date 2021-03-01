@@ -4,10 +4,13 @@ const cors = require('cors');
 
 const mysql = require('mysql');
 const conn = mysql.createConnection({
-    host : 'localhost',
-    user : 'superUser',
-    password : 'superPassword',
-    database : 'EventManager'
+    host : "localhost",
+    user : "superUser",
+    password : "superPassword",
+    database : "EventManager",
+    dialectOptions: {
+        insecureAuth: true
+    }
 });
 conn.connect( (err) => {
     if (err) throw err;
@@ -84,4 +87,4 @@ app.post('/api/signup', async (req, res, next) =>
     });
 });
 
-app.listen(5000);
+app.listen(3001);
