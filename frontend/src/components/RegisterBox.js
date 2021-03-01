@@ -250,23 +250,36 @@ const RegisterBox = (props) => {
       setMessage("Your password must contain at least one uppercase letter");
       return;
     }
-    let check = password.value === password2.value;
-    if (!check) {
+    let pwCheck = password.value === password2.value;
+    if (!pwCheck) {
       setMessage("The passwords do not match!");
+      return;
+    }
+    // Test uniAddr1
+    // Test uniAddr2
+    // Test zip code
+    if (zipCode.value.length != 5) {
+      setMessage("Your zip code is not valid!");
       return;
     }
 
     // var pwd = sha256(password.value);
     // Are we going to use sha256 for this?
+    var userType = regstrType ? regstrRadios[1].name : regstrRadios[2].name;
 
-    // var obj = {
-    //   username: loginName.value,
-    //   password: pwd,
-    //   fName: fName.value,
-    //   lName: lName.value,
-    //   email: email.value,
-    // };
-    // var js = JSON.stringify(obj);
+    var obj = {
+      fName: fName.value,
+      lName: lName.value,
+      password: password.value,
+      email: email.value,
+      userType: userType.value,
+      university: uni.value,
+      uniAddr1: uniAddr1.value,
+      uniAddr2: uniAddr2.value,
+      state: stateLoc.value,
+      zip: zipCode.value,
+    };
+    var js = JSON.stringify(obj);
   };
 
   return (
@@ -281,7 +294,10 @@ const RegisterBox = (props) => {
                   <ToggleButtonGroup
                     type="radio"
                     name="reg-type"
-                    // defaultValue={false}
+                    className="mb-2"
+                    // value={checked ? true : false}
+                    // onChange={setChecked}
+                    defaultValue={false}
                   >
                     <ToggleButton
                       style={{ margin: "10px" }}
@@ -290,11 +306,12 @@ const RegisterBox = (props) => {
                       variant="secondary"
                       name="studRegstrBut"
                       // value={}
-                      checked={!checked}
+                      // checked={true}
+                      // checked={checked === regstrRadios[0].value}
                       onClick={toggleStudReg}
-                      onChange={(e) => setChecked(e.currentTarget.checked)}
+                      // onChange={(e) => setChecked(e.currentTarget.checked)}
                     >
-                      Student
+                      {regstrRadios[0].name}
                     </ToggleButton>
                     <ToggleButton
                       style={{ margin: "10px" }}
@@ -303,11 +320,11 @@ const RegisterBox = (props) => {
                       variant="secondary"
                       name="adminRegstrBut"
                       // value={}
-                      checked={checked}
+                      // checked={checked === regstrRadios[1].value}
                       onClick={toggleAdminReg}
-                      onChange={(e) => setChecked(e.currentTarget.checked)}
+                      // onChange={(e) => setChecked(e.currentTarget.checked)}
                     >
-                      Super Admin
+                      {regstrRadios[1].name}
                     </ToggleButton>
                     {/* ))} */}
                   </ToggleButtonGroup>
