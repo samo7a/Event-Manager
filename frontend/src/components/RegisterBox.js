@@ -114,11 +114,11 @@ const RegisterBox = (props) => {
       autoComplete="off"
       // printOptions="always" // Debug option
       value={stateLoc}
-      // filterOptions={fuzzySearch}
-      filterOptions={(options) => {
-        const filter = fuzzySearch(options);
-        return (q) => filter(q).slice(0, 8);
-      }}
+      filterOptions={fuzzySearch}
+      // filterOptions={(options) => {
+      //   const filter = fuzzySearch(options);
+      //   return (q) => filter(q).slice(0, 8);
+      // }}
       placeholder="Select your state"
       style={{ listStyleType: "none" }}
       onChange={setStateLoc}
@@ -399,6 +399,7 @@ const RegisterBox = (props) => {
                     />
                   </Form.Group>
                 </Form.Row>
+                <br></br>
 
                 <div>
                   <div>{regstrType ? <AdminReg /> : null}</div>
