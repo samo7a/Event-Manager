@@ -122,8 +122,13 @@
 /* Options */
 .select-search__options {
     /* Uncomment below to remove stretch issue */
-    /* position: absolute; */
-    /* z-index: 1; */
+    /* left : auto; */
+    top : auto;
+    /* right: 98%; */
+    bottom: 60%;
+    position: absolute;
+    z-index: 1;
+    max-height: 250px;
     overflow: auto;
     padding: 0%;
     list-style: none;
@@ -161,12 +166,14 @@
 
 .select-search__option.is-highlighted,
 .select-search__option:not(.is-selected):hover {
-    background: rgba(50, 47, 204, 0.1);
+    background: rgb(82, 80, 199);
+    color: #fff;
+
 }
 
 .select-search__option.is-highlighted.is-selected,
 .select-search__option.is-selected:hover {
-    background: rgba(50, 47, 204, 0.1);
+    background: rgb(95, 93, 199);
     color: #fff;
 }
 /**
