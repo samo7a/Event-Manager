@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -101,7 +102,9 @@ app.post('/api/signup', async (req, res) =>
         console.log(result);    
     }
 });
+
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`listenning on port ${port}`);
 });
+
