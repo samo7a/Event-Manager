@@ -47,6 +47,7 @@
 .select-search {
     /* width: 300px; */
     /* position: relative; */
+    margin: 0%;
     font-family: 'Nunito Sans', sans-serif;
     box-sizing: border-box;
 }
@@ -77,16 +78,24 @@
 .select-search__input {
     display: block;
     height: 36px;
+    width: 100%;
+    overflow: auto;
+    overflow-x: auto;
+    overflow-y: auto;
+
     /* width: 100%; */
-    padding: 0 16px;
+    /* padding: 0 16px; */
     background: #fff;
     border: 1px solid transparent;
     box-shadow: 0 .0625rem .125rem rgba(0, 0, 0, 0.15);
     border-radius: 3px;
     outline: none;
+    margin-right: 0px;
     font-family: 'Noto Sans', sans-serif;
-    font-size: 14px;
-    text-align: left;
+    padding-left: .625rem;
+    /* font-size: 14px; */
+    /* text-align: left; */
+    
     text-overflow: ellipsis;
     line-height: 36px;
     -webkit-appearance: none;
@@ -105,18 +114,29 @@
 
 /* Options wrapper */
 .select-search__select {
+    padding: 0%;
     /* background: #fff; */
     box-shadow: 0 .0625rem .125rem rgba(0, 0, 0, 0.15);
 }
 
 /* Options */
 .select-search__options {
+    /* Uncomment below to remove stretch issue */
+    /* left : auto; */
+    top : auto;
+    /* right: 98%; */
+    bottom: 60%;
+    position: absolute;
+    z-index: 1;
+    max-height: 250px;
+    overflow: auto;
+    padding: 0%;
     list-style: none;
 }
 
 /* Option row */
 .select-search__row:not(:first-child) {
-    border-top: 1px solid #eee;
+    border-top: 1px solid #bbb;
 }
 
 /* Option */
@@ -146,11 +166,20 @@
 
 .select-search__option.is-highlighted,
 .select-search__option:not(.is-selected):hover {
-    background: rgba(50, 47, 204, 0.1);
+    background: rgb(82, 80, 199);
+    color: #fff;
+
 }
 
 .select-search__option.is-highlighted.is-selected,
 .select-search__option.is-selected:hover {
-    background: rgba(50, 47, 204, 0.1);
+    background: rgb(95, 93, 199);
     color: #fff;
+}
+/**
+ * Modifiers
+ */
+ .select-search--multiple {
+    border-radius: 3px;
+    overflow: auto;
 }

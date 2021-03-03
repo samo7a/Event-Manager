@@ -12,10 +12,11 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import SelectSearch from "react-select-search";
 import fuzzySearch from "./fuzzySearch";
-// Design Decisions
+// --Design Decisions & TO-DO
 // Do we want to seperate radio buttons?
-//
-
+// Why do the radio buttons not respond after first click?
+// Buttongroup -> Togglegroup
+// load in uni list afer render
 const RegisterBox = (props) => {
   // Array of state names
   const options = [
@@ -77,7 +78,6 @@ const RegisterBox = (props) => {
   const [lName, setlName] = useState("");
   const [email, setEmail] = useState("");
   const [uni, setUni] = useState("");
-  const [username, setUsername] = useState(""); // Remove this correct?
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [uniAddr1, setUniAddr1] = useState("");
@@ -87,12 +87,23 @@ const RegisterBox = (props) => {
   // Registration message
   const [message, setMessage] = useState("");
   // Registration type
-  const [regstrType, setRegstrType] = useState("1");
+  const [regstrType, setRegstrType] = useState(false);
   const [checked, setChecked] = useState(false);
   const regstrRadios = [
-    { name: "Student", value: "1" },
-    { name: "Admin", value: "0" },
+    { name: "Student", value: false },
+    { name: "SuperAdmin", value: true },
   ];
+
+  const toggleStudReg = (event) => {
+    event.preventDefault();
+    setChecked(false);
+    setRegstrType(false);
+  };
+  const toggleAdminReg = (event) => {
+    event.preventDefault();
+    setChecked(true);
+    setRegstrType(true);
+  };
 
   // State search menu
   const StateSelect = () => (
@@ -101,38 +112,63 @@ const RegisterBox = (props) => {
       search
       id="selectSearch"
       autoComplete="off"
+      // printOptions="always" // Debug option
       value={stateLoc}
       filterOptions={fuzzySearch}
+      // filterOptions={(options) => {
+      //   const filter = fuzzySearch(options);
+      //   return (q) => filter(q).slice(0, 8);
+      // }}
       placeholder="Select your state"
       style={{ listStyleType: "none" }}
       onChange={setStateLoc}
     />
   );
-  //   IMPLEMENT HOOK FUNCTIONALITY
-  // ({ options, value, multiple, disabled }) => {
-  //     const [snapshot, valueProps, optionProps] = useSelect({
-  //       options,
-  //       value,
-  //       multiple,
-  //       disabled,
-  //     });
-  //     return (
-  //       <div>
-  //         <button {...valueProps}>{snapshot.displayValue}</button>
-  //         {snapshot.focus && (
-  //           <ul>
-  //             {snapshot.options.map((option) => (
-  //               <li key={option.value}>
-  //                 <button {...optionProps} value={option.value}>
-  //                   {option.name}
-  //                 </button>
-  //               </li>
-  //             ))}
-  //           </ul>
-  //         )}
-  //       </div>
-  //     );
-  //   };
+  // Admin Registration
+  const AdminReg = (props) => (
+    <Form.Group name="Admin Reg" {...props}>
+      <Form.Row>
+        <Form.Label>
+          <u>University address</u>
+        </Form.Label>
+      </Form.Row>
+      <Form.Row>
+        <Form.Group as={Col} controlId="formGridUniAddr1">
+          <Form.Control
+            type="text"
+            placeholder="Address line 1"
+            onChange={(event) => {
+              setUniAddr1(event.target.value);
+            }}
+          />
+        </Form.Group>
+        <Form.Group as={Col} controlId="formGridUniAddr2">
+          <Form.Control
+            type="text"
+            placeholder="Address line 2"
+            onChange={(event) => {
+              setUniAddr2(event.target.value);
+            }}
+          />
+        </Form.Group>
+      </Form.Row>
+      <Form.Row>
+        <Form.Group as={Col} controlId="formGridState">
+          <StateSelect />
+        </Form.Group>
+        <Form.Group as={Col} controlId="formGridZip">
+          <Form.Control
+            type="text"
+            placeholder="Zip Code"
+            onChange={(event) => {
+              setZipCode(event.target.value);
+            }}
+          />
+        </Form.Group>
+      </Form.Row>
+    </Form.Group>
+  );
+
   // Register function
   const registerHandler = (event) => {
     event.preventDefault();
@@ -214,23 +250,36 @@ const RegisterBox = (props) => {
       setMessage("Your password must contain at least one uppercase letter");
       return;
     }
-    let check = password.value === password2.value;
-    if (!check) {
+    let pwCheck = password.value === password2.value;
+    if (!pwCheck) {
       setMessage("The passwords do not match!");
+      return;
+    }
+    // Test uniAddr1
+    // Test uniAddr2
+    // Test zip code
+    if (zipCode.value.length != 5) {
+      setMessage("Your zip code is not valid!");
       return;
     }
 
     // var pwd = sha256(password.value);
     // Are we going to use sha256 for this?
+    var userType = regstrType ? regstrRadios[1].name : regstrRadios[2].name;
 
-    // var obj = {
-    //   username: loginName.value,
-    //   password: pwd,
-    //   fName: fName.value,
-    //   lName: lName.value,
-    //   email: email.value,
-    // };
-    // var js = JSON.stringify(obj);
+    var obj = {
+      fName: fName.value,
+      lName: lName.value,
+      password: password.value,
+      email: email.value,
+      userType: userType.value,
+      university: uni.value,
+      uniAddr1: uniAddr1.value,
+      uniAddr2: uniAddr2.value,
+      state: stateLoc.value,
+      zip: zipCode.value,
+    };
+    var js = JSON.stringify(obj);
   };
 
   return (
@@ -242,23 +291,43 @@ const RegisterBox = (props) => {
             <div className="register-form">
               <Form Inline>
                 <Form.Row class="text-center">
-                  <ButtonGroup toggle>
-                    {regstrRadios.map((regType, index) => (
-                      <ToggleButton
-                        style={{ margin: "10px" }}
-                        id="regstrTypeButtons"
-                        key={index}
-                        type="radio"
-                        variant="secondary"
-                        name="registrationType"
-                        value={regstrType.value}
-                        checked={regstrType === regstrType.value}
-                        onChange={(e) => setRegstrType(e.currentTarget.value)}
-                      >
-                        {regType.name}
-                      </ToggleButton>
-                    ))}
-                  </ButtonGroup>
+                  <ToggleButtonGroup
+                    type="radio"
+                    name="reg-type"
+                    className="mb-2"
+                    // value={checked ? true : false}
+                    // onChange={setChecked}
+                    defaultValue={false}
+                  >
+                    <ToggleButton
+                      style={{ margin: "10px" }}
+                      id="studentRegstrButtons"
+                      type="radio"
+                      variant="secondary"
+                      name="studRegstrBut"
+                      // value={}
+                      // checked={true}
+                      // checked={checked === regstrRadios[0].value}
+                      onClick={toggleStudReg}
+                      // onChange={(e) => setChecked(e.currentTarget.checked)}
+                    >
+                      {regstrRadios[0].name}
+                    </ToggleButton>
+                    <ToggleButton
+                      style={{ margin: "10px" }}
+                      id="adminRegstrButtons"
+                      type="radio"
+                      variant="secondary"
+                      name="adminRegstrBut"
+                      // value={}
+                      // checked={checked === regstrRadios[1].value}
+                      onClick={toggleAdminReg}
+                      // onChange={(e) => setChecked(e.currentTarget.checked)}
+                    >
+                      {regstrRadios[1].name}
+                    </ToggleButton>
+                    {/* ))} */}
+                  </ToggleButtonGroup>
                 </Form.Row>
                 <br></br>
                 <Form.Row>
@@ -330,66 +399,69 @@ const RegisterBox = (props) => {
                     />
                   </Form.Group>
                 </Form.Row>
+                <br></br>
 
                 <div>
-                  {/* {regstrType == 1 && ( */}
-                  <Form.Group name="Admin Reg">
-                    <Form.Row>
-                      <Form.Label>
-                        <u>University address</u>
-                      </Form.Label>
-                    </Form.Row>
-                    <Form.Row>
-                      <Form.Group as={Col} controlId="formGridUniAddr1">
-                        <Form.Control
-                          type="text"
-                          placeholder="Address line 1"
-                          onChange={(event) => {
-                            setUniAddr1(event.target.value);
-                          }}
-                        />
-                      </Form.Group>
-                      <Form.Group as={Col} controlId="formGridUniAddr2">
-                        <Form.Control
-                          type="text"
-                          placeholder="Address line 2"
-                          onChange={(event) => {
-                            setUniAddr2(event.target.value);
-                          }}
-                        />
-                      </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
-                      <Form.Group controlId="formGridState">
-                        <StateSelect />
-                      </Form.Group>
-                      <Form.Group controlId="formGridZip">
-                        <Form.Control
-                          type="text"
-                          placeholder="Zip Code"
-                          onChange={(event) => {
-                            setZipCode(event.target.value);
-                          }}
-                        />
-                      </Form.Group>
-                    </Form.Row>
-                  </Form.Group>
-                  {/* )} */}
+                  <div>{regstrType ? <AdminReg /> : null}</div>
+                  {/* {regstrType ? <AdminReg /> : null} */}
+                  {/*                   
+                    <Form.Group name="Admin Reg">
+                      <Form.Row>
+                        <Form.Label>
+                          <u>University address</u>
+                        </Form.Label>
+                      </Form.Row>
+                      <Form.Row>
+                        <Form.Group as={Col} controlId="formGridUniAddr1">
+                          <Form.Control
+                            type="text"
+                            placeholder="Address line 1"
+                            onChange={(event) => {
+                              setUniAddr1(event.target.value);
+                            }}
+                          />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridUniAddr2">
+                          <Form.Control
+                            type="text"
+                            placeholder="Address line 2"
+                            onChange={(event) => {
+                              setUniAddr2(event.target.value);
+                            }}
+                          />
+                        </Form.Group>
+                      </Form.Row>
+                      <Form.Row>
+                        <Form.Group controlId="formGridState">
+                          <StateSelect />
+                        </Form.Group>
+                        <Form.Group controlId="formGridZip">
+                          <Form.Control
+                            type="text"
+                            placeholder="Zip Code"
+                            onChange={(event) => {
+                              setZipCode(event.target.value);
+                            }}
+                          />
+                        </Form.Group>
+                      </Form.Row>
+                    </Form.Group>
+                   */}
                 </div>
-                <button
+                <Button
                   className="register-button"
                   type="submit"
                   onClick={registerHandler}
                 >
                   Register
-                </button>
+                </Button>
               </Form>
             </div>
           </div>
         </div>
       </div>
-    </Container> 
+    </Container>
   );
-}
+};
 
 export default RegisterBox;
