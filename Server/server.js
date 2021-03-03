@@ -1,3 +1,9 @@
+if (process.env.NODE_ENV !== 'production') {
+    require("dotenv").config();
+}
+
+console.log(process.env.API_KEY);
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
