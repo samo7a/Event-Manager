@@ -1,9 +1,4 @@
-if (process.env.NODE_ENV !== 'production') {
-    require("dotenv").config();
-}
-
-console.log(process.env.API_KEY);
-
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -92,5 +87,6 @@ app.post('/api/signup', async (req, res, next) =>
         }
     });
 });
+
 
 app.listen(3001);
