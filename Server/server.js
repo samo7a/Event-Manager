@@ -85,44 +85,71 @@ app.post('/api/login', async (req, res, next) =>
 
 app.post('/api/signup', async (req, res) => 
 {
-    // let firstName = req.body.fName;
-    // let lastName = req.body.lName;
-    // let password = req.body.password;
-    // let email = req.body.email;
-     let radioValue = req.body.radioValue;
-    // let sql;
-    // if (radioValue == 0) {
-    //     sql = `INSERT INTO SuperAdmins (sa_firstName, sa_lastName, sa_password, sa_email)
-    //     VALUES (${firstName}, ${lastName}, ${password}, ${email});`;
-        
-    // }
-    // else {
-    //     sql = `INSERT INTO Students (s_firstName, s_lastName, s_password, s_email)
-    //     VALUES (${firstName}, ${lastName}, ${password}, ${email});`;
-    // }
-    // conn.query(sql, (error, result) => {
-    //     if (error) {
-    //         let response = {msg: error};
-    //         res.status(200).json(response);
-    //     }
-    //     else {
-    //         let response = {msg: "Signed Up!"};
-    //         res.status(200).json(response);
-    //     }
-    // });
-    if (radioValue == 1){
-        let url = `https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
-        let response = await fetch(url);
-        let json = await response.json();
-        //console.log(json);
-        //res.status(200).json(json);
-        let lat = json.results[0].geometry.location.lat;
-        let lng = json.results[0].geometry.location.lng;
-        let address = json.results[0].formatted_address;
-        let result = {address : address, longitude : lng, lattitude : lat};
-        res.status(200).json(result);
-        console.log(result);    
+    let firstName = req.body.fName;
+    let lastName = req.body.lName;
+    let password = req.body.password;
+    let email = req.body.email;
+    let radioValue = req.body.userType;
+    let sql;
+    if (radioValue === "true") {
+        sql = `INSERT INTO SuperAdmins (sa_firstName, sa_lastName, sa_password, sa_email)
+        VALUES ("${firstName}", "${lastName}", "${password}", "${email}");`;
     }
+    else {
+        sql = `INSERT INTO Students (s_firstName, s_lastName, s_password, s_email)
+        VALUES ("${firstName}", "${lastName}", "${password}", "${email}");`;
+    }
+    conn.query(sql, async (error, result) => {
+        if (error) {
+            let response = {msg: error};
+            res.status(200).json(response);
+        }
+        else {
+            if (radioValue === "true"){
+                let sa_id = result.insertId;
+                let universityName = req.body.university;
+                let uniAddr1 = req.body.uniAddr1;
+                let uniAddr2 = req.body.uniAddr2;
+                let state = req.body.state;
+                let zip = req.body.zip;
+                let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
+                let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
+                let googleResponse =  await fetch(url);
+                let googleJson = await googleResponse.json();
+                let lat = googleJson.results[0].geometry.location.lat;
+                let lng = googleJson.results[0].geometry.location.lng;
+                sql = `INSERT INTO Universities (u_name, u_noOfStudents, u_description, locationName, latitude, longitude)
+                VALUES ("${universityName}", 0, " ", "${universityName}", ${lat}, ${lng});`;
+                conn.query(sql, async (error2, result2) => {
+                    if (error2) {
+                        let response = {msg: error2};
+                        res.status(200).json(response);
+                    }
+                    else {
+                        let u_id = result2.insertId;
+                        sql = `INSERT INTO CreatesUniversities (u_id, sa_id)
+                        VALUES (${u_id}, ${sa_id});`;
+                        conn.query(sql, async (error3, result3) => {
+                            if (error3) {
+                                let response = {msg: error3};
+                                res.status(200).json(response);
+                            }
+                            else {
+                                let response = {msg: "Signed Up!"};
+                                res.status(200).json(response);
+                            }
+                        });
+                    }
+                });
+                
+            }
+            else {
+                let response = {msg: "Signed Up!"};
+                res.status(200).json(response);
+            }
+            
+        }
+    });
 });
 
 const port = process.env.PORT;
