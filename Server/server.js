@@ -90,15 +90,31 @@ app.post('/api/signup', async (req, res) =>
     let password = req.body.password;
     let email = req.body.email;
     let radioValue = req.body.userType;
-    let sql;
-    if (radioValue === "true") {
-        sql = `INSERT INTO SuperAdmins (sa_firstName, sa_lastName, sa_password, sa_email)
-        VALUES ("${firstName}", "${lastName}", "${password}", "${email}");`;
-    }
-    else {
-        sql = `INSERT INTO Students (s_firstName, s_lastName, s_password, s_email)
-        VALUES ("${firstName}", "${lastName}", "${password}", "${email}");`;
-    }
+    let universityName = req.body.university;
+    let uniAddr1 = req.body.uniAddr1;
+    let uniAddr2 = req.body.uniAddr2;
+    let state = req.body.state;
+    let zip = req.body.zip;
+    let u_id;
+    let sql = `SELECT u_id FROM Universities WHERE u_name = "${universityName}";`;
+    
+    conn.query(sql, (error, result) => {
+        if (error) {
+            let response = { msg: error};
+            res.status(200).json(response);
+        } else  {
+            u_id = result[0].u_id;
+            if (radioValue === "true") {
+                sql = `INSERT INTO SuperAdmins (sa_firstName, sa_lastName, sa_password, sa_email)
+                VALUES ("${firstName}", "${lastName}", "${password}", "${email}");`;
+            }
+            else {
+                sql = `INSERT INTO Students (s_firstName, s_lastName, s_password, s_email, u_id)
+                VALUES ("${firstName}", "${lastName}", "${password}", "${email}",${u_id});`;
+            }
+        }
+    });
+
     conn.query(sql, async (error, result) => {
         if (error) {
             let response = {msg: error};
@@ -107,11 +123,6 @@ app.post('/api/signup', async (req, res) =>
         else {
             if (radioValue === "true"){
                 let sa_id = result.insertId;
-                let universityName = req.body.university;
-                let uniAddr1 = req.body.uniAddr1;
-                let uniAddr2 = req.body.uniAddr2;
-                let state = req.body.state;
-                let zip = req.body.zip;
                 let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
                 let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
                 let googleResponse =  await fetch(url);
@@ -126,7 +137,7 @@ app.post('/api/signup', async (req, res) =>
                         res.status(200).json(response);
                     }
                     else {
-                        let u_id = result2.insertId;
+                        u_id = result2.insertId;
                         sql = `INSERT INTO CreatesUniversities (u_id, sa_id)
                         VALUES (${u_id}, ${sa_id});`;
                         conn.query(sql, async (error3, result3) => {
