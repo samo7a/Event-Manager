@@ -151,7 +151,64 @@ app.post('/api/signup', async (req, res) =>
         }
     });
 });
+ 
+app.post('/api/addRating', async (req, res) => 
+{
+    let e_id = req.body.e_id;
+    let s_id = req.body.s_id;
+    let rating= req.body.rating;
+    let sql = `INSERT INTO Rates (e_id, s_id, rating) VALUES (${e_id}, ${s_id}, ${rating});`;
 
+    conn.query(sql, async (error, result) => {
+        if (error){
+            let response = {msg: error};
+            res.status(200).json(response);
+        }
+        else {
+            let response = {msg: "rating added"};
+            res.status(200).json(response);
+        }
+    });
+});
+
+app.post('/api/updateRating', async (req, res) => 
+{
+   
+    let e_id = req.body.e_id;
+    let s_id = req.body.s_id;
+    let rating= req.body.rating;
+    let sql = `UPDATE Rates SET rating =  ${rating} WHERE e_id = ${e_id} AND s_id = ${s_id};`;
+ 
+    conn.query(sql, async (error, result) => {
+        if (error){
+            let response = {msg: error};
+            res.status(200).json(response);
+        }
+        else {
+            let response = {msg: "rating added"};
+            res.status(200).json(response);
+        }
+    });
+    
+});
+
+app.post('/api/addComment', async (req, res) => 
+{
+    
+    
+});
+
+app.post('/api/updateComment', async (req, res) => 
+{
+    
+    
+});
+
+app.post('/api/deleteComment', async (req, res) => 
+{
+    
+    
+});
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`listenning on port ${port}`);
