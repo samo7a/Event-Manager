@@ -194,19 +194,61 @@ app.post('/api/updateRating', async (req, res) =>
 
 app.post('/api/addComment', async (req, res) => 
 {
+    let e_id = req.body.e_id;
+    let s_id = req.body.s_id;
+    let comment= req.body.comment;
+    let sql = `INSERT INTO Comments (e_id, s_id, comment) VALUES (${e_id}, ${s_id}, "${comment}");`;
+
+    conn.query(sql, async (error, result) => {
+        if (error){
+            let response = {msg: error};
+            res.status(200).json(response);
+        }
+        else {
+            let response = {msg: "rating added"};
+            res.status(200).json(response);
+        }
+    });
     
     
 });
 
 app.post('/api/updateComment', async (req, res) => 
 {
-    
+    let e_id = req.body.e_id;
+    let s_id = req.body.s_id;
+    let comment= req.body.comment;
+    let sql = `UPDATE Comments SET comment =  "${comment}" WHERE e_id = ${e_id} AND s_id = ${s_id};`;
+ 
+    conn.query(sql, async (error, result) => {
+        if (error){
+            let response = {msg: error};
+            res.status(200).json(response);
+        }
+        else {
+            let response = {msg: "rating added"};
+            res.status(200).json(response);
+        }
+    });
     
 });
 
 app.post('/api/deleteComment', async (req, res) => 
 {
-    
+    let e_id = req.body.e_id;
+    let s_id = req.body.s_id;
+    let sql = `DELETE FROM Comments WHERE e_id = ${e_id} AND s_id = ${s_id};`;
+ 
+    conn.query(sql, async (error, result) => {
+        if (error){
+            let response = {msg: error};
+            res.status(200).json(response);
+        }
+        else {
+            let response = {msg: "rating added"};
+            res.status(200).json(response);
+        }
+    });
     
 });
 const port = process.env.PORT;
