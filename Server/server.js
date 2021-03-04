@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -41,24 +40,47 @@ app.use((req, res, next) =>
 app.post('/api/login', async (req, res, next) => 
 {
   // req.body = { email : String, password : String }
-  // res.text = { firstName : String, lastName : String, error : String }
+  // res.text = { firstName : String, lastName : String, msg : String }
 
     let err = '';
     const { email, password } = req.body;
     let fn = '';
     let ln = '';
+    let l_email = '';
+    let pic = '';
+    let sql;
+    let response;
 
-    if ( email === 'stacey@email.com' && password === 'Test' )
-    {
-        fn = 'Stacey';
-        ln = 'Dale';
-    } else {
-        err = 'Invalid user name/password';
-    }
+    sql = `SELECT sa_firstname, sa_lastname, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email=${email} AND sa_password=${password}`;
 
-    let response = { firstName:fn,lastName:ln, error:err };
+    conn.query(sql, (error, result) => {
+        if (error) {
+            response = { msg: error};
+        } else if (result.length > 0) {
+            fn = result[0].sa_firstname;
+            ln = result[0].sa_lastname;
+            l_email = result[0].sa_email;
+            pic = result[0].sa_profilePicture;
+            response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
+        } else {
+            sql = `SELECT s_firstname, s_lastname, s_email, s_profilePicture FROM Students WHERE s_email=${email} AND s_password=${password}`;
+            conn.query(sql, (error, result) => {
+                if (error) {
+                    response = {msg: error};
+                } else if (result.length > 0) {
+                    fn = result[0].s_firstname;
+                    ln = result[0].s_lastname;
+                    l_email = result[0].s_email;
+                    pic = result[0].s_profilePicture;
+                    response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };    
+                } else {
+                    response = { msg: 'You best check yourself'};
+                }
+            })
+        }
+        res.status(200).json(response);
+    })
     console.log(response);
-    res.status(200).json(response);
 });
 
 app.post('/api/signup', async (req, res) => 
