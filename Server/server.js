@@ -54,35 +54,47 @@ app.post('/api/login', async (req, res, next) =>
     sql = `SELECT sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
 
     conn.query(sql, (error, result) => {
-        console.log(result);
+        console.log(result.length);
         if (error) {
             response = { msg: error};
+            res.status(200).json(response);
+            return;
         } else if (result.length > 0) {
-            fn = result[0].RowDataPacket.sa_firstName;
-            ln = result[0].RowDataPacket.sa_lastName;
-            l_email = result[0].RowDataPacket.sa_email;
-            pic = result[0].RowDataPacket.sa_profilePicture;
+            fn = result[0].sa_firstName;
+            ln = result[0].sa_lastName;
+            l_email = result[0].sa_email;
+            pic = result[0].sa_profilePicture;
             response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
+            res.status(200).json(response);
+            return;
         } else {
             sql = `SELECT s_firstName, s_lastName, s_email, s_profilePicture FROM Students WHERE s_email="${email}" AND s_password="${password}"`;
             conn.query(sql, (error2, result2) => {
                 console.log(result2);
                 if (error2) {
                     response = {msg: error2};
-                } else if (result.length > 0) {
-                    fn = result[0].RowDataPacket.s_firstName;
-                    ln = result[0].RowDataPacket.s_lastName;
-                    l_email = result[0].RowDataPacket.s_email;
-                    pic = result[0].RowDataPacket.s_profilePicture;
-                    response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };    
+                    res.status(200).json(response);
+                    return;
+                } else if (result2.length > 0) {
+                    console.log(result2);
+                    console.log(result2[0].s_firstName);
+                    fn = result2[0].s_firstName;
+                    ln = result2[0].s_lastName;
+                    l_email = result2[0].s_email;
+                    pic = result2[0].s_profilePicture;
+                    response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
+                    res.status(200).json(response);  
+                    return;  
                 } else {
                     response = { msg: 'You best check yourself'};
+                    res.status(200).json(response);
+                    return;
                 }
             })
         }
     })
-    console.log(response);
-    res.status(200).json(response);
+    //console.log(response);
+    //res.status(200).json(response);
 });
 
 app.post('/api/signup', async (req, res) => 
