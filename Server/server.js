@@ -95,33 +95,48 @@ app.post('/api/signup', async (req, res) =>
     let uniAddr2 = req.body.uniAddr2;
     let state = req.body.state;
     let zip = req.body.zip;
-    let u_id;
-    let sql = `SELECT u_id FROM Universities WHERE u_name = "${universityName}";`;
-    
-    conn.query(sql, (error, result) => {
-        if (error) {
-            let response = { msg: error};
-            res.status(200).json(response);
-        } else  {
-            u_id = result[0].u_id;
-            if (radioValue === "true") {
-                sql = `INSERT INTO SuperAdmins (sa_firstName, sa_lastName, sa_password, sa_email)
-                VALUES ("${firstName}", "${lastName}", "${password}", "${email}");`;
-            }
-            else {
+
+    if (radioValue === "false"){
+
+
+        let sql = `SELECT u_id FROM Universities WHERE u_name = "${universityName}";`;
+        conn.query(sql, async (error, result) => {
+            if (error) {
+                let response = { msg: error.sqlMessage};
+                res.status(200).json(response);
+            } else  {
+                let u_id = result[0].u_id;
                 sql = `INSERT INTO Students (s_firstName, s_lastName, s_password, s_email, u_id)
                 VALUES ("${firstName}", "${lastName}", "${password}", "${email}",${u_id});`;
+                conn.query(sql, async (error2, result2) => {
+                    if (error2){
+                        let response = {msg: error2.sqlMessage};
+                        res.status(200).json(response);
+                        return;
+                    }
+                    else {
+                        let response = {msg: "Signed Up Student!"};
+                        res.status(200).json(response);
+                        return;
+                    }
+                });
             }
-        }
-    });
+        });
 
-    conn.query(sql, async (error, result) => {
-        if (error) {
-            let response = {msg: error};
-            res.status(200).json(response);
-        }
-        else {
-            if (radioValue === "true"){
+
+    }
+    else {
+
+
+        let sql = `INSERT INTO SuperAdmins (sa_firstName, sa_lastName, sa_password, sa_email)
+        VALUES ("${firstName}", "${lastName}", "${password}", "${email}");`;
+        conn.query(sql, async (error, result) => {
+            if (error){
+                let response = { msg: error.sqlMessage};
+                res.status(200).json(response);
+                return;
+            }
+            else {
                 let sa_id = result.insertId;
                 let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
                 let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
@@ -131,36 +146,35 @@ app.post('/api/signup', async (req, res) =>
                 let lng = googleJson.results[0].geometry.location.lng;
                 sql = `INSERT INTO Universities (u_name, u_noOfStudents, u_description, locationName, latitude, longitude)
                 VALUES ("${universityName}", 0, " ", "${universityName}", ${lat}, ${lng});`;
-                conn.query(sql, async (error2, result2) => {
+                conn.query(sql, (error2, result2) => {
                     if (error2) {
-                        let response = {msg: error2};
+                        let response = {msg: error2.sqlMessage};
                         res.status(200).json(response);
+                        return;
                     }
                     else {
-                        u_id = result2.insertId;
+                        let u_id = result2.insertId;
                         sql = `INSERT INTO CreatesUniversities (u_id, sa_id)
                         VALUES (${u_id}, ${sa_id});`;
                         conn.query(sql, async (error3, result3) => {
                             if (error3) {
-                                let response = {msg: error3};
+                                let response = {msg: error3.sqlMessage};
                                 res.status(200).json(response);
+                                return;
                             }
                             else {
-                                let response = {msg: "Signed Up!"};
+                                let response = {msg: "Signed Up Super Admin!"};
                                 res.status(200).json(response);
+                                return;
                             }
                         });
                     }
                 });
-                
             }
-            else {
-                let response = {msg: "Signed Up!"};
-                res.status(200).json(response);
-            }
-            
-        }
-    });
+        });
+        
+        
+    }
 });
  
 app.post('/api/addRating', async (req, res) => 
