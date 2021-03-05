@@ -57,8 +57,8 @@ app.post('/api/login', async (req, res, next) =>
         if (error) {
             response = { msg: error};
         } else if (result.length > 0) {
-            fn = result[0].sa_firstname;
-            ln = result[0].sa_lastname;
+            fn = result[0].sa_firstName;
+            ln = result[0].sa_lastName;
             l_email = result[0].sa_email;
             pic = result[0].sa_profilePicture;
             response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
@@ -68,8 +68,8 @@ app.post('/api/login', async (req, res, next) =>
                 if (error) {
                     response = {msg: error};
                 } else if (result.length > 0) {
-                    fn = result[0].s_firstname;
-                    ln = result[0].s_lastname;
+                    fn = result[0].s_firstName;
+                    ln = result[0].s_lastName;
                     l_email = result[0].s_email;
                     pic = result[0].s_profilePicture;
                     response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };    
@@ -78,9 +78,9 @@ app.post('/api/login', async (req, res, next) =>
                 }
             })
         }
-        res.status(200).json(response);
     })
     console.log(response);
+    res.status(200).json(response);
 });
 
 app.post('/api/signup', async (req, res) => 
