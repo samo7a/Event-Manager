@@ -51,7 +51,7 @@ app.post('/api/login', async (req, res, next) =>
     let sql;
     let response;
 
-    sql = `SELECT sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email=${email} AND sa_password=${password}`;
+    sql = `SELECT sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
 
     conn.query(sql, (error, result) => {
         if (error) {
@@ -63,7 +63,7 @@ app.post('/api/login', async (req, res, next) =>
             pic = result[0].sa_profilePicture;
             response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
         } else {
-            sql = `SELECT s_firstName, s_lastName, s_email, s_profilePicture FROM Students WHERE s_email=${email} AND s_password=${password}`;
+            sql = `SELECT s_firstName, s_lastName, s_email, s_profilePicture FROM Students WHERE s_email="${email}" AND s_password="${password}"`;
             conn.query(sql, (error, result) => {
                 if (error) {
                     response = {msg: error};
