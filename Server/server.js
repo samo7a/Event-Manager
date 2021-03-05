@@ -54,6 +54,7 @@ app.post('/api/login', async (req, res, next) =>
     sql = `SELECT sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
 
     conn.query(sql, (error, result) => {
+        console.log(result);
         if (error) {
             response = { msg: error};
         } else if (result.length > 0) {
