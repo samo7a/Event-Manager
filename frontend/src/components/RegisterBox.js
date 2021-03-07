@@ -279,7 +279,7 @@ const RegisterBox = (props) => {
       state: stateLoc.value,
       zip: zipCode.value,
     };
-    var js = JSON.stringify(obj);
+    
   };
 
   return (
@@ -290,7 +290,7 @@ const RegisterBox = (props) => {
           <div className="register-form-wrapper">
             <div className="register-form">
               <Form Inline>
-                <Form.Row class="text-center">
+                <Form.Row className="text-center">
                   <ToggleButtonGroup
                     type="radio"
                     name="reg-type"

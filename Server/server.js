@@ -56,8 +56,8 @@ app.post('/api/login', async (req, res, next) =>
     conn.query(sql, (error, result) => {
         console.log(result.length);
         if (error) {
-            response = { msg: error};
-            res.status(200).json(response);
+            response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: error};
+            res.status(401).json(response);
             return;
         } else if (result.length > 0) {
             fn = result[0].sa_firstName;
@@ -73,7 +73,7 @@ app.post('/api/login', async (req, res, next) =>
                 console.log(result2);
                 if (error2) {
                     response = {msg: error2};
-                    res.status(200).json(response);
+                    res.status(401).json(response);
                     return;
                 } else if (result2.length > 0) {
                     console.log(result2);
@@ -86,8 +86,8 @@ app.post('/api/login', async (req, res, next) =>
                     res.status(200).json(response);  
                     return;  
                 } else {
-                    response = { msg: 'You best check yourself'};
-                    res.status(200).json(response);
+                    response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: 'You best check yourself'};
+                    res.status(401).json(response);
                     return;
                 }
             })
