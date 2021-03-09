@@ -17,9 +17,11 @@ import fuzzySearch from "./fuzzySearch";
 // Why do the radio buttons not respond after first click?
 // Buttongroup -> Togglegroup
 // load in uni list afer render
+// ADD -> CHANGE ADDR2 TO CITY
+// ADD -> CHANGE UNI to INPUT on SUPERADMIN
 const RegisterBox = (props) => {
   // Array of state names
-  const options = [
+  const stateOps = [
     { name: "Alabama", value: "AL" },
     { name: "Alaska", value: "AK" },
     { name: "Arizona", value: "AZ" },
@@ -72,6 +74,8 @@ const RegisterBox = (props) => {
     { name: "Wisconsin", value: "WI" },
     { name: "Wyoming", value: "WY" },
   ];
+  // Array of Universities (Fill)
+  const uniOps = [{ name: "UCF", value: "UCF" }];
 
   // Register variables
   const [fName, setfName] = useState("");
@@ -81,7 +85,7 @@ const RegisterBox = (props) => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [uniAddr1, setUniAddr1] = useState("");
-  const [uniAddr2, setUniAddr2] = useState("");
+  const [uniCity, setCity] = useState("");
   const [stateLoc, setStateLoc] = useState("");
   const [zipCode, setZipCode] = useState("");
   // Registration message
@@ -108,12 +112,12 @@ const RegisterBox = (props) => {
   // State search menu
   const StateSelect = () => (
     <SelectSearch
-      options={options}
+      options={stateOps}
       search
       id="selectSearch"
       autoComplete="off"
       // printOptions="always" // Debug option
-      value={stateLoc}
+      value={stateOps}
       filterOptions={fuzzySearch}
       // filterOptions={(options) => {
       //   const filter = fuzzySearch(options);
@@ -122,6 +126,26 @@ const RegisterBox = (props) => {
       placeholder="Select your state"
       style={{ listStyleType: "none" }}
       onChange={setStateLoc}
+    />
+  );
+  // University search menu
+  // State search menu
+  const UniSelect = () => (
+    <SelectSearch
+      options={uniOps}
+      search
+      id="selectSearch"
+      autoComplete="off"
+      // printOptions="always" // Debug option
+      value={uniOps}
+      filterOptions={fuzzySearch}
+      // filterOptions={(options) => {
+      //   const filter = fuzzySearch(options);
+      //   return (q) => filter(q).slice(0, 8);
+      // }}
+      placeholder="University name"
+      style={{ listStyleType: "none" }}
+      onChange={setUni}
     />
   );
   // Admin Registration
@@ -142,19 +166,19 @@ const RegisterBox = (props) => {
             }}
           />
         </Form.Group>
-        <Form.Group as={Col} controlId="formGridUniAddr2">
+        <Form.Group as={Col} controlId="formGridUniCity">
           <Form.Control
             type="text"
-            placeholder="Address line 2"
+            placeholder="City"
             onChange={(event) => {
-              setUniAddr2(event.target.value);
+              setCity(event.target.value);
             }}
           />
         </Form.Group>
       </Form.Row>
       <Form.Row>
         <Form.Group as={Col} controlId="formGridState">
-          <StateSelect />
+          <StateSelect options={stateOps} />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridZip">
           <Form.Control
@@ -179,7 +203,7 @@ const RegisterBox = (props) => {
     console.log(password);
     console.log(password2);
     console.log(uniAddr1);
-    console.log(uniAddr2);
+    console.log(uniCity);
     console.log(stateLoc);
     console.log(zipCode);
     // let check = email.value === checkEmail.value;
@@ -256,7 +280,7 @@ const RegisterBox = (props) => {
       return;
     }
     // Test uniAddr1
-    // Test uniAddr2
+    // Test City
     // Test zip code
     if (zipCode.value.length != 5) {
       setMessage("Your zip code is not valid!");
@@ -275,11 +299,10 @@ const RegisterBox = (props) => {
       userType: userType.value,
       university: uni.value,
       uniAddr1: uniAddr1.value,
-      uniAddr2: uniAddr2.value,
+      uniAddr2: uniCity.value,
       state: stateLoc.value,
       zip: zipCode.value,
     };
-    
   };
 
   return (
@@ -367,13 +390,19 @@ const RegisterBox = (props) => {
 
                   <Form.Group as={Col} controlId="formGridUniversity">
                     <Form.Label>University</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="My university"
-                      onChange={(event) => {
-                        setUni(event.target.value);
-                      }}
-                    />
+                    <div>
+                      {regstrType ? (
+                        <Form.Control
+                          type="text"
+                          placeholder="My university"
+                          onChange={(event) => {
+                            setUni(event.target.value);
+                          }}
+                        />
+                      ) : (
+                        <UniSelect />
+                      )}
+                    </div>
                   </Form.Group>
                 </Form.Row>
                 <Form.Row>
@@ -421,12 +450,12 @@ const RegisterBox = (props) => {
                             }}
                           />
                         </Form.Group>
-                        <Form.Group as={Col} controlId="formGridUniAddr2">
+                        <Form.Group as={Col} controlId="formGridCity">
                           <Form.Control
                             type="text"
                             placeholder="Address line 2"
                             onChange={(event) => {
-                              setUniAddr2(event.target.value);
+                              setCity(event.target.value);
                             }}
                           />
                         </Form.Group>
