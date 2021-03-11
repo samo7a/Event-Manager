@@ -166,7 +166,7 @@ app.post('/api/signup', async (req, res) =>
         conn.query(sql, async (error, result) => {
             if (error) {
                 let response = { msg: error.sqlMessage};
-                res.status(200).json(response);
+                res.status(401).json(response);
             } else  {
                 let u_id = result[0].u_id;
                 sql = `INSERT INTO Students (s_firstName, s_lastName, s_password, s_email, u_id)
@@ -174,7 +174,7 @@ app.post('/api/signup', async (req, res) =>
                 conn.query(sql, async (error2, result2) => {
                     if (error2){
                         let response = {msg: error2.sqlMessage};
-                        res.status(200).json(response);
+                        res.status(401).json(response);
                         return;
                     }
                     else {

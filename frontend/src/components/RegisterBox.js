@@ -291,7 +291,7 @@ const RegisterBox = (props) => {
     // Are we going to use sha256 for this?
     var userType = regstrType ? regstrRadios[1].name : regstrRadios[2].name;
 
-    var obj = {
+    let js = {
       fName: fName.value,
       lName: lName.value,
       password: password.value,
@@ -303,6 +303,37 @@ const RegisterBox = (props) => {
       state: stateLoc.value,
       zip: zipCode.value,
     };
+
+    try {
+      fetch("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(js),
+      })
+        .then((response) => {
+          if (response.status === 404) {
+            throw "404 error";
+          }
+          let res = response.json();
+          if (response.status !== 200) {
+            throw res.msg;
+          }
+          return res;
+        })
+        .then((data) => {
+          console.log("Success:", data);
+          window.location.href = "/"; // Super hacky way to clear the form
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      alert("Check the console");
+    }
   };
 
   return (
