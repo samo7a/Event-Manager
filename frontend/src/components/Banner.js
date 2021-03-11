@@ -8,9 +8,10 @@ import FormControl from "react-bootstrap/FormControl";
 const MyNavBar = (props) => {
   // TODO : Add checkbox for login ( student or admin)
   const [uName, setUName] = useState("");
+  const [adminLogin, setAdminLogin] = useState(false);
   const [pwd, setPwd] = useState("");
   const [message, setMessage] = useState("");
-  const [checkboxVal, isChecked] = useState(false);
+  const [checkboxVal, setCheckboxVal] = useState(false);
   const [userInfo, setUserInfo] = useState({
     firstName: "",
     lastName: "",
@@ -29,12 +30,14 @@ const MyNavBar = (props) => {
   };
 
   const checkboxChange = (event) => {
-    // event.preventDefault();
-    console.log("Before - " + checkboxVal);
-    if (checkboxVal) isChecked(false);
-    else isChecked(true);
-    // isChecked(!checkboxVal);
-    console.log("After - " + checkboxVal);
+    console.log(event);
+    if (checkboxVal) {
+      setCheckboxVal(false);
+      setAdminLogin(false);
+    } else {
+      setCheckboxVal(true);
+      setAdminLogin(true);
+    }
   };
 
   useEffect(() => {
@@ -44,9 +47,7 @@ const MyNavBar = (props) => {
 
   const doLogin = async (event) => {
     event.preventDefault();
-    // console.log(refs.loginCheckbox.checked);
-    console.log(checkboxVal);
-    let js = { username: uName, password: pwd };
+    let js = { loginType: adminLogin, username: uName, password: pwd };
     try {
       fetch("/api/login", {
         method: "POST",
@@ -105,7 +106,7 @@ const MyNavBar = (props) => {
               <Form.Check
                 inline
                 id="loginCB"
-                label="Super Admin?"
+                label="University Admin"
                 type="switch"
                 // type = "checkbox" // Swap with above to make checkbox
                 onChange={checkboxChange}
