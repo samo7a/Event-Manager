@@ -3,6 +3,7 @@ import Container from "react-bootstrap/esm/Container";
 import { Col, Row } from "react-bootstrap";
 import SideMenu from "./SideMenu";
 import Search from "./Search";
+import EventList from "./EventContainer";
 const PageLayout = () => {
   return (
     <div style={{ padding: "0%", height: "100", backgroundColor: "red" }}>
@@ -22,43 +23,34 @@ const PageLayout = () => {
             height: "100%",
           }}
         >
-          {/* <Col
-            xs={"auto"}
-            style={{
-              position: "absolute",
-              left: "0%",
-              paddingLeft: "0 px",
-              marginLeft: "0px",
-              backgroundColor: "#44ddff",
-            }}
-          >
-            <SideMenu />
-          </Col> */}
           <Col
             // xs="auto"
+            name="middle"
             fluid
             style={{
               backgroundColor: "#aabbcc",
               height: "100vh",
               position: "absolute",
+              width: "100%",
 
               //   position: "absolute",
               //   left: "100%",
             }}
           >
             Middle
+            <EventList />
           </Col>
           <Col
             xs={3}
             style={{
               position: "absolute",
               right: "0%",
-              height: "100%",
+              // height: "100%",
 
               backgroundColor: "#aaaadd",
+              padding: "1rem",
             }}
           >
-            Right
             <Search type="groups" getResults={() => alert("Yo")} />
           </Col>
         </Row>
