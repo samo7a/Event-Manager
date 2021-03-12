@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import './Search.css';
 
 const Search = (props) => {
     const [searchItem, setSearchItem] = useState("");
@@ -22,10 +23,11 @@ const Search = (props) => {
             if (response.status === 404) {
                 throw "404 error";
             }
+            let res = response.json();
             if (response.status !== 200) {
                 throw res.msg;
             }
-            return response.json();
+            return res;
             })
             .then((data) => {
                 props.getResults(data);
@@ -44,6 +46,7 @@ const Search = (props) => {
     return (
         <Container fluid>
             <input 
+                className="my-search-input"
                 type="text" 
                 placeholder={props.type === "groups" ? "Search groups" : "Search events"}
                 onChange={(event) => setSearchItem(event.target.value)}
@@ -53,7 +56,7 @@ const Search = (props) => {
                     variant="primary"
                     onClick={() => {
                         setLoading(true);
-                        doTheSearch;
+                        doTheSearch();
                     }}
                 >
                     Search

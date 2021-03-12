@@ -2,6 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/esm/Container";
 import { Col, Row } from "react-bootstrap";
 import SideMenu from "./SideMenu";
+import Search from "./Search";
 const PageLayout = () => {
   return (
     <div style={{ padding: "0%", height: "100", backgroundColor: "red" }}>
@@ -58,6 +59,7 @@ const PageLayout = () => {
             }}
           >
             Right
+            <Search type="groups" getResults={() => alert("Yo")} />
           </Col>
         </Row>
       </Container>
