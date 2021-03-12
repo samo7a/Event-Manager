@@ -20,23 +20,51 @@ const EventList = (props) => {
   const eventClose = () => setShowEvent(false);
   const eventOpen = () => setShowEvent(true);
 
-  //   const eventModal = (props) => {
-  //     {
-  //       showEvent ? (
-  //         <Modal>
-  //           <Row>Image here</Row>
-  //           <Row>
-  //             <Col>
-  //               {event.name}
-  //               {event.rso}
-  //               {event.date}
-  //               {event.desc}
-  //             </Col>
-  //           </Row>
-  //         </Modal>
-  //       ) : null;
-  //     }
-  //   };
+  const eventModal = (props) => {
+    <Modal show={true}>
+      <Container style={{ padding: "2rem" }}>
+        <Row>
+          <Image
+            src={pupFiller}
+            style={{
+              overflow: "hidden",
+              maxWidth: "40rem",
+              maxHeight: "10%",
+              // overflow: "hidden",
+              // position: "absolute",
+              // zIndex: 1,
+            }}
+          />
+        </Row>
+        <Row>
+          <Col>
+            <Row>
+              <b>Event Name:{"\xa0"}</b>
+              {event.name}
+            </Row>
+            <Row>
+              <b>Hosted by:{"\xa0"}</b>
+              {event.rso}
+            </Row>
+            <Row>
+              <b>Date:{"\xa0"}</b>
+              {event.date}
+            </Row>
+            <Row>
+              <b>Description:{"\xa0"}</b>
+              {event.desc}
+            </Row>
+          </Col>
+          <Col>
+            <Row>
+              <Button> Add to calendar</Button>
+              <Button> Close </Button>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </Modal>;
+  };
 
   return (
     <Jumbotron style={{ backgroundColor: "red" }}>
@@ -58,49 +86,7 @@ const EventList = (props) => {
         <p style={{ fontSize: "1.3rem" }}>{event.desc}</p>
       </Container>
       {/* {showEvent ? ( */}
-      <Modal show={true}>
-        <Container style={{ padding: "2rem" }}>
-          <Row>
-            <Image
-              src={pupFiller}
-              style={{
-                overflow: "hidden",
-                maxWidth: "40rem",
-                maxHeight: "10%",
-                // overflow: "hidden",
-                // position: "absolute",
-                // zIndex: 1,
-              }}
-            />
-          </Row>
-          <Row>
-            <Col>
-              <Row>
-                <b>Event Name:{"\xa0"}</b>
-                {event.name}
-              </Row>
-              <Row>
-                <b>Hosted by:{"\xa0"}</b>
-                {event.rso}
-              </Row>
-              <Row>
-                <b>Date:{"\xa0"}</b>
-                {event.date}
-              </Row>
-              <Row>
-                <b>Description:{"\xa0"}</b>
-                {event.desc}
-              </Row>
-            </Col>
-            <Col>
-              <Row>
-                <Button> Add to calendar</Button>
-                <Button> Close </Button>
-              </Row>
-            </Col>
-          </Row>
-        </Container>
-      </Modal>
+
       {/* ) : null} */}
     </Jumbotron>
   );
