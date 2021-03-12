@@ -324,7 +324,7 @@ const RegisterBox = (props) => {
         })
         .then((data) => {
           console.log("Success:", data);
-          window.location.href = "/"; // Super hacky way to clear the form
+          window.location.href = "/"; // Super hacky way to (hopefull) clear the form
         })
         .catch((error) => {
           console.error("Error:", error);
