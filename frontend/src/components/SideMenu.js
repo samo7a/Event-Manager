@@ -13,7 +13,9 @@ const SideMenu = () => {
         </Nav.Link>
         <Nav.Link className="my-nav-link">My Events</Nav.Link>
         <Nav.Link className="my-nav-link">My Groups</Nav.Link>
-        <Nav.Link className="my-nav-link">My Account</Nav.Link>
+        <Nav.Link href="/my-account" className="my-nav-link">
+          My Account
+        </Nav.Link>
         <Nav.Link className="my-nav-link">My Profile</Nav.Link>
       </Nav>
     </Col>
