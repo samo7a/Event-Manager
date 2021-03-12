@@ -307,6 +307,7 @@ app.post('/api/updateComment', async (req, res) =>
     let s_id = req.body.s_id;
     let comment= req.body.comment;
     let sql = `UPDATE Comments SET comment =  "${comment}" WHERE e_id = ${e_id} AND s_id = ${s_id};`;
+    //let sql = `UPDATE Comments SET comment =  "${comment}" WHERE commentId = ${commnetId};`;
  
     conn.query(sql, (error, result) => {
         if (error){
@@ -314,7 +315,7 @@ app.post('/api/updateComment', async (req, res) =>
             res.status(200).json(response);
         }
         else {
-            let response = {msg: "rating added"};
+            let response = {msg: "comment updated"};
             res.status(200).json(response);
         }
     });
@@ -325,7 +326,11 @@ app.post('/api/deleteComment', (req, res) =>
 {
     let e_id = req.body.e_id;
     let s_id = req.body.s_id;
-    let sql = `DELETE FROM Comments WHERE e_id = ${e_id} AND s_id = ${s_id};`;
+    let comment = req.body.comment;
+    //depends on the data comming from the front end
+    //let commentId = req.body.commentId;
+    let sql = `DELETE FROM Comments WHERE e_id = ${e_id} AND s_id = ${s_id} AND comment = "${comment}";`;
+    //let sql = `DELETE FROM Comments WHERE commentId = ${commnetId};`;
  
     conn.query(sql, (error, result) => {
         if (error){
@@ -333,7 +338,7 @@ app.post('/api/deleteComment', (req, res) =>
             res.status(200).json(response);
         }
         else {
-            let response = {msg: "rating added"};
+            let response = {msg: "comment deleted"};
             res.status(200).json(response);
         }
     });
