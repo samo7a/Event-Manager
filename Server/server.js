@@ -269,11 +269,11 @@ app.post('/api/updateRating', async (req, res) =>
  
     conn.query(sql, async (error, result) => {
         if (error){
-            let response = {msg: error};
+            let response = {msg: error.sqlMessage};
             res.status(200).json(response);
         }
         else {
-            let response = {msg: "rating added"};
+            let response = {msg: "rating updated"};
             res.status(200).json(response);
         }
     });
@@ -287,13 +287,13 @@ app.post('/api/addComment', async (req, res) =>
     let comment= req.body.comment;
     let sql = `INSERT INTO Comments (e_id, s_id, comment) VALUES (${e_id}, ${s_id}, "${comment}");`;
 
-    conn.query(sql, async (error, result) => {
+    conn.query(sql, (error, result) => {
         if (error){
-            let response = {msg: error};
+            let response = {msg: error.sqlMessage};
             res.status(200).json(response);
         }
         else {
-            let response = {msg: "rating added"};
+            let response = {msg: "comment added"};
             res.status(200).json(response);
         }
     });
@@ -308,9 +308,9 @@ app.post('/api/updateComment', async (req, res) =>
     let comment= req.body.comment;
     let sql = `UPDATE Comments SET comment =  "${comment}" WHERE e_id = ${e_id} AND s_id = ${s_id};`;
  
-    conn.query(sql, async (error, result) => {
+    conn.query(sql, (error, result) => {
         if (error){
-            let response = {msg: error};
+            let response = {msg: error.sqlMessage};
             res.status(200).json(response);
         }
         else {
@@ -321,15 +321,15 @@ app.post('/api/updateComment', async (req, res) =>
     
 });
 
-app.post('/api/deleteComment', async (req, res) => 
+app.post('/api/deleteComment', (req, res) => 
 {
     let e_id = req.body.e_id;
     let s_id = req.body.s_id;
     let sql = `DELETE FROM Comments WHERE e_id = ${e_id} AND s_id = ${s_id};`;
  
-    conn.query(sql, async (error, result) => {
+    conn.query(sql, (error, result) => {
         if (error){
-            let response = {msg: error};
+            let response = {msg: error.sqlMessage};
             res.status(200).json(response);
         }
         else {
@@ -339,6 +339,75 @@ app.post('/api/deleteComment', async (req, res) =>
     });
     
 });
+
+app.post('/api/createEvent', async (req, res) => 
+{   
+    let rso_id = req.body.rso_id;
+    let e_name = req.body.e_name;
+    let e_description = req.body.e_description;
+    let e_contactPhone = req.body.e_contactPhone;
+    let e_contactEmail = req.body.e_contactEmail;
+    let e_type = req.body.e_type;
+    let locationName = req.body.locationName;
+    let address = req.body.address;
+    let e_category = req.body.e_category;
+    let e_time = req.body.e_time;
+    let e_date = req.body.e_date;
+    let e_profilePicture = req.body.e_profilePicture;
+    let isApproved = req.body.isApproved;
+
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
+    let googleResponse =  await fetch(url);
+    let googleJson = await googleResponse.json();
+    let lat = googleJson.results[0].geometry.location.lat;
+    let lng = googleJson.results[0].geometry.location.lng;
+   
+  
+    let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "${e_type}", "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", "${e_profilePicture}", ${isApproved});`;
+    conn.query(sql,  (error, result) => {
+        if (error){
+            let response = { msg: error};
+            res.status(200).json(response);
+        }
+        else {
+            let e_id = result.insertId;
+            sql = `INSERT INTO Hosts (e_id, rso_id) VALUES (${e_id}, ${rso_id});`;
+            conn.query(sql,  (error1, result1) => {
+                if (error1){
+                    let response = {msg: error1};
+                    res.status(200).json(response);
+                }
+                else {
+                    let response = {msg: "Event Added"};
+                    res.status(200).json(response);
+                }
+            });
+        }
+    });
+    
+});
+
+app.post('/api/createRso', async (req, res) => 
+{   
+    let rso_name = req.body.rso_name;
+    let rso_description = req.body.rso_description;
+    let rso_profilePicture = req.body.rso_profilePicture;
+    let s_id = req.body.s_id;
+    let sql = `Insert into Rso (rso_name, rso_description, rso_profilePicture, s_id) values ("${rso_name}", "${rso_description}", "${rso_profilePicture}", ${s_id});`;
+    conn.query(sql, (error, result) => {
+        if (error){
+            let response = {msg: error.sqlMessage};
+            res.status(200).json(response);
+        }
+        else {
+            let response = {msg: "Rso Created"};
+            res.status(200).json(response);
+        }
+    });
+});
+
+
+
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`listenning on port ${port}`);

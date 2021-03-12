@@ -55,7 +55,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `EventManager`.`Events` (
   `e_id` INT NOT NULL,
-  `e_name` VARCHAR(45) NOT NULL,
+  `e_name` VARCHAR(45) NOT NULL, 
   `e_description` VARCHAR(1000) NULL,
   `e_contactPhone` VARCHAR(10) NULL,
   `e_contactEmail` VARCHAR(45) NULL,
@@ -87,8 +87,8 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `EventManager`.`Hosts` (
   `hostId` INT NOT NULL AUTO_INCREMENT,
-  `rso_id` INT NULL,
-  `e_id` INT NULL,
+  `rso_id` INT NOT NULL,
+  `e_id` INT NOT NULL,
   PRIMARY KEY (`hostId`),
     FOREIGN KEY (`rso_id`)
     REFERENCES `EventManager`.`Rso` (`rso_id`)
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `EventManager`.`Rates` (
     ON DELETE SET NULL
     ON UPDATE SET NULL,
     FOREIGN KEY (`s_id`)
-    REFERENCES `mydb`.`Students` (`s_id`)
+    REFERENCES `EventManager`.`Students` (`s_id`)
     ON DELETE SET NULL
     ON UPDATE SET NULL,
 	CHECK (rating >= 0 AND rating <= 5))
