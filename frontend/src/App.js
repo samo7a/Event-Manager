@@ -8,6 +8,7 @@ import {
 import PageTemplate from "./pages/PageTemplate";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import AccountPage from "./pages/AccountPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route exact path="/" component={LoginPage} />
         <Route exact path="/home" component={HomePage} />
         <Route exact path="/testLayout" component={PageTemplate} />
+        <Route exact path="/my-account" component={AccountPage} />
       </Switch>
     </Router>
   );
