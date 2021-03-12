@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `EventManager`.`Rates` (
     ON DELETE SET NULL
     ON UPDATE SET NULL,
     FOREIGN KEY (`s_id`)
-    REFERENCES `mydb`.`Students` (`s_id`)
+    REFERENCES `EventManager`.`Students` (`s_id`)
     ON DELETE SET NULL
     ON UPDATE SET NULL,
 	CHECK (rating >= 0 AND rating <= 5))
