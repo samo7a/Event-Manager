@@ -57,8 +57,8 @@ const MyNavBar = (props) => {
         body: JSON.stringify(js),
       })
         .then((response) => {
-          if (response.status === 404) {
-            throw new Error("404 error");
+          if (response.status !== 401 && response.status !== 200) {
+            throw new Error(response.status);
           }
           let res = response.json();
           if (response.status !== 200) {
@@ -129,7 +129,7 @@ const MyNavBar = (props) => {
                 type="password"
                 placeholder="Password"
                 className="mr-sm-2"
-                onChange={changePwdHandler}}
+                onChange={changePwdHandler}
               />
               <button type="submit" onClick={(event) => doLogin(event)}>
                 Login
