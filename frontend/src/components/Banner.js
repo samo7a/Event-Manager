@@ -58,11 +58,11 @@ const MyNavBar = (props) => {
       })
         .then((response) => {
           if (response.status === 404) {
-            throw "404 error";
+            throw new Error("404 error");
           }
           let res = response.json();
           if (response.status !== 200) {
-            throw res.msg;
+            throw new Error(res.msg);
           }
           return res;
         })
@@ -87,6 +87,14 @@ const MyNavBar = (props) => {
       setPwd("");
     }
   };
+
+  const changePwdHandler = (event) => {
+    setPwd(event.target.value);
+  };
+
+  const changeUNameHandler = (event) => {
+    setUName(event.target.value);
+  }
 
   const doLogout = (event) => {
     event.preventDefault();
@@ -115,13 +123,13 @@ const MyNavBar = (props) => {
                 type="text"
                 placeholder="Username"
                 className="mr-sm-2"
-                onChange={(e) => setUName(e.target.value)}
+                onChange={changeUNameHandler}
               />
               <FormControl
                 type="password"
                 placeholder="Password"
                 className="mr-sm-2"
-                onChange={(e) => setPwd(e.target.value)}
+                onChange={changePwdHandler}}
               />
               <button type="submit" onClick={(event) => doLogin(event)}>
                 Login
