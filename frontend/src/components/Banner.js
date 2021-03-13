@@ -30,7 +30,6 @@ const MyNavBar = (props) => {
   };
 
   const checkboxChange = (event) => {
-    console.log(event);
     if (checkboxVal) {
       setCheckboxVal(false);
       setAdminLogin(false);
@@ -48,6 +47,7 @@ const MyNavBar = (props) => {
   const doLogin = async (event) => {
     event.preventDefault();
     let js = { loginType: adminLogin, username: uName, password: pwd };
+    console.log(js);
     try {
       fetch("/api/login", {
         method: "POST",

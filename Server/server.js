@@ -57,6 +57,7 @@ app.post('/api/login', async (req, res, next) =>
         conn.query(sql, (error, result) => {
             console.log(result.length);
             if (error) {
+                console.log(error);
                 response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: error};
                 res.status(401).json(response);
                 return;
@@ -79,6 +80,7 @@ app.post('/api/login', async (req, res, next) =>
         conn.query(sql, (error2, result2) => {
             console.log(result2);
             if (error2) {
+                console.log(error2);
                 response = {msg: error2};
                 res.status(401).json(response);
                 return;
