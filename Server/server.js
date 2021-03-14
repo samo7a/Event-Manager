@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const fetch = require('node-fetch');
-const { Router } = require("express");
 require('dotenv').config();
 
 const mysql = require('mysql');
@@ -40,7 +39,7 @@ app.use((req, res, next) =>
 });
 
 app.post(
-    '/login', 
+    'api/login', 
     async (req, res, next) => {
         // req.body = { email : String, password : String }
         // res.text = { firstName : String, lastName : String, msg : String }
@@ -150,7 +149,7 @@ app.post(
     });
 
 app.post(
-    '/signup',
+    'api/signup',
     async (req, res) => 
     {
         let firstName = req.body.fName;
@@ -244,7 +243,7 @@ app.post(
     });
  
 app.post(
-    '/addRating',
+    'api/addRating',
     async (req, res) => 
     {
         let e_id = req.body.e_id;
@@ -265,7 +264,7 @@ app.post(
     });
 
 app.post(
-    '/updateRating',
+    'api/updateRating',
     async (req, res) => 
     {
     
@@ -288,7 +287,7 @@ app.post(
     });
 
 app.post(
-    '/addComment',
+    'api/addComment',
     async (req, res) => 
     {
         let e_id = req.body.e_id;
@@ -309,7 +308,7 @@ app.post(
     });
 
 app.post(
-    '/updateComment',
+    'api/updateComment',
     async (req, res) => 
     {
         let e_id = req.body.e_id;
@@ -331,7 +330,7 @@ app.post(
     });
 
 app.post(
-    '/deleteComment',
+    'api/deleteComment',
     async (req, res) => 
     {
         let e_id = req.body.e_id;
@@ -355,7 +354,7 @@ app.post(
     });
 
 app.post(
-    '/createEvent',
+    'api/createEvent',
     async (req, res) => 
     {   
         let rso_id = req.body.rso_id;
@@ -404,7 +403,7 @@ app.post(
     });
 
 app.post(
-    '/createRso',
+    'api/createRso',
     async (req, res) => 
     {   
         let rso_name = req.body.rso_name;
