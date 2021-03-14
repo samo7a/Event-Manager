@@ -46,7 +46,7 @@ const MyNavBar = (props) => {
 
   const doLogin = async (event) => {
     event.preventDefault();
-    let js = { loginType: adminLogin, username: uName, password: pwd };
+    let js = { loginType: adminLogin, email: uName, password: pwd };
     console.log(js);
     try {
       let response = await fetch("/api/login", {
