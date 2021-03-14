@@ -39,7 +39,7 @@ app.use((req, res, next) =>
 });
 
 app.post(
-    'api/login', 
+    '/api/login', 
     async (req, res, next) => {
         // req.body = { email : String, password : String }
         // res.text = { firstName : String, lastName : String, msg : String }
@@ -149,7 +149,7 @@ app.post(
     });
 
 app.post(
-    'api/signup',
+    '/api/signup',
     async (req, res) => 
     {
         let firstName = req.body.fName;
@@ -243,7 +243,7 @@ app.post(
     });
  
 app.post(
-    'api/addRating',
+    '/api/addRating',
     async (req, res) => 
     {
         let e_id = req.body.e_id;
@@ -264,7 +264,7 @@ app.post(
     });
 
 app.post(
-    'api/updateRating',
+    '/api/updateRating',
     async (req, res) => 
     {
     
@@ -287,7 +287,7 @@ app.post(
     });
 
 app.post(
-    'api/addComment',
+    '/api/addComment',
     async (req, res) => 
     {
         let e_id = req.body.e_id;
@@ -308,7 +308,7 @@ app.post(
     });
 
 app.post(
-    'api/updateComment',
+    '/api/updateComment',
     async (req, res) => 
     {
         let e_id = req.body.e_id;
@@ -330,7 +330,7 @@ app.post(
     });
 
 app.post(
-    'api/deleteComment',
+    '/api/deleteComment',
     async (req, res) => 
     {
         let e_id = req.body.e_id;
@@ -354,7 +354,7 @@ app.post(
     });
 
 app.post(
-    'api/createEvent',
+    '/api/createEvent',
     async (req, res) => 
     {   
         let rso_id = req.body.rso_id;
@@ -403,7 +403,7 @@ app.post(
     });
 
 app.post(
-    'api/createRso',
+    '/api/createRso',
     async (req, res) => 
     {   
         let rso_name = req.body.rso_name;
