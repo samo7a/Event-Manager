@@ -39,7 +39,7 @@ app.use((req, res, next) =>
 app.use(`/api`, router);
 
 router.use(cors());
-router.use(bodyparser.json());
+router.use(bodyParser.json());
 
 router.post(
     '/login', 
