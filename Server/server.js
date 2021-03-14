@@ -308,7 +308,7 @@ app.post(
         });
     });
 
-ApplicationCache.post(
+app.post(
     '/updateComment',
     async (req, res) => 
     {
