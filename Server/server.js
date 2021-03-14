@@ -21,7 +21,9 @@ conn.connect( (err) => {
 });
 
 const app = express();
-const router = Router();
+
+app.use(cors());
+app.use(bodyParser.json());
 
 app.use((req, res, next) => 
 {
@@ -36,14 +38,10 @@ app.use((req, res, next) =>
     );
     next();
 });
-app.use(`/api`, router);
 
-router.use(cors());
-router.use(bodyParser.json());
-
-router.post(
+app.post(
     '/login', 
-    wrapAsync (async (req, res, next) => {
+    async (req, res, next) => {
         // req.body = { email : String, password : String }
         // res.text = { firstName : String, lastName : String, msg : String }
 
@@ -149,12 +147,11 @@ router.post(
         // })
         //console.log(response);
         //res.status(200).json(response);
-    })
-);
+    });
 
-router.post(
+app.post(
     '/signup',
-    wrapAsync( async (req, res) => 
+    async (req, res) => 
     {
         let firstName = req.body.fName;
         let lastName = req.body.lName;
@@ -244,12 +241,11 @@ router.post(
                 }
             });
         }
-    })
-);
+    });
  
-router.post(
+app.post(
     '/addRating',
-    wrapAsync( async (req, res) => 
+    async (req, res) => 
     {
         let e_id = req.body.e_id;
         let s_id = req.body.s_id;
@@ -266,12 +262,11 @@ router.post(
                 res.status(200).json(response);
             }
         });
-    })
-);
+    });
 
-router.post(
+app.post(
     '/updateRating',
-    wrapAsync( async (req, res) => 
+    async (req, res) => 
     {
     
         let e_id = req.body.e_id;
@@ -290,12 +285,11 @@ router.post(
             }
         });
         
-    })
-);
+    });
 
-router.post(
+app.post(
     '/addComment',
-    wrapAsync( async (req, res) => 
+    async (req, res) => 
     {
         let e_id = req.body.e_id;
         let s_id = req.body.s_id;
@@ -312,12 +306,11 @@ router.post(
                 res.status(200).json(response);
             }
         });
-    })
-);
+    });
 
-router.post(
+ApplicationCache.post(
     '/updateComment',
-    wrapAsync( async (req, res) => 
+    async (req, res) => 
     {
         let e_id = req.body.e_id;
         let s_id = req.body.s_id;
@@ -335,12 +328,11 @@ router.post(
                 res.status(200).json(response);
             }
         });
-    })
-);
+    });
 
-router.post(
+app.post(
     '/deleteComment',
-    wrapAsync( async (req, res) => 
+    async (req, res) => 
     {
         let e_id = req.body.e_id;
         let s_id = req.body.s_id;
@@ -360,12 +352,11 @@ router.post(
                 res.status(200).json(response);
             }
         });
-    })
-);
+    });
 
-router.post(
+app.post(
     '/createEvent',
-    wrapAsync( async (req, res) => 
+    async (req, res) => 
     {   
         let rso_id = req.body.rso_id;
         let e_name = req.body.e_name;
@@ -410,12 +401,11 @@ router.post(
             }
         });
         
-    })
-);
+    });
 
-router.post(
+app.post(
     '/createRso',
-    wrapAsync( async (req, res) => 
+    async (req, res) => 
     {   
         let rso_name = req.body.rso_name;
         let rso_description = req.body.rso_description;
@@ -432,20 +422,10 @@ router.post(
                 res.status(200).json(response);
             }
         });
-    })
-);
+    });
 
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`listenning on port ${port}`);
 });
-
-function wrapAsync(fn) {
-    return (req, res, next) => {
-      fn(req, res, next).catch((error) => {
-        console.log(error);
-        res.status(500).send();
-      });
-    };
-  }
 
