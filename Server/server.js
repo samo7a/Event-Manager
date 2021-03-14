@@ -23,7 +23,6 @@ conn.connect( (err) => {
 const app = express();
 const router = Router();
 
-app.use(`/api`, router);
 app.use((req, res, next) => 
 {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -37,6 +36,7 @@ app.use((req, res, next) =>
     );
     next();
 });
+app.use(`/api`, router);
 
 router.use(cors());
 router.use(bodyparser.json());

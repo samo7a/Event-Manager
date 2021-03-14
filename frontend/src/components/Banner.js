@@ -49,25 +49,19 @@ const MyNavBar = (props) => {
     let js = { loginType: adminLogin, username: uName, password: pwd };
     console.log(js);
     try {
-      fetch("/api/login", {
+      let response = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(js),
       })
-        .then((response) => {
-          if (response.status !== 401 && response.status !== 200) {
-            throw new Error(response.status);
-          }
-          let res = response.json();
-          if (response.status !== 200) {
-            throw new Error(res.msg);
-          }
-          return res;
-        })
-        .then((data) => {
-          console.log("Success:", data);
+
+      if (response.status != 200) {
+        throw new Error(response.status);
+      } else {
+        let data = response.json();
+        console.log("Success:", data);
           setUserInfo({
             firstName: data.firstName,
             lastName: data.lastName,
@@ -75,10 +69,7 @@ const MyNavBar = (props) => {
             picture: data.picture,
           });
           window.location.href = "/home";
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      }
     } catch (error) {
       console.error("Error:", error);
     } finally {
