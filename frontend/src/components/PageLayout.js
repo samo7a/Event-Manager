@@ -3,7 +3,7 @@ import Container from "react-bootstrap/esm/Container";
 import { Col, Row } from "react-bootstrap";
 import SideMenu from "./SideMenu";
 import Search from "./Search";
-import EventList from "./EventContainer";
+import EventContainer from "./EventContainer";
 const PageLayout = () => {
   return (
     <div style={{ padding: "0%", height: "100", backgroundColor: "red" }}>
@@ -38,7 +38,7 @@ const PageLayout = () => {
             }}
           >
             Middle
-            <EventList />
+            <EventContainer />
           </Col>
           <Col
             xs={3}

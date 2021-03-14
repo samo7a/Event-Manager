@@ -9,7 +9,8 @@ import {
   Row,
 } from "react-bootstrap";
 import pupFiller from "../pictures/pupFiller.jpeg";
-const EventList = (props) => {
+
+const EventContainer = (props) => {
   const event = {
     name: "Event Name",
     rso: "rso name",
@@ -85,6 +86,7 @@ const EventList = (props) => {
         {/* <div style={{ position: "absolute", zIndex: 2 }}></div> */}
         <p style={{ fontSize: "1.3rem" }}>{event.desc}</p>
       </Container>
+
       {/* {showEvent ? ( */}
 
       {/* ) : null} */}
@@ -92,4 +94,4 @@ const EventList = (props) => {
   );
 };
 
-export default EventList;
+export default EventContainer;
