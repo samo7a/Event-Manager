@@ -145,7 +145,7 @@ const RegisterBox = (props) => {
       // }}
       placeholder="University name"
       style={{ listStyleType: "none" }}
-      onChange={setUni}
+      onChange={event => setUni(event.target.value)}
     />
   );
   // Admin Registration
@@ -196,16 +196,7 @@ const RegisterBox = (props) => {
   // Register function
   const registerHandler = (event) => {
     event.preventDefault();
-    console.log(fName);
-    console.log(lName);
-    console.log(email);
-    console.log(uni);
-    console.log(password);
-    console.log(password2);
-    console.log(uniAddr1);
-    console.log(uniCity);
-    console.log(stateLoc);
-    console.log(zipCode);
+  
     // let check = email.value === checkEmail.value;
     // if (!check) {
     //   setMessage("The emails do not match!");
@@ -214,8 +205,7 @@ const RegisterBox = (props) => {
     // TO-DO :
     // Add regex for email
 
-    if (fName.value === "" || lName.value === "") {
-      alert(`Registering ${fName} ${lName}`);
+    if (fName === "" || lName === "") {
       setMessage("Please enter your first and last name");
       return;
     }
@@ -225,32 +215,24 @@ const RegisterBox = (props) => {
     //   return;
     // }
 
-    if (password.value === "") {
+    if (password === "") {
       setMessage("A password is required");
       return;
     }
 
     var expression = /\S+@\S+/;
-    if (!expression.test(String(email.value).toLowerCase())) {
+    if (!expression.test(email.toLowerCase())) {
       setMessage("Please enter a valid email address");
       return;
     }
 
-    // expression = /^\w+$/;
-    // if (!expression.test(loginName.value)) {
-    //   setMessage(
-    //     "Your username may only contain letters, numbers, and underscores"
-    //   );
-    //   return;
-    // }
-
-    if (password.value.length < 8) {
+    if (password.length < 8) {
       setMessage("Your password must be at least 8 characters long");
       return;
     }
 
     expression = /[!@#$%*]/;
-    if (!expression.test(password.value)) {
+    if (!expression.test(password)) {
       setMessage(
         "Your password must contain at least one of the following special character: @, !, #, $, %, *"
       );
@@ -258,23 +240,23 @@ const RegisterBox = (props) => {
     }
 
     expression = /[0-9]/;
-    if (!expression.test(password.value)) {
+    if (!expression.test(password)) {
       setMessage("Your password must contain at least one digit (0-9)");
       return;
     }
 
     expression = /[a-z]/;
-    if (!expression.test(password.value)) {
+    if (!expression.test(password)) {
       setMessage("Your password must contain at least one lowercase letter");
       return;
     }
 
     expression = /[A-Z]/;
-    if (!expression.test(password.value)) {
+    if (!expression.test(password)) {
       setMessage("Your password must contain at least one uppercase letter");
       return;
     }
-    let pwCheck = password.value === password2.value;
+    let pwCheck = password === password2;
     if (!pwCheck) {
       setMessage("The passwords do not match!");
       return;
@@ -282,59 +264,29 @@ const RegisterBox = (props) => {
     // Test uniAddr1
     // Test City
     // Test zip code
-    if (zipCode.value.length != 5) {
+    if (regstrType && zipCode.length != 5) {
       setMessage("Your zip code is not valid!");
       return;
     }
 
     // var pwd = sha256(password.value);
     // Are we going to use sha256 for this?
-    var userType = regstrType ? regstrRadios[1].name : regstrRadios[2].name;
 
     let js = {
-      fName: fName.value,
-      lName: lName.value,
-      password: password.value,
-      email: email.value,
-      userType: userType.value,
-      university: uni.value,
-      uniAddr1: uniAddr1.value,
-      uniAddr2: uniCity.value,
-      state: stateLoc.value,
-      zip: zipCode.value,
+      fName: fName,
+      lName: lName,
+      password: password,
+      email: email,
+      registerType: regstrType,
+      university: uni,
+      uniAddr1: uniAddr1,
+      uniAddr2: uniCity,
+      state: stateLoc,
+      zip: zipCode,
     };
+    console.log(js);
 
-    try {
-      fetch("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(js),
-      })
-        .then((response) => {
-          if (response.status === 404) {
-            throw "404 error";
-          }
-          let res = response.json();
-          if (response.status !== 200) {
-            throw res.msg;
-          }
-          return res;
-        })
-        .then((data) => {
-          console.log("Success:", data);
-          window.location.href = "/"; // Super hacky way to (hopefull) clear the form
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      alert("Check the console");
-    }
-  };
+  }
 
   return (
     <Container fluid="lg">
@@ -515,6 +467,7 @@ const RegisterBox = (props) => {
                 >
                   Register
                 </Button>
+                <span>{message}</span>
               </Form>
             </div>
           </div>
