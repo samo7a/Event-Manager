@@ -98,6 +98,19 @@ const RegisterBox = (props) => {
     { name: "SuperAdmin", value: true },
   ];
 
+  const initialStates = {
+    lName: "",
+    fName: "",
+    email: "",
+    uni: "",
+    password: "",
+    password2: "",
+    uniAddr1: "",
+    uniCity: "",
+    stateLoc: "",
+    zipCode: ""
+  }
+
   const toggleStudReg = (event) => {
     event.preventDefault();
     setChecked(false);
@@ -145,7 +158,7 @@ const RegisterBox = (props) => {
       // }}
       placeholder="University name"
       style={{ listStyleType: "none" }}
-      onChange={event => setUni(event.target.value)}
+      onChange={setUni}
     />
   );
   // Admin Registration
@@ -161,6 +174,7 @@ const RegisterBox = (props) => {
           <Form.Control
             type="text"
             placeholder="Address line 1"
+            value={uniAddr1}
             onChange={(event) => {
               setUniAddr1(event.target.value);
             }}
@@ -170,6 +184,7 @@ const RegisterBox = (props) => {
           <Form.Control
             type="text"
             placeholder="City"
+            value={uniCity}
             onChange={(event) => {
               setCity(event.target.value);
             }}
@@ -184,6 +199,7 @@ const RegisterBox = (props) => {
           <Form.Control
             type="text"
             placeholder="Zip Code"
+            value={zipCode}
             onChange={(event) => {
               setZipCode(event.target.value);
             }}
@@ -194,7 +210,7 @@ const RegisterBox = (props) => {
   );
 
   // Register function
-  const registerHandler = (event) => {
+  const registerHandler = async (event) => {
     event.preventDefault();
   
     // let check = email.value === checkEmail.value;
@@ -286,6 +302,35 @@ const RegisterBox = (props) => {
     };
     console.log(js);
 
+    try {
+      let response = await fetch("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(js),
+      })
+
+      if (response.status != 200) {
+        throw new Error(response.status);
+      } else {
+        setMessage("You have successfully registered!");
+        
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } 
+
+    setfName(initialStates.fName);
+    setlName(initialStates.lName);
+    setCity(initialStates.uniCity);
+    setUni(initialStates.uni);
+    setPassword(initialStates.password);
+    setPassword2(initialStates.password2);
+    setStateLoc(initialStates.stateLoc);
+    setUniAddr1(initialStates.uniAddr1);
+    setZipCode(initialStates.zipCode);
+    setEmail(initialStates.email);
   }
 
   return (
@@ -342,6 +387,7 @@ const RegisterBox = (props) => {
                     <Form.Control
                       type="text"
                       placeholder="First name"
+                      value={fName}
                       onChange={(event) => {
                         setfName(event.target.value);
                       }}
@@ -353,6 +399,7 @@ const RegisterBox = (props) => {
                     <Form.Control
                       type="text"
                       placeholder="Last name"
+                      value={lName}
                       onChange={(event) => {
                         setlName(event.target.value);
                       }}
@@ -365,6 +412,7 @@ const RegisterBox = (props) => {
                     <Form.Control
                       type="email"
                       placeholder="Email address"
+                      value={email}
                       onChange={(event) => {
                         setEmail(event.target.value);
                       }}
@@ -378,6 +426,7 @@ const RegisterBox = (props) => {
                         <Form.Control
                           type="text"
                           placeholder="My university"
+                          value={uni}
                           onChange={(event) => {
                             setUni(event.target.value);
                           }}
@@ -394,6 +443,7 @@ const RegisterBox = (props) => {
                     <Form.Control
                       type="password"
                       placeholder="Password"
+                      value={password}
                       onChange={(event) => {
                         setPassword(event.target.value);
                       }}
@@ -405,6 +455,7 @@ const RegisterBox = (props) => {
                     <Form.Control
                       type="password"
                       placeholder="Confirm password"
+                      value={password2}
                       onChange={(event) => {
                         setPassword2(event.target.value);
                       }}

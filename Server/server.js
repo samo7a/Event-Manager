@@ -157,16 +157,14 @@ app.post(
         let lastName = req.body.lName;
         let password = req.body.password;
         let email = req.body.email;
-        let radioValue = req.body.userType;
+        let radioValue = req.body.regstrType;
         let universityName = req.body.university;
         let uniAddr1 = req.body.uniAddr1;
         let uniAddr2 = req.body.uniAddr2;
         let state = req.body.state;
         let zip = req.body.zip;
 
-        if (radioValue === "false"){
-
-
+        if (radioValue){
             let sql = `SELECT u_id FROM Universities WHERE u_name = "${universityName}";`;
             conn.query(sql, async (error, result) => {
                 if (error) {
@@ -194,8 +192,6 @@ app.post(
 
         }
         else {
-
-
             let sql = `INSERT INTO SuperAdmins (sa_firstName, sa_lastName, sa_password, sa_email)
             VALUES ("${firstName}", "${lastName}", "${password}", "${email}");`;
             conn.query(sql, async (error, result) => {
