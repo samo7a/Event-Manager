@@ -42,10 +42,11 @@ app.post(
     '/api/login', 
     async (req, res, next) => {
         // req.body = { email : String, password : String }
-        // res.text = { firstName : String, lastName : String, msg : String }
+        // res.text = { userId: Int, firstName : String, lastName : String, msg : String }
 
         let err = '';
         const { email, password, loginType } = req.body;
+        let id = -1;
         let fn = '';
         let ln = '';
         let l_email = '';
@@ -54,7 +55,7 @@ app.post(
         let response;
 
         if (loginType) {
-            sql = `SELECT sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
+            sql = `SELECT sa_id, sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
 
             conn.query(sql, (error, result) => {
                 console.log(result.length);
@@ -63,6 +64,7 @@ app.post(
                     res.status(401).json(response);
                     return;
                 } else if (result.length > 0) {
+                    id = result[0].sa_id;
                     fn = result[0].sa_firstName;
                     ln = result[0].sa_lastName;
                     l_email = result[0].sa_email;
@@ -71,7 +73,7 @@ app.post(
                     res.status(200).json(response);
                     return;
                 } else {
-                    response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: 'You best check yourself'};
+                    response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: 'You best check yourself'};
                     res.status(401).json(response);
                     return;
                 }
@@ -85,8 +87,7 @@ app.post(
                     res.status(401).json(response);
                     return;
                 } else if (result2.length > 0) {
-                    console.log(result2);
-                    console.log(result2[0].s_firstName);
+                    id = result2[0].s_id;
                     fn = result2[0].s_firstName;
                     ln = result2[0].s_lastName;
                     l_email = result2[0].s_email;
@@ -95,7 +96,7 @@ app.post(
                     res.status(200).json(response);  
                     return;  
                 } else {
-                    response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: 'You best check yourself'};
+                    response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: 'You best check yourself'};
                     res.status(401).json(response);
                     return;
                 }

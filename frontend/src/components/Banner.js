@@ -13,6 +13,7 @@ const MyNavBar = (props) => {
   const [message, setMessage] = useState("");
   const [checkboxVal, setCheckboxVal] = useState(false);
   const [userInfo, setUserInfo] = useState({
+    id: -1,
     firstName: "",
     lastName: "",
     email: "",
@@ -22,6 +23,7 @@ const MyNavBar = (props) => {
   const initialStates = {
     message: "",
     userInfo: {
+      id: -1,
       firstName: "",
       lastName: "",
       email: "",
@@ -63,6 +65,7 @@ const MyNavBar = (props) => {
         let data = response.json();
         console.log("Success:", data);
           setUserInfo({
+            id: data.userId,
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
@@ -73,7 +76,6 @@ const MyNavBar = (props) => {
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      alert("Check the console");
       setUName("");
       setPwd("");
     }
@@ -113,12 +115,14 @@ const MyNavBar = (props) => {
               <FormControl
                 type="text"
                 placeholder="Username"
+                value={uName}
                 className="mr-sm-2"
                 onChange={changeUNameHandler}
               />
               <FormControl
                 type="password"
                 placeholder="Password"
+                value={pwd}
                 className="mr-sm-2"
                 onChange={changePwdHandler}
               />
