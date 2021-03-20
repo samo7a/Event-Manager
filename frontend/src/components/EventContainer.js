@@ -8,6 +8,7 @@ import {
   Modal,
   Row,
 } from "react-bootstrap";
+import "./EventContainer.css";
 import pupFiller from "../pictures/pupFiller.jpeg";
 
 const EventContainer = (props) => {
@@ -25,17 +26,7 @@ const EventContainer = (props) => {
     <Modal show={true}>
       <Container style={{ padding: "2rem" }}>
         <Row>
-          <Image
-            src={pupFiller}
-            style={{
-              overflow: "hidden",
-              maxWidth: "40rem",
-              maxHeight: "10%",
-              // overflow: "hidden",
-              // position: "absolute",
-              // zIndex: 1,
-            }}
-          />
+          <Image className="modalImage" src={pupFiller} />
         </Row>
         <Row>
           <Col>
@@ -73,16 +64,7 @@ const EventContainer = (props) => {
         <h1>{event.name}</h1>
         <h4>{event.rso}</h4>
 
-        <Image
-          src={pupFiller}
-          style={{
-            maxWidth: "40rem",
-            maxHeight: "10%",
-            // overflow: "hidden",
-            // position: "absolute",
-            // zIndex: 1,
-          }}
-        />
+        <Image className="previewImage" src={pupFiller} />
         {/* <div style={{ position: "absolute", zIndex: 2 }}></div> */}
         <p style={{ fontSize: "1.3rem" }}>{event.desc}</p>
       </Container>
