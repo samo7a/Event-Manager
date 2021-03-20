@@ -1,0 +1,13 @@
+.pageContainer {
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+    background-color: purple;
+}
+
+.pageRow {
+    padding-left: 0px;
+    /* margin: 0 px; */
+    height: 100vh;
+    width: 100%;
+}

@@ -4,43 +4,61 @@ import { Col, Row } from "react-bootstrap";
 import SideMenu from "./SideMenu";
 import Search from "./Search";
 import EventContainer from "./EventContainer";
-const PageLayout = () => {
+import "./PageLayout.css";
+const PageLayout = (props) => {
+  // const pageChoice = props.page;
+  const pageChoice = "events";
+  const choosePage = () => {
+    switch (pageChoice) {
+      case "events":
+        return <EventContainer />;
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
-    <div style={{ padding: "0%", height: "100", backgroundColor: "red" }}>
+    <div style={{ padding: "0%" }}>
       <Container
-        // fluid
-        style={{
-          padding: "0",
-          margin: 0,
-          height: "100%",
-          backgroundColor: "red",
-        }}
+        className="pageContainer"
+        fluid
+        // style={{
+        //   padding: "0",
+        //   margin: 0,
+        //   height: "100%",
+        //   backgroundColor: "red",
+        // }}
       >
         <Row
-          style={{
-            paddingLeft: "0 px",
-            margin: "0px",
-            height: "100%",
-          }}
+          className="pageRow"
+          // style={{
+          //   paddingLeft: "0 px",
+          //   margin: "0 px",
+          //   height: "100vh",
+          //   width: "100%",
+          // }}
         >
-          <Col
+          {/* <Col
             // xs="auto"
-            name="middle"
-            fluid
+            name="centerCol"
+            // fluid
             style={{
               backgroundColor: "#aabbcc",
               height: "100vh",
-              position: "absolute",
-              width: "100%",
+              // position: "absolute",
+              // width: "100%",
 
               //   position: "absolute",
               //   left: "100%",
             }}
-          >
-            Middle
-            <EventContainer />
-          </Col>
-          <Col
+          > */}
+
+          {/* <EventContainer /> */}
+          {choosePage()}
+          {/* </Col> */}
+          {/* <Col
             xs={3}
             style={{
               position: "absolute",
@@ -52,7 +70,7 @@ const PageLayout = () => {
             }}
           >
             <Search type="groups" getResults={() => alert("Yo")} />
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     </div>
