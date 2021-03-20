@@ -3,6 +3,7 @@ import Container from "react-bootstrap/esm/Container";
 import { Col, Row } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
+import "./MyAccount.css";
 function MyAccount() {
   const user = {
     fName: "Jon",
@@ -45,24 +46,24 @@ function MyAccount() {
             >
               <div
                 id="accountDiv"
-                class="center"
+                // class="center"
                 style={{ marginLeft: "3rem", marginTop: "1rem" }}
               >
-                <div id="accountWrapper" class="center">
+                <div id="accountWrapper">
                   <h1 className="pageTitle" style={{ fontSize: "2rem" }}>
                     Account Information
                   </h1>
                   <Card
-                    class="text-left"
+                    // class="text-left"
                     style={{
                       width: "40rem",
-                      align: "center",
+                      // align: "center",
                       backgroundColor: "white",
                     }}
                   >
                     {/* Account info fields */}
-                    <Form style={{ fontSize: "1.5rem" }}>
-                      <Form.Group as={Row} style={{ margin: ".5rem" }}>
+                    <Form>
+                      <Form.Group className="acctInfoField" as={Row}>
                         <Form.Label
                           className="text-left"
                           column
@@ -82,7 +83,7 @@ function MyAccount() {
                           ></Form.Control>
                         </Col>
                       </Form.Group>
-                      <Form.Group as={Row} style={{ margin: ".5rem" }}>
+                      <Form.Group className="acctInfoField" as={Row}>
                         <Form.Label
                           className="text-left"
                           column
@@ -102,7 +103,7 @@ function MyAccount() {
                           ></Form.Control>
                         </Col>
                       </Form.Group>
-                      <Form.Group as={Row} style={{ margin: ".5rem" }}>
+                      <Form.Group className="acctInfoField" as={Row}>
                         <Form.Label
                           className="text-left"
                           column
@@ -123,7 +124,7 @@ function MyAccount() {
                         </Col>
                       </Form.Group>
                       SEPERATE FOR SUPERADMIN?
-                      <Form.Group as={Row} style={{ margin: ".5rem" }}>
+                      <Form.Group className="acctInfoField" as={Row}>
                         <Form.Label
                           className="text-left"
                           column
@@ -136,6 +137,7 @@ function MyAccount() {
                         <Col sm="9">
                           <Form.Control
                             className="text-right"
+                            // className="acctInfoData"
                             style={{ fontSize: "1.5rem" }}
                             plaintext
                             readOnly

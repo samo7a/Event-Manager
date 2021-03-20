@@ -1,0 +1,11 @@
+/* Need to find out how to merge the text-right class  */
+/* To additional classes */
+.acctInfoField {
+    font-size: 1.5rem ;
+    margin: .5rem;
+}
+
+.acctInfoData {
+    font-size: 1.5rem ;
+    /* text-align: right; */
+}
