@@ -108,8 +108,8 @@ const RegisterBox = (props) => {
     uniAddr1: "",
     uniCity: "",
     stateLoc: "",
-    zipCode: ""
-  }
+    zipCode: "",
+  };
 
   const toggleStudReg = (event) => {
     event.preventDefault();
@@ -212,7 +212,7 @@ const RegisterBox = (props) => {
   // Register function
   const registerHandler = async (event) => {
     event.preventDefault();
-  
+
     // let check = email.value === checkEmail.value;
     // if (!check) {
     //   setMessage("The emails do not match!");
@@ -309,17 +309,16 @@ const RegisterBox = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(js),
-      })
+      });
 
       if (response.status != 200) {
         throw new Error(response.status);
       } else {
         setMessage("You have successfully registered!");
-        
       }
     } catch (error) {
       console.error("Error:", error);
-    } 
+    }
 
     setfName(initialStates.fName);
     setlName(initialStates.lName);
@@ -331,7 +330,7 @@ const RegisterBox = (props) => {
     setUniAddr1(initialStates.uniAddr1);
     setZipCode(initialStates.zipCode);
     setEmail(initialStates.email);
-  }
+  };
 
   return (
     <Container fluid="lg">
@@ -346,12 +345,14 @@ const RegisterBox = (props) => {
                     type="radio"
                     name="reg-type"
                     className="mb-2"
+                    // style={{ margin: "10px" }}
+
                     // value={checked ? true : false}
                     // onChange={setChecked}
                     defaultValue={false}
                   >
                     <ToggleButton
-                      style={{ margin: "10px" }}
+                      className="toggleButton"
                       id="studentRegstrButtons"
                       type="radio"
                       variant="secondary"
@@ -365,7 +366,7 @@ const RegisterBox = (props) => {
                       {regstrRadios[0].name}
                     </ToggleButton>
                     <ToggleButton
-                      style={{ margin: "10px" }}
+                      className="toggleButton"
                       id="adminRegstrButtons"
                       type="radio"
                       variant="secondary"
@@ -466,50 +467,6 @@ const RegisterBox = (props) => {
 
                 <div>
                   <div>{regstrType ? <AdminReg /> : null}</div>
-                  {/* {regstrType ? <AdminReg /> : null} */}
-                  {/*                   
-                    <Form.Group name="Admin Reg">
-                      <Form.Row>
-                        <Form.Label>
-                          <u>University address</u>
-                        </Form.Label>
-                      </Form.Row>
-                      <Form.Row>
-                        <Form.Group as={Col} controlId="formGridUniAddr1">
-                          <Form.Control
-                            type="text"
-                            placeholder="Address line 1"
-                            onChange={(event) => {
-                              setUniAddr1(event.target.value);
-                            }}
-                          />
-                        </Form.Group>
-                        <Form.Group as={Col} controlId="formGridCity">
-                          <Form.Control
-                            type="text"
-                            placeholder="Address line 2"
-                            onChange={(event) => {
-                              setCity(event.target.value);
-                            }}
-                          />
-                        </Form.Group>
-                      </Form.Row>
-                      <Form.Row>
-                        <Form.Group controlId="formGridState">
-                          <StateSelect />
-                        </Form.Group>
-                        <Form.Group controlId="formGridZip">
-                          <Form.Control
-                            type="text"
-                            placeholder="Zip Code"
-                            onChange={(event) => {
-                              setZipCode(event.target.value);
-                            }}
-                          />
-                        </Form.Group>
-                      </Form.Row>
-                    </Form.Group>
-                   */}
                 </div>
                 <Button
                   className="register-button"

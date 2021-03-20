@@ -42,6 +42,10 @@
     margin-left: auto;
     margin-right: auto;
 }
+.toggleButton {
+    margin: 10px;
+}
+
 
 /* Css for the SelectSearch menu */
 .select-search {
