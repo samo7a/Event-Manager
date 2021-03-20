@@ -1,0 +1,15 @@
+.mainContainer {
+    padding: 0px;
+    margin: 0;
+    height: 100%;
+    background-color: yellow;
+}
+.leftCol {
+    /* padding: 0; */
+    padding-left: 0%;
+    margin: 0px;
+    background-color: blue;
+}
+.middleCol {
+    padding: 0%;
+}
