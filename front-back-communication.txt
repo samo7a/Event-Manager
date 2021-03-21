@@ -181,4 +181,18 @@
         msg: "University Updated" or error, 
     }
 -----------------------------------------------
-
+12- /api/updateAccount (POST)
+    a- From Frontend -> Server
+    {
+        id : int,
+        firstName : string,
+        lastName : string,
+        email : string,
+        radioValue : boolean,
+        profilePicture : blob,
+    }
+    b- From Server -> Frontend
+    {
+        msg : "Account Updated" or error, 
+    }
+-----------------------------------------------

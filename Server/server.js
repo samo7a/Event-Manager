@@ -531,6 +531,37 @@ app.post(
             }
         });
     });
+    app.post(
+        '/api/updateAccount',
+        async (req, res) => 
+        {
+            let id = req.body.id;
+            let firstName = req.body.fName;
+            let lastName = req.body.lName;
+            let email = req.body.email;
+            let radioValue = req.body.regstrType;
+            let profilePicture = req.body.profilePicture;
+            let sql;
+    
+            if (radioValue){
+                sql = `UPDATE Students SET s_firstName = ${firstName}, s_lastName = ${lastName}, s_email = ${email}, s_profilePicture = ${profilePicture}
+                WHERE s_id = ${id};`;    
+            }
+            else {
+                sql = `UPDATE SuperAdmins SET sa_firstName = ${firstName}, sa_lastName = ${lastName}, sa_email = ${email}, sa_profilePicture = ${profilePicture}
+                WHERE sa_id = ${id};`;                  
+            }
+            conn.query(sql, async (error, result) => {
+                if (error){
+                    let response = { msg: error.sqlMessage};
+                    res.status(200).json(response);
+                }
+                else {
+                    let response = { msg: "Account Updated"};
+                    res.status(200).json(response);
+                }
+            });
+        });
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`listenning on port ${port}`);
