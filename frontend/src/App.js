@@ -9,6 +9,7 @@ import PageTemplate from "./pages/PageTemplate";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import AccountPage from "./pages/AccountPage";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   return (
@@ -18,9 +19,10 @@ function App() {
         <Route exact path="/home" component={HomePage} />
         <Route exact path="/events" component={PageTemplate} />
         <Route exact path="/my-account" component={AccountPage} />
+        <Route exact path="/dashboard" component={AdminPage} />
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;

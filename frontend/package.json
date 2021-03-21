@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy" : "https://localhost:3001",
+  "proxy": "https://localhost:3001",
   "dependencies": {
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",
@@ -12,6 +12,7 @@
     "popper": "^1.0.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.0",
+    "react-calendar": "^3.3.1",
     "react-dev-utils": "^5.0.3",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
