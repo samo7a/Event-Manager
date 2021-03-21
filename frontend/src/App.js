@@ -5,7 +5,7 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
-import PageTemplate from "./pages/PageTemplate";
+import EventPage from "./pages/EventPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import AccountPage from "./pages/AccountPage";
@@ -17,7 +17,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={LoginPage} />
         <Route exact path="/home" component={HomePage} />
-        <Route exact path="/events" component={PageTemplate} />
+        <Route exact path="/events" component={EventPage} />{" "}
         <Route exact path="/my-account" component={AccountPage} />
         <Route exact path="/dashboard" component={AdminPage} />
       </Switch>
