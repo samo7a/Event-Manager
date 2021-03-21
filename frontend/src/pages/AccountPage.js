@@ -40,13 +40,7 @@ const AccountPage = () => {
           <Col
             sm={11}
             style={{
-              // paddingLeft: "110px",
-              // minWidth: "88%",
-              // right: "0%",
               padding: "0px",
-              //   height: "100%",
-
-              //   backgroundColor: "rgb(136, 136, 136)",
             }}
           >
             <MyAccount />

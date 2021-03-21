@@ -8,10 +8,7 @@ import "./PageTemplate.css";
 const EventPage = () => {
   const props = [{ page: "events" }];
   return (
-    <div
-      className=" "
-      // style={{ height: "100vh", backgroundColor: "green", overflow: "hidden" }}
-    >
+    <div>
       <Banner />
       <Container fluid>
         <Row>
