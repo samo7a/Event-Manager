@@ -150,7 +150,35 @@
     b- From Server -> Frontend
     {
         msg: "Rso Created" or an error, 
-        rso_id : rso_id,
+        rso_id : int,
+    }
+-----------------------------------------------
+11- /api/joinRso (POST)
+    a- From Frontend -> Server
+    {
+        rso_id : int,
+        s_id : int 
+    }
+    b- From Server -> Frontend
+    {
+        msg: "joined" or error, 
+    }
+-----------------------------------------------
+12- /api/updateUniversity (POST)
+    a- From Frontend -> Server
+    {
+        u_id : int
+        universityName : string,
+        uniAddr1 : string,
+        uniAddr2 : string,
+        state : string,
+        zip : int,
+        u_description : string,
+        u_profilePicture : blob,
+    }
+    b- From Server -> Frontend
+    {
+        msg: "University Updated" or error, 
     }
 -----------------------------------------------
 

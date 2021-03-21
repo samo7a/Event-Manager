@@ -60,7 +60,7 @@ app.post(
             conn.query(sql, (error, result) => {
                 console.log(result.length);
                 if (error) {
-                    response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: error};
+                    response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: error.sqlMessage};
                     res.status(401).json(response);
                     return;
                 } else if (result.length > 0) {
@@ -83,7 +83,7 @@ app.post(
             conn.query(sql, (error2, result2) => {
                 console.log(result2);
                 if (error2) {
-                    response = {msg: error2};
+                    response = {msg: error2.sqlMessage};
                     res.status(401).json(response);
                     return;
                 } else if (result2.length > 0) {
@@ -181,11 +181,22 @@ app.post(
                             return;
                         }
                         else {
-                            let response = {msg: "Signed Up Student!"};
-                            res.status(200).json(response);
-                            return;
+                            sql = `UPDATE Universities SET u_noOfStudents = (u_noOfStudents + 1) WHERE u_id = ${u_id};`;
+                            conn.query(sql, async (error3, result3) => {
+                            if (error3){
+                                let response = {msg: error3.sqlMessage};
+                                res.status(401).json(response);
+                                return;
+                            }
+                            else {
+                                let response = {msg: "Signed Up Student!"};
+                                res.status(200).json(response);
+                                return;
+                            }
+                            });
                         }
                     });
+                    
                 }
             });
 
@@ -250,7 +261,7 @@ app.post(
 
         conn.query(sql, async (error, result) => {
             if (error){
-                let response = {msg: error};
+                let response = {msg: error.sqlMessage};
                 res.status(200).json(response);
             }
             else {
@@ -378,7 +389,7 @@ app.post(
         let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "${e_type}", "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", "${e_profilePicture}", ${isApproved});`;
         conn.query(sql,  (error, result) => {
             if (error){
-                let response = { msg: error};
+                let response = { msg: error.sqlMessage};
                 res.status(200).json(response);
             }
             else {
@@ -386,7 +397,7 @@ app.post(
                 sql = `INSERT INTO Hosts (e_id, rso_id) VALUES (${e_id}, ${rso_id});`;
                 conn.query(sql,  (error1, result1) => {
                     if (error1){
-                        let response = {msg: error1};
+                        let response = {msg: error1.sqlMessage};
                         res.status(200).json(response);
                     }
                     else {
@@ -427,15 +438,15 @@ app.post(
         let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "${e_type}", "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", "${e_profilePicture}", ${isApproved});`;
         conn.query(sql,  (error, result) => {
             if (error){
-                let response = { msg: error};
+                let response = { msg: error}.sqlMessage;
                 res.status(200).json(response);
             }
             else {
                 let e_id = result.insertId;
-                sql = `INSERT INTO CreateEvents (e_id, rso_id) VALUES (${e_id}, ${s_id});`;
+                sql = `INSERT INTO CreateEvents (e_id, s_id) VALUES (${e_id}, ${s_id});`;
                 conn.query(sql,  (error1, result1) => {
                     if (error1){
-                        let response = {msg: error1};
+                        let response = {msg: error1.sqlMessage};
                         res.status(200).json(response);
                     }
                     else {
@@ -454,6 +465,11 @@ app.post(
         let rso_description = req.body.rso_description;
         let rso_profilePicture = req.body.rso_profilePicture;
         let s_id = req.body.s_id;
+        //TODO: ask the team.
+        // let s_id1 = req.body.s_id1;
+        // let s_id12 = req.body.s_id2;
+        // let s_id3 = req.body.s_id3;
+        // let s_id4 = req.body.s_id4;
         let sql = `Insert into Rso (rso_name, rso_description, rso_profilePicture, s_id) values ("${rso_name}", "${rso_description}", "${rso_profilePicture}", ${s_id});`;
         conn.query(sql, (error, result) => {
             if (error){
@@ -467,7 +483,54 @@ app.post(
             }
         });
     });
-
+app.post(
+    '/api/joinRso',
+    async (req, res) => 
+    {   let s_id = req.body.s_id;
+        let rso_id = req.body.rso_id;
+        
+        let sql = `Insert into isAMember (rso_id, s_id) values (${rso_id}, ${s_id});`;
+        conn.query(sql, (error, result) => {
+            if (error){
+                let response = {msg: error.sqlMessage};
+                res.status(200).json(response);
+            }
+            else {
+                let response = {msg: "joined", rso_id : rso_id};
+                res.status(200).json(response);
+            }
+        });
+    });
+app.post(
+    '/api/updateUniversity',
+    async (req, res) => 
+    {   let u_id = req.body.u_id;
+        let universityName = req.body.universityName;
+        let uniAddr1 = req.body.uniAddr1;
+        let uniAddr2 = req.body.uniAddr2;
+        let state = req.body.state;
+        let zip = req.body.zip;
+        let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
+        let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
+        let googleResponse =  await fetch(url);
+        let googleJson = await googleResponse.json();
+        let lat = googleJson.results[0].geometry.location.lat;
+        let lng = googleJson.results[0].geometry.location.lng;
+        let u_description = req.body.u_description;
+        let u_profilePicture = req.body.u_profilePicture;
+        let sql = `UPDATE Universities SET u_name = "${universityName}", u_description = ${u_description}, locationName = "${universityName}",
+                    latitude = ${lat}, longitude = , ${lng}, u_profilePicture = ${u_profilePicture} WHERE u_id = ${u_id};`;
+        conn.query(sql, (error, result) => {
+            if (error){
+                let response = {msg: error.sqlMessage};
+                res.status(200).json(response);
+            }
+            else {
+                let response = {msg: "University Updated"};
+                res.status(200).json(response);
+            }
+        });
+    });
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`listenning on port ${port}`);
