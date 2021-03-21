@@ -1,0 +1,156 @@
+1- /api/login (POST)
+    a- From Frontend -> Server
+    {
+        email : string,
+        password : string,
+        loginType : boolean,
+    }
+    b- From Server -> Frontend
+    {
+        userId: int,
+        firstName: string,
+        lastName: string, 
+        email: string, 
+        picture: blob, 
+        msg: String  (empty or has an error msg)
+    }
+-----------------------------------------------
+2- /api/signup (POST):
+    a- From Frontend -> Server
+    {   
+        fName : string,
+        lName : string,
+        password : string,
+        email : string,
+        regstrType : boolean,
+        university : string,
+        uniAddr1 : string,
+        uniAddr2 : string,  (change it to city??)
+        state : string,
+        zip : int
+    }
+    b- From Server -> Frontend
+    {
+        msg: string (could be an error msg from the mysql server or "Signed Up Super Admin!" or "Signed Up Student!"),
+    }
+
+3- /api/addRating (POST)
+    a- From Frontend -> Server
+    {   
+        e_id : int (eventid)
+        s_id : int (studentid)
+        rating : double
+    }
+    b- From Server -> Frontend
+    {
+        msg: string (could be an error msg from the mysql server or "rating added"),
+    }
+-----------------------------------------------
+4- /api/updateRating (POST)
+    a- From Frontend -> Server
+    {   
+        e_id : int (eventid)
+        s_id : int (studentid)
+        rating : double
+    }
+    b- From Server -> Frontend
+    {
+        msg: string (could be an error msg from the mysql server or "rating updated"),
+    }
+-----------------------------------------------
+5- /api/addComment (POST)
+    a- From Frontend -> Server
+    {   
+        e_id : int (eventid)
+        s_id : int (studentid)
+        comment : string 
+    }
+    b- From Server -> Frontend
+    {
+        msg: string (could be an error msg from the mysql server or "comment added"),
+    }
+-----------------------------------------------
+6- /api/updateComment (POST)
+    a- From Frontend -> Server
+    {   
+        e_id : int (eventid)
+        s_id : int (studentid)
+        comment : string 
+    }
+    b- From Server -> Frontend
+    {
+        msg: string (could be an error msg from the mysql server or "comment updated"),
+    }
+-----------------------------------------------
+7- /api/deleteComment (POST)
+    a- From Frontend -> Server
+    {   
+        e_id : int (eventid)
+        s_id : int (studentid)
+        comment : string 
+    }
+    b- From Server -> Frontend
+    {
+        msg: string (could be an error msg from the mysql server or "comment deleted"),
+    }
+-----------------------------------------------
+8- /api/createEventRso (POST)
+    a- From Frontend -> Server
+    {
+        rso_id : int,
+        e_description : string,
+        e_contactEmail : string,
+        e_contactPhone : string,
+        e_type = string (either "public", or "private", or "rso"; anyother value will cause an error)
+        locationName : string,
+        address : string,
+        e_category : string,
+        e_time : string (xx:xx  24hr system)  e.g "16:35"
+        e_date : string (YYYY/MM/DD), e.g "2012/12/30",
+        e_profilePicture : could be null or a picture,
+        isApproved : bit (0: not approved, 1: approved) (rso events are automatically approved so send 1)
+                                                        (students created events need to be approved by super admin so send 0)
+    }
+    b- From Server -> Frontend
+    {
+        msg: string (could be an error msg from the mysql server or "Event Added"),
+        e_id : int,
+    }
+-----------------------------------------------
+9- /api/createEventStudent (POST)
+    a- From Frontend -> Server
+    {
+        s_id : int,
+        e_description : string,
+        e_contactEmail : string,
+        e_contactPhone : string,
+        e_type = string (either "public", or "private", or "rso"; anyother value will cause an error)
+        locationName : string,
+        address : string,
+        e_category : string,
+        e_time : string (xx:xx  24hr system)  e.g "16:35"
+        e_date : string (YYYY/MM/DD), e.g "2012/12/30",
+        e_profilePicture : could be null or a picture,
+        isApproved : bit (0: not approved, 1: approved) (students created events need to be approved by super admin so send 0)        
+    }
+    b- From Server -> Frontend
+    {
+        msg: string (could be an error msg from the mysql server or "Event Added"),
+        e_id : int,
+    }
+-----------------------------------------------
+10- /api/createRso (POST)
+    a- From Frontend -> Server
+    {
+        rso_name : string,
+        rso_description : string,
+        rso_profilePicture : blob,
+        s_id : int (student id who creates the rso aka admin)
+    }
+    b- From Server -> Frontend
+    {
+        msg: "Rso Created" or an error, 
+        rso_id : rso_id,
+    }
+-----------------------------------------------
+
