@@ -38,29 +38,16 @@ function MyAccount() {
                 backgroundColor: "#aabbcc",
                 height: "100vh",
                 position: "absolute",
-                width: "100%",
+                // width: "100%",
 
                 //   position: "absolute",
                 //   left: "100%",
               }}
             >
-              <div
-                id="accountDiv"
-                // class="center"
-                style={{ marginLeft: "3rem", marginTop: "1rem" }}
-              >
+              <div id="accountDiv" className="accountDiv">
                 <div id="accountWrapper">
-                  <h1 className="pageTitle" style={{ fontSize: "2rem" }}>
-                    Account Information
-                  </h1>
-                  <Card
-                    // class="text-left"
-                    style={{
-                      width: "40rem",
-                      // align: "center",
-                      backgroundColor: "white",
-                    }}
-                  >
+                  <h1 className="pageTitle">Account Information</h1>
+                  <Card className="acctCard">
                     {/* Account info fields */}
                     <Form>
                       <Form.Group className="acctInfoField" as={Row}>
