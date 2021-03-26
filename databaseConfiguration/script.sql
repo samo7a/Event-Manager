@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS `EventManager`.`Rso` (
   `rso_description` VARCHAR(1000) NULL,
   `rso_profilePicture` BLOB NULL,
   `s_id` INT NULL,
+  `status` ENUM('active', 'inactive') NOT NULL
   PRIMARY KEY (`rso_id`),
     FOREIGN KEY (`s_id`)
     REFERENCES `EventManager`.`Students` (`s_id`)
