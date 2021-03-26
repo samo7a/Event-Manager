@@ -562,6 +562,31 @@ app.post(
                 }
             });
         });
+app.post('/api/updateRso', (res, req) => {
+
+});
+app.post('/api/updateEvent', (res, req) => {
+
+});
+app.post(
+    '/api/leaveRso',
+    async (req, res) => 
+    {   let s_id = req.body.s_id;
+        let rso_id = req.body.rso_id;
+        
+        let sql = `Delete from isAMember (rso_id, s_id) values (${rso_id}, ${s_id});`;
+        conn.query(sql, (error, result) => {
+            if (error){
+                let response = {msg: error.sqlMessage};
+                res.status(200).json(response);
+            }
+            else {
+                let response = {msg: "joined", rso_id : rso_id};
+                res.status(200).json(response);
+            }
+        });
+    });
+ 
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`listenning on port ${port}`);

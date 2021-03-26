@@ -199,6 +199,35 @@ CREATE TABLE IF NOT EXISTS `EventManager`.`isAMember` (
     ON UPDATE SET NULL)
 ENGINE = InnoDB;
 
+DELIMITER $$    
+CREATE TRIGGER RSOStatusUpdatejoin 
+AFTER INSERT ON isAMember  -- Event    
+FOR EACH ROW BEGIN
+IF ((SELECT COUNT(*) 
+FROM isAMember M 
+WHERE M.rso_id = NEW.rso_id) >    4)
+THEN    
+UPDATE Rso R  -- Action    
+SET status = ‘active’    
+WHERE R.rso_id = NEW.rso_id ;     
+END IF;     
+END$$ DELIMITER ;
+
+
+DELIMITER $$    
+CREATE TRIGGER RSOStatusUpdateLeave
+AFTER Delete ON isAMember  -- Event    
+FOR EACH ROW BEGIN
+IF ((SELECT COUNT(*) 
+FROM isAMember M 
+WHERE M.rso_id = OLD.rso_id) <    5)
+THEN    
+UPDATE Rso R  -- Action    
+SET status = ‘inactive’    
+WHERE R.rso_id = OLD.rso_id ;     
+END IF;     
+END$$ DELIMITER ;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
