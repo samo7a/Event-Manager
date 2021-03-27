@@ -11,23 +11,8 @@ import {
 import "./EventContainer.css";
 import pupFiller from "../pictures/pupFiller.jpeg";
 
-function Event(props) {
-  console.log("1");
-  const eventName = props.name;
-  console.log(props);
-  console.log(eventName);
-  console.log("2");
-  //   const event = {
-  //     name: props.name,
-  //     rso: props.rso,
-  //     desc: props.desc,
-  //     date: props.date,
-  //   };
-  //   const eventName;
-  //   const rsoName;
-  //   const eventDesc;
-  //   const eventDate;
-  // const [eventName, setName] = useState("");
+const Event = (props) => {
+  const [eventName, setName] = useState("");
   const [eventRso, setRso] = useState("");
   const [eventDesc, setDesc] = useState("S");
   const [eventDate, setDate] = useState("MM/DD/YYYY");
@@ -35,17 +20,12 @@ function Event(props) {
     console.log("UseEffect");
     console.log(props);
 
-    // setName(props.name);
-    console.log(props.name);
-    setRso(props.rso);
-    setDesc(props.desc);
-    setDate(props.date);
+    setName(props.event.name);
+    console.log(props.event.name);
+    setRso(props.event.rso);
+    setDesc(props.event.desc);
+    setDate(props.event.date);
   }, []);
-  // constructor = (props) => {
-  //   super(props);
-  //   console.log("TRY");
-  //   console.log(this.props);
-  // };
 
   const eventModal = (props) => {
     <Modal show={true}>
@@ -85,15 +65,11 @@ function Event(props) {
 
   return (
     <Container style={{ backgroundColor: "yellowgreen" }}>
-      {/* {useEffect()} */}
-      {/* <h1>{eventName}</h1>
-      <h4>{eventRso}</h4> */}
-      <h1>{props.name}</h1>
-      {/* <h4>{eventRso}</h4> */}
+      <h1>{eventName}</h1>
+      <h4>{eventRso}</h4>
       <Image className="previewImage" src={pupFiller} />
-      {/* <div style={{ position: "absolute", zIndex: 2 }}></div> */}
       <p style={{ fontSize: "1.3rem" }}>{eventDesc}</p>
     </Container>
   );
-}
+};
 export default Event;

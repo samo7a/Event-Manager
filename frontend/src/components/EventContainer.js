@@ -61,7 +61,7 @@ const EventContainer = (props) => {
 
   return (
     <Jumbotron style={{ backgroundColor: "red" }}>
-      <Event props={event} />
+      <Event event={event} />
       {console.log(event)}
     </Jumbotron>
   );
