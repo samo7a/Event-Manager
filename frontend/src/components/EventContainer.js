@@ -9,6 +9,7 @@ import {
   Row,
 } from "react-bootstrap";
 import "./EventContainer.css";
+import Event from "./Event";
 import pupFiller from "../pictures/pupFiller.jpeg";
 
 const EventContainer = (props) => {
@@ -60,18 +61,8 @@ const EventContainer = (props) => {
 
   return (
     <Jumbotron style={{ backgroundColor: "red" }}>
-      <Container style={{ backgroundColor: "yellowgreen" }}>
-        <h1>{event.name}</h1>
-        <h4>{event.rso}</h4>
-
-        <Image className="previewImage" src={pupFiller} />
-        {/* <div style={{ position: "absolute", zIndex: 2 }}></div> */}
-        <p style={{ fontSize: "1.3rem" }}>{event.desc}</p>
-      </Container>
-
-      {/* {showEvent ? ( */}
-
-      {/* ) : null} */}
+      <Event props={event} />
+      {console.log(event)}
     </Jumbotron>
   );
 };

@@ -55,8 +55,8 @@ const PageLayout = (props) => {
             }}
           > */}
 
-          {/* <EventContainer /> */}
-          {choosePage()}
+          <EventContainer />
+          {/* {choosePage()} */}
           {/* </Col> */}
           {/* <Col
             xs={3}
