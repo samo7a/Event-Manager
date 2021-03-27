@@ -9,7 +9,7 @@ import {
   Row,
 } from "react-bootstrap";
 import "./EventContainer.css";
-import pupFiller from "../pictures/pupFiller.jpeg";
+import pupFiller from "../../pictures/pupFiller.jpeg";
 
 const Event = (props) => {
   const [eventName, setName] = useState("");
