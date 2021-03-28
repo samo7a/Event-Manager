@@ -1,0 +1,20 @@
+.previewImage {
+    /* overflow : hidden; */
+    /* max-width: 40rem; */
+    /* max-height: 10%; */
+    /* overflow: "hidden",*/
+    position: "absolute";
+    /* z-index: 1;  */
+}
+
+.modalImage {
+    overflow : hidden;
+    /* max-width: 31rem; */
+    /* max-height: 10%;*/
+    padding: 1rem; 
+    /* height: 90%; */
+/* max-width: 90%; */
+/* display: block; */
+/* margin: auto; */
+}
+
