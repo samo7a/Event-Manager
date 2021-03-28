@@ -229,6 +229,31 @@ WHERE R.rso_id = OLD.rso_id ;
 END IF;     
 END$$ DELIMITER ;
 
+CREATE TRIGGER 'database_name'.'after_insert_enrollment' AFTER INSERT ON 'ENROLLMENT' 
+FOR EACH ROW
+BEGIN
+UPDATE class SET NO_OF_STUDENTS = NO_OF_STUDENTS +1 WHERE CLASS_NO = NEW.CLASS_NO;
+END
+
+DELIMITER $$     
+CREATE TRIGGER incrementNoOfStudents
+AFTER INSERT ON Students -- Event    
+FOR EACH ROW BEGIN   
+UPDATE Universities U  -- Action    
+SET u_noOfStudents = u_noOfStudents + 1    
+WHERE U.u_id = (Select S.u_id from Students S where s_id = New.s_id) ;         
+END$$ DELIMITER;
+
+
+DELIMITER $$     
+CREATE TRIGGER decrementNoOfStudents
+AFTER Delete ON Students -- Event    
+FOR EACH ROW BEGIN   
+UPDATE Universities U  -- Action    
+SET u_noOfStudents = u_noOfStudents - 1    
+WHERE U.u_id = (Select S.u_id from Students S where s_id = Old.s_id) ;         
+END$$ DELIMITER ;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
