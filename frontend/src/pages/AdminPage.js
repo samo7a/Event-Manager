@@ -7,7 +7,7 @@ const AdminPage = () => {
     return (
         <Container fluid={true}>
             <Banner type="loggedin" />
-            <AdminDashboard />
+            <AdminDashboard type={true} />
         </Container>
     );
 };

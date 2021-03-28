@@ -71,14 +71,15 @@ const MyNavBar = (props) => {
             email: data.email,
             picture: data.picture,
           });
-          window.location.href = "/home";
+          !adminLogin ? window.location.href = "/home" : window.location.href = "/dashboard";
       }
     } catch (error) {
       console.error("Error:", error);
-    } finally {
-      setUName("");
-      setPwd("");
     }
+
+    setUName("");
+    setPwd("");
+    
   };
 
   const changePwdHandler = (event) => {
