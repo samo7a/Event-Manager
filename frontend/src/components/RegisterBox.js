@@ -141,6 +141,11 @@ const RegisterBox = (props) => {
       onChange={setStateLoc}
     />
   );
+
+  const asyncSetUni = (val) => {
+    setUni(val);
+  };
+  
   // University search menu
   // State search menu
   const UniSelect = () => (
@@ -158,7 +163,7 @@ const RegisterBox = (props) => {
       // }}
       placeholder="University name"
       style={{ listStyleType: "none" }}
-      onChange={setUni}
+      onChange={(val) => asyncSetUni(val)}
     />
   );
   // Admin Registration
