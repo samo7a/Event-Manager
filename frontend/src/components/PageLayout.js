@@ -6,8 +6,7 @@ import Search from "./Search";
 import EventContainer from "./Events/EventContainer";
 import "./PageLayout.css";
 const PageLayout = (props) => {
-  // const pageChoice = props.page;
-  const pageChoice = "events";
+  const pageChoice = props.page;
   const choosePage = () => {
     switch (pageChoice) {
       case "events":
