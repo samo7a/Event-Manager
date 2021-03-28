@@ -4,11 +4,17 @@
   "private": true,
   "proxy": "https://localhost:3001",
   "dependencies": {
+    "@fullcalendar/daygrid": "^5.5.0",
+    "@fullcalendar/interaction": "^5.5.0",
+    "@fullcalendar/react": "^5.5.0",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",
     "bootstrap": "^4.6.0",
     "braces": "^3.0.2",
+    "cldr-data": "^36.0.0",
+    "date-fns": "^2.19.0",
     "fuse": "^0.0.8",
+    "iana-tz-data": "^2019.1.0",
     "popper": "^1.0.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.0",
@@ -46,6 +52,7 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.11.9"
+    "@testing-library/jest-dom": "^5.11.9",
+    "globalize-webpack-plugin": "^3.0.0"
   }
 }
