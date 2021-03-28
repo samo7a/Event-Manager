@@ -72,7 +72,7 @@
 -----------------------------------------------
 6- /api/updateComment (POST)
     a- From Frontend -> Server
-    {   
+    {   commnetId: int,
         e_id : int (eventid)
         s_id : int (studentid)
         comment : string 
@@ -85,9 +85,8 @@
 7- /api/deleteComment (POST)
     a- From Frontend -> Server
     {   
+        commnetId: int
         e_id : int (eventid)
-        s_id : int (studentid)
-        comment : string 
     }
     b- From Server -> Frontend
     {
