@@ -162,99 +162,97 @@ app.post('/api/signup', async (req, res) => {
     let state = req.body.state;
     let zip = req.body.zip;
 
-    if (radioValue) {
+    if (radioValue) { // true = student , false = super admin
         conn.beginTransaction( async function(err) {
-            if (error1) { 
-                res.status(401).json({msg: error1});
-                return; 
+            if (err) { 
+                return res.status(401).json({msg: err});
             }
             let sql1 = `SELECT u_id FROM Universities WHERE u_name = "${universityName}";`;
-            conn.query(sql1, function (error2, results, fields) {
-              if (error2) {
-                return connection.rollback(function() {
-                    res.status(401).json({msg: error2});
-                    return; 
-                });
-              }
-            });
-            let u_id = results[0].u_id;
-            let sql2 = `INSERT INTO Students (s_firstName, s_lastName, s_password, s_email, u_id)
+            let u_id;
+            conn.query(sql1, async function (error, results) {
+                if (error || results.length === 0) {
+                    return conn.rollback(function() {
+                        return res.status(401).json({msg: error});
+                    });
+                }
+                u_id = results[0].u_id;
+                //console.log(JSON.stringify(results));
+                let sql2 = `INSERT INTO Students (s_firstName, s_lastName, s_password, s_email, u_id)
                     VALUES ("${firstName}", "${lastName}", "${password}", "${email}",${u_id});`;
-            conn.query(sql2, function (error3, results, fields) {
-                if (error3) {
-                  return connection.rollback(function() {
-                    res.status(401).json({msg: error3});
-                    return; 
-                  });
-                }
+                conn.query(sql2, async function (error2, results2) {
+                    if (error2) {
+                    return conn.rollback(function() {
+                        return res.status(401).json({msg: error2});
+                    });
+                    }
+                    conn.commit(async function(error3) {
+                        if (error3) {
+                            return conn.rollback(function() {
+                                return res.status(401).json({msg: error3});
+                            }); 
+                        } 
+                        else {
+                            let response = {msg: "Student Signed Up!"};
+                            return res.status(200).json(response);
+                        }
+                    }); 
+                }); 
             });
-            conn.commit(function(error4) {
-                if (error4) {
-                    res.status(401).json({msg: error4});
-                    return; 
-                } 
-                else {
-                    let response = {msg: "Signed Up Student!"};
-                    res.status(200).json(response);
-                    return;
-                }
-            });  
         });
     } else {
         conn.beginTransaction( async function(err) {
-            if (error1) { 
-                res.status(401).json({msg: error1});
-                return; 
+            if (err) { 
+                return res.status(401).json({msg: err}); 
             }
             let sql1 = `INSERT INTO SuperAdmins (sa_firstName, sa_lastName, sa_password, sa_email)
             VALUES ("${firstName}", "${lastName}", "${password}", "${email}");`;
-            conn.query(sql1, async function (error2, results, fields) {
-                if (error2) {
-                    return connection.rollback(function() {
-                        res.status(401).json({msg: error2});
-                        return; 
+            let sa_id;
+            conn.query(sql1, async function (error, results) {
+                if (error) {
+                    return conn.rollback(function() {
+                        return res.status(401).json({msg: error});
                     });
                 }
+                sa_id = results.insertId;
+                let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
+                let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
+                let googleResponse =  await fetch(url);
+                let googleJson = await googleResponse.json();
+                let lat = googleJson.results[0].geometry.location.lat;
+                let lng = googleJson.results[0].geometry.location.lng;
+                let sql2 = `INSERT INTO Universities (u_name, u_noOfStudents, u_description, locationName, latitude, longitude)
+                VALUES ("${universityName}", 0, " ", "${universityName}", ${lat}, ${lng});`;
+                let u_id;
+                conn.query(sql2, async function (error2, results2) {
+                    if (error2) {
+                    return conn.rollback(function() {
+                        return res.status(401).json({msg: error2}); 
+                    });
+                    }
+                    u_id = results.insertId;
+                    let sql3 = `INSERT INTO CreatesUniversities (u_id, sa_id)
+                    VALUES (${u_id}, ${sa_id});`;
+                    conn.query(sql3, async function (error3, results3) {
+                        if (error) {
+                        return conn.rollback(function() {
+                            return res.status(401).json({msg: error}); 
+                        });
+                        }
+                        conn.commit( async function(error4) {
+                            if (error4) {
+                                return conn.rollback(function() {
+                                    return res.status(401).json({msg: error4}); 
+                                }); 
+                            } 
+                            else {
+                                let response = {msg: "Super Admin Signed Up!"};
+                                return res.status(200).json(response);
+                                
+                            }
+                        }); 
+                    });
+                }); 
             });
-            let sa_id = result.insertId;
-            let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
-            let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
-            let googleResponse =  await fetch(url);
-            let googleJson = await googleResponse.json();
-            let lat = googleJson.results[0].geometry.location.lat;
-            let lng = googleJson.results[0].geometry.location.lng;
-            let sql2 = `INSERT INTO Universities (u_name, u_noOfStudents, u_description, locationName, latitude, longitude)
-            VALUES ("${universityName}", 0, " ", "${universityName}", ${lat}, ${lng});`;
-            conn.query(sql2, function (error3, results, fields) {
-                if (error3) {
-                  return connection.rollback(function() {
-                    res.status(401).json({msg: error3});
-                    return; 
-                  });
-                }
-            });
-            let u_id = result2.insertId;
-            let sql3 = `INSERT INTO CreatesUniversities (u_id, sa_id)
-            VALUES (${u_id}, ${sa_id});`;
-            conn.query(sql3, function (error4, results, fields) {
-                if (error4) {
-                  return connection.rollback(function() {
-                    res.status(401).json({msg: error4});
-                    return; 
-                  });
-                }
-            });
-            conn.commit(function(error5) {
-                if (error5) {
-                    res.status(401).json({msg: error5});
-                    return; 
-                } 
-                else {
-                    let response = {msg: "Signed Up Student!"};
-                    res.status(200).json(response);
-                    return;
-                }
-            });  
         });
     }
 });
