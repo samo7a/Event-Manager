@@ -8,8 +8,8 @@ const SideMenu = (props) => {
     <div>
       {props.type ? (
       <Col style={{ padding: 0 }}>
-        <Nav defaultActiveKey="/Home" className="flex-column">
-          <Nav.Link href="/Home" className="my-nav-link">
+        <Nav defaultActiveKey="/dashboard" className="flex-column">
+          <Nav.Link href="/dashboard" className="my-nav-link">
             Home
           </Nav.Link>
           <Nav.Link className="my-nav-link">Events</Nav.Link>
