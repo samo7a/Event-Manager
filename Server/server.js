@@ -12,7 +12,8 @@ const conn = mysql.createConnection({
     database : process.env.DATA_BASE_NAME,
     dialectOptions: {
         insecureAuth: true
-    }
+    },
+    multipleStatements: true
 });
 conn.connect( (err) => {
     if (err) console.log('Database error');
@@ -149,127 +150,114 @@ app.post(
         //res.status(200).json(response);
     });
 
-app.post(
-    '/api/signup',
-    async (req, res) => 
-    {
-        let firstName = req.body.fName;
-        let lastName = req.body.lName;
-        let password = req.body.password;
-        let email = req.body.email;
-        let radioValue = req.body.regstrType;
-        let universityName = req.body.university;
-        let uniAddr1 = req.body.uniAddr1;
-        let uniAddr2 = req.body.uniAddr2;
-        let state = req.body.state;
-        let zip = req.body.zip;
+app.post('/api/signup', async (req, res) => {
+    let firstName = req.body.fName;
+    let lastName = req.body.lName;
+    let password = req.body.password;
+    let email = req.body.email;
+    let radioValue = req.body.regstrType;
+    let universityName = req.body.university;
+    let uniAddr1 = req.body.uniAddr1;
+    let uniAddr2 = req.body.uniAddr2;
+    let state = req.body.state;
+    let zip = req.body.zip;
 
-        if (radioValue){
-            let sql = `SELECT u_id FROM Universities WHERE u_name = "${universityName}";`;
-            conn.query(sql, async (error, result) => {
-                if (error) {
-                    let response = { msg: error.sqlMessage};
-                    res.status(401).json(response);
-                } else  {
-                    let u_id = result[0].u_id;
-                    sql = `INSERT INTO Students (s_firstName, s_lastName, s_password, s_email, u_id)
+    if (radioValue) {
+        conn.beginTransaction( async function(err) {
+            if (error1) { 
+                res.status(401).json({msg: error1});
+                return; 
+            }
+            let sql1 = `SELECT u_id FROM Universities WHERE u_name = "${universityName}";`;
+            conn.query(sql1, function (error2, results, fields) {
+              if (error2) {
+                return connection.rollback(function() {
+                    res.status(401).json({msg: error2});
+                    return; 
+                });
+              }
+            });
+            let u_id = results[0].u_id;
+            let sql2 = `INSERT INTO Students (s_firstName, s_lastName, s_password, s_email, u_id)
                     VALUES ("${firstName}", "${lastName}", "${password}", "${email}",${u_id});`;
-                    conn.query(sql, async (error2, result2) => {
-                        if (error2){
-                            let response = {msg: error2.sqlMessage};
-                            res.status(401).json(response);
-                            return;
-                        }
-                        else {
-                            sql = `UPDATE Universities SET u_noOfStudents = (u_noOfStudents + 1) WHERE u_id = ${u_id};`;
-                            conn.query(sql, async (error3, result3) => {
-                            if (error3){
-                                let response = {msg: error3.sqlMessage};
-                                res.status(401).json(response);
-                                return;
-                            }
-                            else {
-                                let response = {msg: "Signed Up Student!"};
-                                res.status(200).json(response);
-                                return;
-                            }
-                            });
-                        }
-                    });
-                    
+            conn.query(sql2, function (error3, results, fields) {
+                if (error3) {
+                  return connection.rollback(function() {
+                    res.status(401).json({msg: error3});
+                    return; 
+                  });
                 }
             });
-
-
-        }
-        else {
-            let sql = `INSERT INTO SuperAdmins (sa_firstName, sa_lastName, sa_password, sa_email)
-            VALUES ("${firstName}", "${lastName}", "${password}", "${email}");`;
-            conn.query(sql, async (error, result) => {
-                if (error){
-                    let response = { msg: error.sqlMessage};
+            conn.commit(function(error4) {
+                if (error4) {
+                    res.status(401).json({msg: error4});
+                    return; 
+                } 
+                else {
+                    let response = {msg: "Signed Up Student!"};
                     res.status(200).json(response);
                     return;
                 }
-                else {
-                    let sa_id = result.insertId;
-                    let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
-                    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
-                    let googleResponse =  await fetch(url);
-                    let googleJson = await googleResponse.json();
-                    let lat = googleJson.results[0].geometry.location.lat;
-                    let lng = googleJson.results[0].geometry.location.lng;
-                    sql = `INSERT INTO Universities (u_name, u_noOfStudents, u_description, locationName, latitude, longitude)
-                    VALUES ("${universityName}", 0, " ", "${universityName}", ${lat}, ${lng});`;
-                    conn.query(sql, (error2, result2) => {
-                        if (error2) {
-                            let response = {msg: error2.sqlMessage};
-                            res.status(200).json(response);
-                            return;
-                        }
-                        else {
-                            let u_id = result2.insertId;
-                            sql = `INSERT INTO CreatesUniversities (u_id, sa_id)
-                            VALUES (${u_id}, ${sa_id});`;
-                            conn.query(sql, async (error3, result3) => {
-                                if (error3) {
-                                    let response = {msg: error3.sqlMessage};
-                                    res.status(200).json(response);
-                                    return;
-                                }
-                                else {
-                                    let response = {msg: "Signed Up Super Admin!"};
-                                    res.status(200).json(response);
-                                    return;
-                                }
-                            });
-                        }
+            });  
+        });
+    } else {
+        conn.beginTransaction( async function(err) {
+            if (error1) { 
+                res.status(401).json({msg: error1});
+                return; 
+            }
+            let sql1 = `INSERT INTO SuperAdmins (sa_firstName, sa_lastName, sa_password, sa_email)
+            VALUES ("${firstName}", "${lastName}", "${password}", "${email}");`;
+            conn.query(sql1, async function (error2, results, fields) {
+                if (error2) {
+                    return connection.rollback(function() {
+                        res.status(401).json({msg: error2});
+                        return; 
                     });
                 }
             });
-        }
-    });
- 
-app.post(
-    '/api/addRating',
-    async (req, res) => 
-    {
-        let e_id = req.body.e_id;
-        let s_id = req.body.s_id;
-        let rating= req.body.rating;
-        let sql = `INSERT INTO Rates (e_id, s_id, rating) VALUES (${e_id}, ${s_id}, ${rating});`;
-
-        conn.query(sql, async (error, result) => {
-            if (error){
-                let response = {msg: error.sqlMessage};
-                res.status(200).json(response);
-            }
-            else {
-                let response = {msg: "rating added"};
-                res.status(200).json(response);
-            }
+            let sa_id = result.insertId;
+            let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
+            let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
+            let googleResponse =  await fetch(url);
+            let googleJson = await googleResponse.json();
+            let lat = googleJson.results[0].geometry.location.lat;
+            let lng = googleJson.results[0].geometry.location.lng;
+            let sql2 = `INSERT INTO Universities (u_name, u_noOfStudents, u_description, locationName, latitude, longitude)
+            VALUES ("${universityName}", 0, " ", "${universityName}", ${lat}, ${lng});`;
+            conn.query(sql2, function (error3, results, fields) {
+                if (error3) {
+                  return connection.rollback(function() {
+                    res.status(401).json({msg: error3});
+                    return; 
+                  });
+                }
+            });
+            let u_id = result2.insertId;
+            let sql3 = `INSERT INTO CreatesUniversities (u_id, sa_id)
+            VALUES (${u_id}, ${sa_id});`;
+            conn.query(sql3, function (error4, results, fields) {
+                if (error4) {
+                  return connection.rollback(function() {
+                    res.status(401).json({msg: error4});
+                    return; 
+                  });
+                }
+            });
+            conn.commit(function(error5) {
+                if (error5) {
+                    res.status(401).json({msg: error5});
+                    return; 
+                } 
+                else {
+                    let response = {msg: "Signed Up Student!"};
+                    res.status(200).json(response);
+                    return;
+                }
+            });  
         });
-    });
+    }
+});
 
 app.post(
     '/api/updateRating',
