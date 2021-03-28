@@ -7,6 +7,8 @@ import {
   Jumbotron,
   Modal,
   Row,
+  ButtonGroup,
+  ButtonToolbar
 } from "react-bootstrap";
 import "./Event.css";
 import pupFiller from "../../pictures/pupFiller.jpeg";
@@ -22,11 +24,7 @@ const Event = (props) => {
   const [eventDesc, setDesc] = useState("S");
   const [eventDate, setDate] = useState("MM/DD/YYYY");
   useEffect(() => {
-    // console.log("UseEffect");
-    // console.log(props);
-
     setName(props.event.name);
-    // console.log(props.event.name);
     setRso(props.event.rso);
     setDesc(props.event.desc);
     setDate(props.event.date);
@@ -68,9 +66,14 @@ const Event = (props) => {
           </Row>
           <Modal.Footer>
             <Row>
-              <Button style={{ marginRight: "7.1rem" }}> View Event</Button>
-              <Button style={{ marginRight: "1rem" }}> Add to calendar</Button>
-              <Button onClick={modalClose}> Close </Button>
+              <ButtonToolbar aria-label="Toolbar for event buttons">
+                <ButtonGroup className="ml-0" aria-label="View Event">
+                  <Button>View Event</Button>
+                </ButtonGroup>
+                <ButtonGroup className="ml-5" aria-label="Second group">
+                  <Button>Add to Calendar</Button> <Button onClick={modalClose}> Close </Button> 
+                </ButtonGroup>
+              </ButtonToolbar>
             </Row>
           </Modal.Footer>
         </Container>
@@ -78,4 +81,5 @@ const Event = (props) => {
     </div>
   );
 };
+
 export default Event;
