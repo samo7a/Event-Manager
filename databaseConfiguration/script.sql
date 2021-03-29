@@ -186,10 +186,9 @@ ENGINE = InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS `EventManager`.`isAMember` (
-  `memberId` INT NOT NULL AUTO_INCREMENT,
   `s_id` INT  NULL,
   `rso_id` INT  NULL,
-    PRIMARY KEY (`memberId`),
+    PRIMARY KEY (`s_id`, `rso_id`),
     FOREIGN KEY (`s_id`)
     REFERENCES `EventManager`.`Students` (`s_id`)
     ON DELETE SET NULL
@@ -209,7 +208,7 @@ FROM isAMember M
 WHERE M.rso_id = NEW.rso_id) >    4)
 THEN    
 UPDATE Rso R  -- Action    
-SET status = ‘active’    
+SET status = "active"   
 WHERE R.rso_id = NEW.rso_id ;     
 END IF;     
 END$$ DELIMITER ;
@@ -224,16 +223,10 @@ FROM isAMember M
 WHERE M.rso_id = OLD.rso_id) <    5)
 THEN    
 UPDATE Rso R  -- Action    
-SET status = ‘inactive’    
+SET status = "inactive"    
 WHERE R.rso_id = OLD.rso_id ;     
 END IF;     
 END$$ DELIMITER ;
-
-CREATE TRIGGER 'database_name'.'after_insert_enrollment' AFTER INSERT ON 'ENROLLMENT' 
-FOR EACH ROW
-BEGIN
-UPDATE class SET NO_OF_STUDENTS = NO_OF_STUDENTS +1 WHERE CLASS_NO = NEW.CLASS_NO;
-END
 
 DELIMITER $$     
 CREATE TRIGGER incrementNoOfStudents

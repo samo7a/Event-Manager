@@ -39,9 +39,7 @@ app.use((req, res, next) =>
     next();
 });
 
-app.post(
-    '/api/login', 
-    async (req, res, next) => {
+app.post('/api/login', async (req, res, next) => {
         // req.body = { email : String, password : String }
         // res.text = { userId: Int, firstName : String, lastName : String, msg : String }
 
@@ -337,184 +335,181 @@ app.post('/api/deleteComment', async (req, res) => {
 });
 
 app.post('/api/createEventRso', async (req, res) => {   
-    let rso_id = req.body.rso_id;
-    let e_name = req.body.e_name;
-    let e_description = req.body.e_description;
-    let e_contactPhone = req.body.e_contactPhone;
-    let e_contactEmail = req.body.e_contactEmail;
-    let e_type = req.body.e_type;
-    let locationName = req.body.locationName;
-    let address = req.body.address;
-    let e_category = req.body.e_category;
-    let e_time = req.body.e_time;
-    let e_date = req.body.e_date;
-    let e_profilePicture = req.body.e_profilePicture;
-    let isApproved = req.body.isApproved;
-
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
-    let googleResponse =  await fetch(url);
-    let googleJson = await googleResponse.json();
-    let lat = googleJson.results[0].geometry.location.lat;
-    let lng = googleJson.results[0].geometry.location.lng;
-
-
-    let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "${e_type}", "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", "${e_profilePicture}", ${isApproved});`;
-    conn.query(sql,  (error, result) => {
-        if (error){
-            let response = { msg: error.sqlMessage};
-            res.status(200).json(response);
+    conn.beginTransaction(async function (err){
+        if (err){
+            return res.status(401).json({msg: err.sqlMessage});
         }
-        else {
-            let e_id = result.insertId;
-            sql = `INSERT INTO Hosts (e_id, rso_id) VALUES (${e_id}, ${rso_id});`;
-            conn.query(sql,  (error1, result1) => {
-                if (error1){
-                    let response = {msg: error1.sqlMessage};
-                    res.status(200).json(response);
-                }
-                else {
-                    let response = {msg: "Event Added", e_id: e_id };
-                    res.status(200).json(response);
-                }
-            });
-        }
-    });
-    
-});
- 
-app.post('/api/createEventStudent', async (req, res) => {   
-    let s_id = req.body.s_id;
-    let e_name = req.body.e_name;
-    let e_description = req.body.e_description;
-    let e_contactPhone = req.body.e_contactPhone;
-    let e_contactEmail = req.body.e_contactEmail;
-    let e_type = req.body.e_type;
-    let locationName = req.body.locationName;
-    let address = req.body.address;
-    let e_category = req.body.e_category;
-    let e_time = req.body.e_time;
-    let e_date = req.body.e_date;
-    let e_profilePicture = req.body.e_profilePicture;
-    let isApproved = req.body.isApproved;
-
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
-    let googleResponse =  await fetch(url);
-    let googleJson = await googleResponse.json();
-    let lat = googleJson.results[0].geometry.location.lat;
-    let lng = googleJson.results[0].geometry.location.lng;
-
-
-    let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "${e_type}", "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", "${e_profilePicture}", ${isApproved});`;
-    conn.query(sql,  (error, result) => {
-        if (error){
-            let response = { msg: error}.sqlMessage;
-            res.status(200).json(response);
-        }
-        else {
-            let e_id = result.insertId;
-            sql = `INSERT INTO CreatesEvents (e_id, s_id) VALUES (${e_id}, ${s_id});`;
-            conn.query(sql,  (error1, result1) => {
-                if (error1){
-                    let response = {msg: error1.sqlMessage};
-                    res.status(200).json(response);
-                }
-                else {
-                    let response = {msg: "Event Added", e_id: e_id };
-                    res.status(200).json(response);
-                }
-            });
-        }
-    });
-});
-
-app.post('/api/createRso',
-    async (req, res) => 
-    {   
-        let rso_name = req.body.rso_name;
-        let rso_description = req.body.rso_description;
-        let rso_profilePicture = req.body.rso_profilePicture;
-        let s_id = req.body.s_id;
-        //TODO: ask the team.
-        // let s_id1 = req.body.s_id1;
-        // let s_id12 = req.body.s_id2;
-        // let s_id3 = req.body.s_id3;
-        // let s_id4 = req.body.s_id4;
-        let sql = `Insert into Rso (rso_name, rso_description, rso_profilePicture, s_id) values ("${rso_name}", "${rso_description}", "${rso_profilePicture}", ${s_id});`;
-        conn.query(sql, (error, result) => {
-            if (error){
-                let response = {msg: error.sqlMessage};
-                res.status(200).json(response);
-            }
-            else {
-                let rso_id = result.insertId;
-                let response = {msg: "Rso Created", rso_id : rso_id};
-                res.status(200).json(response);
-            }
-        });
-    });
-app.post(
-    '/api/joinRso',
-    async (req, res) => 
-    {   let s_id = req.body.s_id;
         let rso_id = req.body.rso_id;
-        
-        let sql = `Insert into isAMember (rso_id, s_id) values (${rso_id}, ${s_id});`;
-        conn.query(sql, (error, result) => {
-            if (error){
-                let response = {msg: error.sqlMessage};
-                res.status(200).json(response);
-            }
-            else {
-                let response = {msg: "joined", rso_id : rso_id};
-                res.status(200).json(response);
-            }
-        });
-    });
-app.post(
-    '/api/updateUniversity',
-    async (req, res) => 
-    {   let u_id = req.body.u_id;
-        let universityName = req.body.universityName;
-        let uniAddr1 = req.body.uniAddr1;
-        let uniAddr2 = req.body.uniAddr2;
-        let state = req.body.state;
-        let zip = req.body.zip;
-        let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
+        let e_name = req.body.e_name;
+        let e_description = req.body.e_description;
+        let e_contactPhone = req.body.e_contactPhone;
+        let e_contactEmail = req.body.e_contactEmail;
+        let e_type = req.body.e_type;
+        let locationName = req.body.locationName;
+        let address = req.body.address;
+        let e_category = req.body.e_category;
+        let e_time = req.body.e_time;
+        let e_date = req.body.e_date;
+        let e_profilePicture = req.body.e_profilePicture;
+        let isApproved = req.body.isApproved;
+
         let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
         let googleResponse =  await fetch(url);
         let googleJson = await googleResponse.json();
         let lat = googleJson.results[0].geometry.location.lat;
         let lng = googleJson.results[0].geometry.location.lng;
-        let u_description = req.body.u_description;
-        let u_profilePicture = req.body.u_profilePicture;
-        let sql = `UPDATE Universities SET u_name = "${universityName}", u_description = ${u_description}, locationName = "${universityName}",
-                    latitude = ${lat}, longitude = , ${lng}, u_profilePicture = ${u_profilePicture} WHERE u_id = ${u_id};`;
-        conn.query(sql, (error, result) => {
+        let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, 
+            e_type, locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, 
+            isApproved) VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", 
+            "${e_type}", "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", 
+            "${e_profilePicture}", ${isApproved});`;
+        conn.query(sql, async function (error, results){
             if (error){
-                let response = {msg: error.sqlMessage};
-                res.status(200).json(response);
+                return conn.rollback(function (){
+                    return res.status(401).json({msg: error.sqlMessage});
+                });
             }
-            else {
-                let response = {msg: "University Updated"};
-                res.status(200).json(response);
-            }
+            let e_id = results.insertId;
+            sql = `INSERT INTO Hosts (e_id, rso_id) VALUES (${e_id}, ${rso_id});`;
+            conn.query(sql, async function(error2, results2){
+                if (error2){
+                    return conn.rollback(function(){
+                        return res.status(401).json({msg: error2.sqlMessage});
+                    });
+                }
+                conn.commit (async function(error3){
+                    if (error3){
+                        return conn.rollback(function(){
+                            return res.status(401).json({msg: error.sqlMessage});
+                        });
+                    }
+                    return res.status(200).json({msg: "Event created"});
+                });
+            });
         });
     });
+});
+ 
+app.post('/api/createEventStudent', async (req, res) => {   
+    conn.beginTransaction(async function(err) {
+        if (err) {
+            return res.status(401).json({msg: err.sqlMessage}); 
+        }
+        let s_id = req.body.s_id;
+        let e_name = req.body.e_name;
+        let e_description = req.body.e_description;
+        let e_contactPhone = req.body.e_contactPhone;
+        let e_contactEmail = req.body.e_contactEmail;
+        let e_type = req.body.e_type;
+        let locationName = req.body.locationName;
+        let address = req.body.address;
+        let e_category = req.body.e_category;
+        let e_time = req.body.e_time;
+        let e_date = req.body.e_date;
+        let e_profilePicture = req.body.e_profilePicture;
+        let isApproved = req.body.isApproved;
+
+        let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
+        let googleResponse =  await fetch(url);
+        let googleJson = await googleResponse.json();
+        let lat = googleJson.results[0].geometry.location.lat;
+        let lng = googleJson.results[0].geometry.location.lng;
+        let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, 
+            locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) 
+            VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "${e_type}", 
+            "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", "${e_profilePicture}", ${isApproved});`;
+        conn.query(sql, async function (error, results){
+            if (error){
+                return conn.rollback(function() {
+                    return res.status(401).json({msg: error.sqlMessage});
+                });
+            }
+            let e_id = results.insertId;
+            sql = `INSERT INTO CreatesEvents (e_id, s_id) VALUES (${e_id}, ${s_id});`;
+            conn.query(sql, async function (error2, results2){
+                if (error2){
+                    return conn.rollback(function(){
+                        return res.status(401).json({msg : error2.sqlMessage});
+                    });
+                }
+                conn.commit(async function (error3){
+                    if (error3) {
+                        return conn.rollback(function () {
+                            return res.status(401).json({msg: error3.sqlMessage});
+                        });
+                    }
+                    return res.status(200).json({msg: "Event Created!"});
+                });
+            });
+        });
+    });
+});
+
+app.post('/api/createRso', async (req, res) => {   
+    let rso_name = req.body.rso_name;
+    let rso_description = req.body.rso_description;
+    let rso_profilePicture = req.body.rso_profilePicture;
+    let s_id = req.body.s_id;
+    let sql = `Insert into Rso (rso_name, rso_description, rso_profilePicture, s_id) values ("${rso_name}", "${rso_description}", "${rso_profilePicture}", ${s_id});`;
+    conn.query(sql, (error, result) => {
+        if (error){
+            let response = {msg: error.sqlMessage};
+            res.status(200).json(response);
+        }
+        else {
+            let rso_id = result.insertId;
+            let response = {msg: "Rso Created", rso_id : rso_id};
+            res.status(200).json(response);
+        }
+    });
+});
+app.post('/api/joinRso', async (req, res) => { 
+    let s_id = req.body.s_id;
+    let rso_id = req.body.rso_id;
+    let sql = `Insert into isAMember (rso_id, s_id) values (${rso_id}, ${s_id});`;
+    conn.query(sql, (error, result) => {
+        if (error){
+            let response = {msg: error.sqlMessage};
+            res.status(200).json(response);
+        }
+        else {
+            let response = {msg: "joined", rso_id : rso_id};
+            res.status(200).json(response);
+        }
+    });
+});
+app.post('/api/leaveRso', async (req, res) => { 
+    let s_id = req.body.s_id;
+    let rso_id = req.body.rso_id;
+    
+    let sql = `Delete from isAMember Where rso_id = ${rso_id} AND  s_id = ${s_id};`;
+    conn.query(sql, (error, result) => {
+        if (error){
+            let response = {msg: error.sqlMessage};
+            res.status(200).json(response);
+        }
+        else {
+            let response = {msg: "left", rso_id : rso_id};
+            res.status(200).json(response);
+        }
+    });
+});
+
 app.post('/api/updateAccount', async (req, res) => {
     let id = req.body.id;
-    let firstName = req.body.fName;
-    let lastName = req.body.lName;
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
     let email = req.body.email;
-    let radioValue = req.body.regstrType;
+    let radioValue = req.body.radioValue;
     let profilePicture = req.body.profilePicture;
     let sql;
 
     if (radioValue){
-        sql = `UPDATE Students SET s_firstName = ${firstName}, s_lastName = ${lastName}, s_email = ${email}, s_profilePicture = ${profilePicture}
+        sql = `UPDATE Students SET s_firstName = "${firstName}", s_lastName = "${lastName}", s_email = "${email}", s_profilePicture = ${profilePicture}
         WHERE s_id = ${id};`;    
     }
     else {
-        sql = `UPDATE SuperAdmins SET sa_firstName = ${firstName}, sa_lastName = ${lastName}, sa_email = ${email}, sa_profilePicture = ${profilePicture}
+        sql = `UPDATE SuperAdmins SET sa_firstName = "${firstName}", sa_lastName = "${lastName}", sa_email = "${email}", sa_profilePicture = ${profilePicture}
         WHERE sa_id = ${id};`;                  
     }
     conn.query(sql, async (error, result) => {
@@ -529,26 +524,77 @@ app.post('/api/updateAccount', async (req, res) => {
     });
 });
 app.post('/api/updateRso', (res, req) => {
+    let rso_name = req.body.rso_name;
+    let rso_description = req.body.rso_description;
+    let rso_profilePicture = req.body.rso_profilePicture;
+    let s_id = req.body.s_id;
+    let rso_id = req.body.rso_id;
+
 
 });
 app.post('/api/updateEvent', (res, req) => {
+    let s_id = req.body.s_id;
+    let e_name = req.body.e_name;
+    let e_description = req.body.e_description;
+    let e_contactPhone = req.body.e_contactPhone;
+    let e_contactEmail = req.body.e_contactEmail;
+    let e_type = req.body.e_type;
+    let locationName = req.body.locationName;
+    let address = req.body.address;
+    let e_category = req.body.e_category;
+    let e_time = req.body.e_time;
+    let e_date = req.body.e_date;
+    let e_profilePicture = req.body.e_profilePicture;
+    let isApproved = req.body.isApproved;
+
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
+    let googleResponse =  await fetch(url);
+    let googleJson = await googleResponse.json();
+    let lat = googleJson.results[0].geometry.location.lat;
+    let lng = googleJson.results[0].geometry.location.lng;
+    let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, 
+        locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) 
+        VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "${e_type}", 
+        "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", "${e_profilePicture}", ${isApproved});`;
+    conn.query(sql, async function (error, results){
+        if (error){
+            return conn.rollback(function() {
+                return res.status(401).json({msg: error.sqlMessage});
+            });
+        }
 
 });
-app.post('/api/leaveRso', async (req, res) => { 
-    let s_id = req.body.s_id;
-    let rso_id = req.body.rso_id;
-    
-    let sql = `Delete from isAMember (rso_id, s_id) values (${rso_id}, ${s_id});`;
+app.post('/api/updateUniversity', async (req, res) => {   
+    let u_id = req.body.u_id;
+    let universityName = req.body.universityName;
+    let uniAddr1 = req.body.uniAddr1;
+    let uniAddr2 = req.body.uniAddr2;
+    let state = req.body.state;
+    let zip = req.body.zip;
+    let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
+    let googleResponse =  await fetch(url);
+    let googleJson = await googleResponse.json();
+    let lat = googleJson.results[0].geometry.location.lat;
+    let lng = googleJson.results[0].geometry.location.lng;
+    let u_description = req.body.u_description;
+    let u_profilePicture = req.body.u_profilePicture;
+    let sql = `UPDATE Universities SET u_name = "${universityName}", u_description = "${u_description}", locationName = "${universityName}",
+                latitude = ${lat}, longitude = ${lng}, u_profilePicture = ${u_profilePicture} WHERE u_id = ${u_id};`;
     conn.query(sql, (error, result) => {
         if (error){
             let response = {msg: error.sqlMessage};
             res.status(200).json(response);
         }
         else {
-            let response = {msg: "joined", rso_id : rso_id};
+            let response = {msg: "University Updated"};
             res.status(200).json(response);
         }
     });
+});
+
+app.post('/api/approveEvent', async (req, res) => { 
+
 });
  
 const port = process.env.PORT;
