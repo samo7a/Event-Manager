@@ -17,7 +17,7 @@ const SideMenu = (props) => {
           <Nav.Link href="/my-account" className="my-nav-link">
             Account
           </Nav.Link>
-          <Nav.Link className="my-nav-link">Profile</Nav.Link>
+          <Nav.Link href="/admin-profile" className="my-nav-link">Profile</Nav.Link>
         </Nav>
       </Col>
     ) : (

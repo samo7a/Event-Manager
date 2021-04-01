@@ -11,6 +11,7 @@ import LoginPage from "./pages/LoginPage";
 import AccountPage from "./pages/AccountPage";
 import AdminPage from "./pages/AdminPage";
 import PageTemplate from "./pages/PageTemplate";
+import UniProfilePage from "./pages/UniProfilePage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route exact path="/home">
           <PageTemplate page="events" />
         </Route>
+        <Route exact path="/admin-profile" component={UniProfilePage} />
         <Route exact path="/events" component={EventPage} />
         <Route exact path="/my-account" component={AccountPage} />
         <Route exact path="/dashboard" component={AdminPage} />
