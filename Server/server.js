@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const fetch = require('node-fetch');
@@ -22,6 +23,9 @@ conn.connect( (err) => {
 
 const app = express();
 
+app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+}));
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -38,6 +42,33 @@ app.use((req, res, next) =>
     );
     next();
 });
+
+app.post('/api/uploadUniPic', async (req, res, next) => {
+    if (req.files === null) {
+        return res.status(400).json({ msg: "No file uploaded" });
+    }
+
+    const file = req.files.file;
+    const { id } = req.body;
+
+    file.mv(`${__dirname}/../frontend/public/src/uploads/${file.name}`, err => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send(err);
+        }
+
+        const fp = `/uploads/${file.name}`;
+        let sql = `UPDATE Universities SET u_profilePicture = ${fp} WHERE u_id=(SELECT u_id FROM createsUniversity WHERE sa_id=${id})`
+
+        conn.query(sql, error => {
+            if (error) {
+                return res.status(500).json( {msg: error, fileName: file.name, filePath: fp });
+            } else {
+                return res.status(200).json( {fileName: file.name, filePath: fp });
+            }
+        });
+    })
+})
 
 app.post('/api/login', async (req, res, next) => {
         // req.body = { email : String, password : String }
@@ -57,7 +88,6 @@ app.post('/api/login', async (req, res, next) => {
             sql = `SELECT sa_id, sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
 
             conn.query(sql, (error, result) => {
-                console.log(result.length);
                 if (error) {
                     response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: error.sqlMessage};
                     res.status(401).json(response);
@@ -101,51 +131,6 @@ app.post('/api/login', async (req, res, next) => {
                 }
             })
         }
-
-        // sql = `SELECT sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
-
-        // conn.query(sql, (error, result) => {
-        //     console.log(result.length);
-        //     if (error) {
-        //         response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: error};
-        //         res.status(401).json(response);
-        //         return;
-        //     } else if (result.length > 0) {
-        //         fn = result[0].sa_firstName;
-        //         ln = result[0].sa_lastName;
-        //         l_email = result[0].sa_email;
-        //         pic = result[0].sa_profilePicture;
-        //         response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
-        //         res.status(200).json(response);
-        //         return;
-        //     } else {
-        //         sql = `SELECT s_firstName, s_lastName, s_email, s_profilePicture FROM Students WHERE s_email="${email}" AND s_password="${password}"`;
-        //         conn.query(sql, (error2, result2) => {
-        //             console.log(result2);
-        //             if (error2) {
-        //                 response = {msg: error2};
-        //                 res.status(401).json(response);
-        //                 return;
-        //             } else if (result2.length > 0) {
-        //                 console.log(result2);
-        //                 console.log(result2[0].s_firstName);
-        //                 fn = result2[0].s_firstName;
-        //                 ln = result2[0].s_lastName;
-        //                 l_email = result2[0].s_email;
-        //                 pic = result2[0].s_profilePicture;
-        //                 response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
-        //                 res.status(200).json(response);  
-        //                 return;  
-        //             } else {
-        //                 response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: 'You best check yourself'};
-        //                 res.status(401).json(response);
-        //                 return;
-        //             }
-        //         })
-        //     }
-        // })
-        //console.log(response);
-        //res.status(200).json(response);
     });
 
 app.post('/api/signup', async (req, res) => {
