@@ -518,19 +518,7 @@ app.post('/api/updateRso', (res, req) => {
 
 });
 app.post('/api/updateEvent', (res, req) => {
-    let s_id = req.body.s_id;
-    let e_name = req.body.e_name;
-    let e_description = req.body.e_description;
-    let e_contactPhone = req.body.e_contactPhone;
-    let e_contactEmail = req.body.e_contactEmail;
-    let e_type = req.body.e_type;
-    let locationName = req.body.locationName;
-    let address = req.body.address;
-    let e_category = req.body.e_category;
-    let e_time = req.body.e_time;
-    let e_date = req.body.e_date;
-    let e_profilePicture = req.body.e_profilePicture;
-    let isApproved = req.body.isApproved;
+    const {s_id, e_name, e_description, e_contactPhone, e_contactEmail, e_type, locationName, address, e_category, e_time, e_date, e_profilePicture, isApproved} = req.body;
 
     let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
     let googleResponse =  await fetch(url);
@@ -549,21 +537,14 @@ app.post('/api/updateEvent', (res, req) => {
         });
 
 });
-app.post('/api/updateUniversity', async (req, res) => {   
-    let u_id = req.body.u_id;
-    let universityName = req.body.universityName;
-    let uniAddr1 = req.body.uniAddr1;
-    let uniAddr2 = req.body.uniAddr2;
-    let state = req.body.state;
-    let zip = req.body.zip;
+app.post('/api/updateUniversity', async (req, res) => {  
+    const {u_id, universityName, uniAddr1, uniAddr2, state, zip, u_description, u_profilePicture} = req.body; 
     let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
     let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
     let googleResponse =  await fetch(url);
     let googleJson = await googleResponse.json();
     let lat = googleJson.results[0].geometry.location.lat;
     let lng = googleJson.results[0].geometry.location.lng;
-    let u_description = req.body.u_description;
-    let u_profilePicture = req.body.u_profilePicture;
     let sql = `UPDATE Universities SET u_name = "${universityName}", u_description = "${u_description}", locationName = "${universityName}",
                 latitude = ${lat}, longitude = ${lng}, u_profilePicture = ${u_profilePicture} WHERE u_id = ${u_id};`;
     conn.query(sql, (error, result) => {
