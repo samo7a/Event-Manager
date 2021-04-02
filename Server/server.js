@@ -546,7 +546,7 @@ app.post('/api/updateEvent', (res, req) => {
             return conn.rollback(function() {
                 return res.status(401).json({msg: error.sqlMessage});
             });
-        }
+        });
 
 });
 app.post('/api/updateUniversity', async (req, res) => {   
