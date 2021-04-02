@@ -362,7 +362,7 @@ app.post('/api/createEventRso', async (req, res) => {
             e_type, locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, 
             isApproved) VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", 
             "${e_type}", "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", 
-            "${e_profilePicture}", ${isApproved});`;
+            ${e_profilePicture}, ${isApproved});`;
         conn.query(sql, async function (error, results){
             if (error){
                 return conn.rollback(function (){
@@ -417,7 +417,7 @@ app.post('/api/createEventStudent', async (req, res) => {
         let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, 
             locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) 
             VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "${e_type}", 
-            "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", "${e_profilePicture}", ${isApproved});`;
+            "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", ${e_profilePicture}, ${isApproved});`;
         conn.query(sql, async function (error, results){
             if (error){
                 return conn.rollback(function() {
@@ -527,13 +527,19 @@ app.post('/api/updateRso', (res, req) => {
     let rso_name = req.body.rso_name;
     let rso_description = req.body.rso_description;
     let rso_profilePicture = req.body.rso_profilePicture;
-    let s_id = req.body.s_id;
     let rso_id = req.body.rso_id;
+    let sql = `UPDATE Rso SET rso_name = "${rso_name}" , rso_description = "${rso_description}", rso_profilePicture = ${rso_profilePicture} WHERE rso_id = ${rso_id}`;
+    conn.query(sql, async function (error) {
+        if (error){
+            return res.status(401).json({msg : error.sqlMessage});
+        }
+        return res.status(200).json({msg : "Rso Updated"});
+    });
 
 
 });
 app.post('/api/updateEvent', (res, req) => {
-    let s_id = req.body.s_id;
+    let e_id = req.body.e_id;
     let e_name = req.body.e_name;
     let e_description = req.body.e_description;
     let e_contactPhone = req.body.e_contactPhone;
@@ -545,24 +551,23 @@ app.post('/api/updateEvent', (res, req) => {
     let e_time = req.body.e_time;
     let e_date = req.body.e_date;
     let e_profilePicture = req.body.e_profilePicture;
-    let isApproved = req.body.isApproved;
+
 
     let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
     let googleResponse =  await fetch(url);
     let googleJson = await googleResponse.json();
     let lat = googleJson.results[0].geometry.location.lat;
     let lng = googleJson.results[0].geometry.location.lng;
-    let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, 
-        locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) 
-        VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "${e_type}", 
-        "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", "${e_profilePicture}", ${isApproved});`;
-    conn.query(sql, async function (error, results){
+    let sql = `Update Events SET e_name = "${e_name}", e_description = "${e_description}", e_contactPhone = "${e_contactPhone}",
+        e_contactEmail = "${e_contactEmail}", e_type = "${e_type}", locationName = "${locationName}", 
+        latitude = "${lat}", longitude = "${lng}", e_category = "${e_category}", e_time = "${e_time}", e_date "${e_date}",
+         e_profilePicture = ${e_profilePicture} WHERE e_id = ${e_id};`;
+    conn.query(sql, async function (error){
         if (error){
-            return conn.rollback(function() {
-                return res.status(401).json({msg: error.sqlMessage});
-            });
+            return res.status(401).json({msg: error.sqlMessage});
         }
-
+        return res.status(200).json({msg : "Event Updated"});
+    });
 });
 app.post('/api/updateUniversity', async (req, res) => {   
     let u_id = req.body.u_id;
