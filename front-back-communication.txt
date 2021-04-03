@@ -206,3 +206,16 @@
         msg: "joined" or error, 
     }
 -----------------------------------------------
+14- /api/getAllEvents (POST)
+    a- From Frontend -> Server
+    {
+        start: String (yyyy/mm/dd)
+        end: String (yyyy/mm/dd)
+        sa_id: INT (UUID?)
+    }
+    b- From Server -> Frontend
+    {
+        event_name: String
+        event_date: String
+        event_id: INT
+    }
