@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `EventManager`.`SuperAdmins` (
   `sa_lastName` VARCHAR(45) NOT NULL,
   `sa_email` VARCHAR(45) NOT NULL,
   `sa_password` VARCHAR(100) NOT NULL,
-  `sa_profilePicture` BLOB NULL,
+  `sa_profilePicture` VARCHAR(150) NULL,
   PRIMARY KEY (`sa_id`),
   UNIQUE INDEX `sa_email_UNIQUE` (`sa_email` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `EventManager`.`Universities` (
   `u_name` VARCHAR(45) NOT NULL,
   `u_noOfStudents` INT NOT NULL,
   `u_description` VARCHAR(1000) NOT NULL,
-  `u_profilePicture` BLOB NULL,
+  `u_profilePicture` VARCHAR(150) NULL,
   `locationName` VARCHAR(45) NOT NULL,
   `latitude` REAL NOT NULL,
   `longitude` REAL NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `EventManager`.`Students` (
   `s_lastName` VARCHAR(45) NOT NULL,
   `s_email` VARCHAR(45) NOT NULL,
   `s_password` VARCHAR(100) NOT NULL,
-  `s_profilePicture` BLOB NULL,
+  `s_profilePicture` VARCHAR(150) NULL,
   `u_id` INT NOT NULL,
   PRIMARY KEY (`s_id`),
   UNIQUE INDEX `s_email_UNIQUE` (`s_email` ASC) VISIBLE,
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `EventManager`.`Events` (
   `e_category` VARCHAR(45) NULL,
   `e_time` TIME NOT NULL,
   `e_date` DATE NOT NULL,
-  `e_profilePicture` BLOB NULL,
+  `e_profilePicture` VARCHAR(150) NULL,
   `isApproved` BIT(1) NULL,
   PRIMARY KEY (`e_id`))
 ENGINE = InnoDB;
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `EventManager`.`Rso` (
   `rso_id` INT NOT NULL AUTO_INCREMENT,
   `rso_name` VARCHAR(45) NOT NULL,
   `rso_description` VARCHAR(1000) NULL,
-  `rso_profilePicture` BLOB NULL,
+  `rso_profilePicture` VARCHAR(150) NULL,
   `s_id` INT NULL,
   `status` ENUM('active', 'inactive') NOT NULL
   PRIMARY KEY (`rso_id`),
