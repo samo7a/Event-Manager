@@ -97,6 +97,7 @@
     a- From Frontend -> Server
     {
         rso_id : int,
+        e_name: String,
         e_description : string,
         e_contactEmail : string,
         e_contactPhone : string,
@@ -120,6 +121,7 @@
     a- From Frontend -> Server
     {
         s_id : int,
+        e_name : String,
         e_description : string,
         e_contactEmail : string,
         e_contactPhone : string,
@@ -209,13 +211,34 @@
 14- /api/getAllEvents (POST)
     a- From Frontend -> Server
     {
-        start: String (yyyy/mm/dd)
-        end: String (yyyy/mm/dd)
+        start: String (yyyy/mm/dd),
+        end: String (yyyy/mm/dd),
         sa_id: INT (UUID?)
     }
     b- From Server -> Frontend
     {
-        event_name: String
-        event_date: String
+        event_name: String,
+        event_date: String,
         event_id: INT
+    }
+-----------------------------------------------
+15- /api/getEvent (POST)
+    a- From Frontend -> Server
+    {
+        event_id: INT
+    }
+    b- From Server -> Frontend
+    {
+        e_name,
+        e_description : string,
+        e_contactEmail : string,
+        e_contactPhone : string,
+        e_type = string (either "public", or "private", or "rso"; anyother value will cause an error)
+        locationName : string,
+        address : string,
+        e_category : string,
+        e_time : string (xx:xx  24hr system)  e.g "16:35"
+        e_date : string (YYYY/MM/DD), e.g "2012/12/30",
+        e_profilePicture : could be null or a picture,
+        isApproved : bit (0: not approved, 1: approved)
     }
