@@ -443,11 +443,11 @@ app.post('/api/leaveRso', async (req, res) => {
 });
 
 app.post('/api/updateAccount', async (req, res) => {
-    const { id, firstName, lastName, email, radioValue, profilePicture } = req.body;
+    const { id, firstName, lastName, email, regstrType, profilePicture } = req.body;
 
     let sql;
 
-    if (radioValue){
+    if (!regstrType){
         sql = `UPDATE Students SET s_firstName = "${firstName}", s_lastName = "${lastName}", s_email = "${email}", s_profilePicture = ${profilePicture}
         WHERE s_id = ${id};`;    
     }
@@ -490,6 +490,30 @@ app.post('/api/updateEvent', (res, req) => {
         };
     });
 });
+
+app.post('/api/getUniversity', async (req, res) => {
+    const {sa_id} = req.body;
+    let sql = `SELECT u_name, u_noOfStudents, u_profilePicture, u_description, locationName, latitude, longitude FROM Universities WHERE u_id=(SELECT u_id FROM CreatesUniversities WHERE sa_id=${sa_id})`;
+    conn.query(sql, (error, result) => {
+        if (error){
+            let response = {msg: error.sqlMessage};
+            res.status(500).json(response);
+        } else if (result.length == 0){
+            let response = { msg: "You are not authorized, fool!"};
+            res.status(404).json(response);
+        } else {
+            let u_name = result[0].u_name;
+            let u_noOfStudents = result[0].u_noOfStudents;
+            let u_profilePicture = result[0].u_profilePicture;
+            let u_description = result[0].u_description;
+            let locationName = result[0].locationName;
+            let latitude = result[0].latitude;
+            let longitude = result[0].longitude;
+            let response = {u_name: u_name, u_noOfStudents: u_noOfStudents, u_profilePicture: u_profilePicture, u_description: u_description, locationName: locationName, latitude: latitude, longitude: longitude};
+            res.status(200).json(response);
+        }
+    })
+})
 app.post('/api/updateUniversity', async (req, res) => {  
     const {u_id, universityName, uniAddr1, uniAddr2, state, zip, u_description, u_profilePicture} = req.body; 
     let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " +  zip;
