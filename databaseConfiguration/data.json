@@ -1,0 +1,246 @@
+{
+    "Universities" : [
+        {   
+            "u_id" : 64,
+            "university": "University Of San Andreas",
+            "uniAddr1": "1816 Jerry Dove Drive", 
+            "uniAddr2": "Florence",
+            "state": "SC",
+            "zip": "29501",
+            "super admin" : {
+                "sa_id" : 68,
+                "fName": "John",
+                "lName": "Tarver",
+                "password": "ej8Eep9chu",
+                "email": "JohnDTarver@usa.edu"
+            },
+            "students" :[
+                {   
+                    "s_id" : 34,
+                    "fName": "Fritz",
+                    "lName": "Martinez",
+                    "password": "TaghiFah1ae",
+                    "email": "FritzCMartinez@usa.com"
+                },
+                {
+                    "s_id" : 35,
+                    "fName": "Dolores",
+                    "lName": "Gamble",
+                    "password": "aiwou3Sai3",
+                    "email": "DoloresDGamble@usa.com"
+                },
+                {
+                    "s_id" : 36,
+                    "fName": "Miriam",
+                    "lName": "Hawley",
+                    "password": "shequ0eKei",
+                    "email": "MiriamMHawley@usa.com"
+                },
+                {
+                    "s_id" : 37,
+                    "fName": "Hunter",
+                    "lName": "Bracero",
+                    "password": "euMeechief7",
+                    "email": "HunterBBracero@usa.com"
+                },
+                {
+                    "s_id" : 38,
+                    "fName": "Mary",
+                    "lName": "Chew",
+                    "password": "uiH9ew5Wah",
+                    "email": "MaryKChew@usa.com"
+                },
+                {
+                    "s_id" : 39,
+                    "fName": "Lois",
+                    "lName": "Scott",
+                    "password": "Chaibie1s",
+                    "email": "LoisTScott@usa.com"
+                },
+                {
+                    "s_id" : 40,
+                    "fName": "Scott",
+                    "lName": "Jones",
+                    "password": "ocee0Eig4",
+                    "email": "ScottLJones@usa.com",
+                },
+                {
+                    "s_id" : 41,
+                    "fName": "Janine",
+                    "lName": "Rowland",
+                    "password": "Oog9quooqu",
+                    "email": "JanineARowland@usa.com"
+
+                },
+                {
+                    "s_id" : 42,
+                    "fName": "Rebecca",
+                    "lName": "Folger",
+                    "password": "aeph1Ohshai",
+                    "email": "RebeccaGFolger@usa.com"
+
+                },
+                {
+                    "s_id" : 43,
+                    "fName": "Ivy",
+                    "lName": "Mares",
+                    "password": "ugah1ye7Hee",
+                    "email": "IvyBMares@usa.com"
+
+                }
+            ],
+            "Rsos" : [
+                {
+                    "rso_id" : 13,
+                    "s_id" : 34,
+                    "rso_name" : "Cinema hut",
+                    "rso_description" : "A Group for movie lovers ... <3",
+                    "members(s_id)" : [34, 35, 36, 37, 38 ],
+                    "events" : [
+                        {
+                            "e_id" : 20,
+                            "e_name" : "Movie night (The Jocker)",
+                            "e_description" : "Join us and watch (The Jocker). Pizza and Popcorn for everyone",
+                            "e_contactPhone" : "999999999",
+                            "e_contactEmail" : "FritzCMartinez@usa.com",
+                            "e_type" : "rso",
+                            "locationName" : "Student Union",
+                            "address" : "1816 Jerry Dove Drive",
+                            "e_category" : "Fun",
+                            "e_time" : "16:00",
+                            "e_date" : "2021/5/30",
+                            "e_profilePicture" : null,
+                            "isApproved" : 1,
+                            "comments" : [
+
+                            ],
+                            "avg_rating" : 0
+                        }
+                    ]
+                },
+                {
+                    "rso_id" : 14,
+                    "s_id" : 39,
+                    "rso_name" : "Power Rangers",
+                    "rso_description" : "Video Gaming group powered by the power rangers",
+                    "members(s_id)" : [39, 40, 41, 42, 43 ],
+                    "events" : [
+                        {
+                            "e_id" : 21,
+                            "e_name" : "Fifa 21 Tournament",
+                            "e_description" : "The largest Fifa Tournament in South Florida. Tickets available online on our website.",
+                            "e_contactPhone" : "999999999",
+                            "e_contactEmail" : "LoisTScott@usa.com@usa.com",
+                            "e_type" : "public",
+                            "locationName" : "Student Union",
+                            "address" : "1816 Jerry Dove Drive",
+                            "e_category" : "Fun",
+                            "e_time" : "18:00",
+                            "e_date" : "2021/5/30",
+                            "e_profilePicture" : null,
+                            "isApproved" : 1,
+                            "comments" : [
+
+                            ],
+                            "avg_rating" : 0
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {   
+            "u_id" : 65,
+            "university": "Los Santos University",
+            "uniAddr1": "502 Briercliff Road", 
+            "uniAddr2": "Brooklyn",
+            "state": "NY",
+            "zip": "11204",
+            "super admin" : {
+                "sa_id" : 69,
+                "fName": "Samuel",
+                "lName": "Cossey",
+                "password": "Leeg4ohC",
+                "email": "SamuelACossey@lsu.com"
+            },
+            "students" :[
+                {
+                    "s_id" : 23,
+                    "fName": "Steven",
+                    "lName": "Butters",
+                    "password": "zi0ieyoDaiz",
+                    "email": "StevenJButters@lsu.com",
+                },
+                {
+                    "s_id" : 24,
+                    "fName": "Kevin",
+                    "lName": "Thompson",
+                    "password": "Fei3eibee",
+                    "email": "KevinDThompson@lsu.com",
+                },
+                {
+                    "s_id" : 25,
+                    "fName": "Rebecca",
+                    "lName": "Campbell",
+                    "password": "ooR4zohzaiy",
+                    "email": "RebeccaACampbell@lsu.com",
+                },
+                {
+                    "s_id" : 26,
+                    "fName": "Leonard",
+                    "lName": "Conn",
+                    "password": "Eiw3Teih",
+                    "email": "LeonardTConn@lsu.com",
+                },
+                {
+                    "s_id" : 27,
+                    "fName": "Lottie",
+                    "lName": "Smith",
+                    "password": "gieTh1Gaing",
+                },
+                {  
+                    "s_id" : 28,
+                    "fName": "Teresa",
+                    "lName": "Segura",
+                    "password": "Sahtheiho0",
+                    "email": "TeresaTSegura@lsu.com"
+                },
+                {
+                    "s_id" : 29,
+                    "fName": "Larry",
+                    "lName": "Fernandez",
+                    "password": "biepeo5Dee",
+                    "email": "LarryEFernandez@lsu.com"
+                },
+                {
+                    "s_id" : 30,
+                    "fName": "Robert",
+                    "lName": "Manning",
+                    "password": "hi4iLah4v",
+                    "email": "RobertRManning@lsu.com"
+                },
+                {   "s_id" : 31,
+                    "fName": "Norman",
+                    "lName": "Perez",
+                    "password": "zeina3Xum",
+                    "email": "NormanBPerez@lsu.com"
+                },
+                {
+                    "s_id" : 32,
+                    "fName": "Carol",
+                    "lName": "Harding",
+                    "password": "me9Chah2h",
+                    "email": "CarolRHarding@lsu.com"
+                },
+                {
+                    "s_id" : 33,
+                    "fName": "Jonathan",
+                    "lName": "Pereira",
+                    "password": "ahLahxoh7",
+                    "email": "JonathanJPereira@lsu.com"
+                }
+            ]
+        }
+    ]
+
+}
