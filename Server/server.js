@@ -617,10 +617,81 @@ app.post('/api/updateUniversity', async (req, res) => {
 });
 
 app.post('/api/approveEvent', async (req, res) => { 
+    const {e_id, sa_id} = req.body;
+    let u_id1;
+    let u_id2;
+    let sql = 
+    `select u_id from Students where s_id = (
+        select s_id from Rso where rso_id = (
+        select rso_id from Hosts where e_id = ${e_id}));`;
+    conn.query(sql, (error, result) => {
+        if (error) {
+            let response = {msg : error.sqlMessage};
+            return res.status(400).json(response);
+        }
+        u_id1 = result[0].u_id;
+        console.log(result);
+        console.log(u_id1);
+    });
+    sql = `select u_id from CreatesUniversities where sa_id = ${sa_id};`;
+    conn.query(sql, (error, result) => {
+        if (error) {
+            let response = {msg : error.sqlMessage};
+            return res.status(400).json(response);
+        }
+        u_id2 = result[0].u_id;
+        console.log(result);
+        console.log(u_id2);
+    });
 
+    if (u_id1 !== u_id2){
+            let response = {msg : "This Admin has no control over this university, I wonder how this would happen"};
+            return res.status(400).json(response);
+    }
+
+    sql = `update Events set isApproved = 1 where e_id = ${e_id};`;
+    conn.query(sql , (error, result) => {
+        if (error){
+            let response = {msg : error.sqlMessage};
+            return res.status(400).json(response);
+        }
+        let response = {msg: "Event Approved"};
+        res.status(200).json(response);
+    });
 });
 
- 
+app.get('/api/getAllEvents', (res, req) => {
+    const {start, end, sa_id} = req.body;
+    let sql = ``
+    {
+        start: String (yyyy/mm/dd),
+        end: String (yyyy/mm/dd),
+        sa_id: INT (UUID?)
+    }
+select e_name, e_date, e_id 
+from Events 
+where e_date >= "2021-04-1" And e_date <= "2021-06-1" and isApproved = 1
+And e_id in 
+((select e_id from Hosts where rso_id in (select rso_id from Rso where s_id in (
+select s_id from Students where u_id in (Select u_id from CreatesUniversities where sa_id = 68)))
+ union 
+ (select e_id from CreatesEvents where s_id in (select s_id from Students where u_id in (Select u_id from CreatesUniversities where sa_id = 68)))))
+});
+
+app.get('/api/getEvent', (res, req) => {
+    select * from Events;
+});
+
+app.get('/api/getUnapprovedEvent', (res, req) => {
+    select e_name, e_date, e_id 
+    from Events 
+    where and isApproved = 0
+    And e_id in 
+    ((select e_id from Hosts where rso_id in (select rso_id from Rso where s_id in (
+    select s_id from Students where u_id in (Select u_id from CreatesUniversities where sa_id = 68)))
+     union 
+     (select e_id from CreatesEvents where s_id in (select s_id from Students where u_id in (Select u_id from CreatesUniversities where sa_id = 68)))))
+});
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`listenning on port ${port}`);

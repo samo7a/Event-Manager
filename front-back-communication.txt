@@ -208,7 +208,7 @@
         msg: "joined" or error, 
     }
 -----------------------------------------------
-14- /api/getAllEvents (POST)
+14- /api/getAllEvents (GET)  ****************
     a- From Frontend -> Server
     {
         start: String (yyyy/mm/dd),
@@ -217,12 +217,12 @@
     }
     b- From Server -> Frontend
     {
-        event_name: String,
-        event_date: String,
-        event_id: INT
+        e_name: String,
+        e_date: String,
+        e_id: INT
     }
 -----------------------------------------------
-15- /api/getEvent (POST)
+15- /api/getEvent (GET) *********************
     a- From Frontend -> Server
     {
         event_id: INT
@@ -242,9 +242,8 @@
         e_profilePicture : could be null or a picture,
         isApproved : bit (0: not approved, 1: approved)
     }
-    getUnapprovedEvents: get all unapproved events . . . sa_id -> event id, event name, event date
 -----------------------------------------------
-16- /api/getUnapprovedEvents (POST)
+16- /api/getUnapprovedEvents (GET)   ****************
     a- From Frontend -> Server
     {
         sa_id: INT
@@ -254,4 +253,15 @@
         e_id,
         e_name,
         e_date : string (YYYY/MM/DD), e.g "2012/12/30",
+    }
+-----------------------------------------------
+17- /api/approveEvent (POST)   ****************
+    a- From Frontend -> Server
+    {
+        "e_id" : Int,
+        "sa_id" : Int
+    }
+    b- From Server -> Frontend
+    {
+        "msg" : "Event approved" or mysql error. 
     }
