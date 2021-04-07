@@ -22,7 +22,12 @@ function App() {
           <PageTemplate page="events" />
         </Route>
         <Route exact path="/admin-profile" component={UniProfilePage} />
-        <Route exact path="/events" component={EventPage} />
+        <Route exact path="/events">
+          <PageTemplate page="events" />
+        </Route>
+        <Route exact path="/my-groups">
+          <PageTemplate page="mygroups" />
+        </Route>
         <Route exact path="/my-account" component={AccountPage} />
         <Route exact path="/dashboard" component={AdminPage} />
       </Switch>
