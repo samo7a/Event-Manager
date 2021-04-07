@@ -1,3 +1,8 @@
+//
+// THIS IS THE TEMPLATE FOR PAGES
+// USED BY MyGroupPage, EventPage
+//
+
 import React from "react";
 import PageLayout from "../components/PageLayout";
 import Banner from "../components/Banner";
@@ -20,7 +25,9 @@ const PageTemplate = (props) => {
             </div>
           </Col>
           <Col sm={11} className="middleCol">
-            <PageLayout page={props} />
+            {console.log("What is props?")}
+            {console.log(props.page)}
+            <PageLayout page={props.page} />
           </Col>
         </Row>
       </Container>
