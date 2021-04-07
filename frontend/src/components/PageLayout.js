@@ -5,14 +5,16 @@ import SideMenu from "./SideMenu";
 import Search from "./Search";
 import EventContainer from "./Events/EventContainer";
 import "./PageLayout.css";
+import MyGroupPage from "./Groups/MyGroups";
 const PageLayout = (props) => {
   const pageChoice = props.page;
-  const choosePage = () => {
+
+  const choosePage = (pageChoice) => {
     switch (pageChoice) {
       case "events":
         return <EventContainer />;
-        break;
-
+      case "mygroups":
+        return <MyGroupPage />;
       default:
         break;
     }
@@ -54,8 +56,18 @@ const PageLayout = (props) => {
             }}
           > */}
 
-          <EventContainer />
+          {/* <EventContainer /> */}
           {/* {choosePage()} */}
+          {(() => {
+            switch (pageChoice) {
+              case "events":
+                return <EventContainer />;
+              case "mygroups":
+                return <MyGroupPage />;
+              default:
+                break;
+            }
+          })()}
           {/* </Col> */}
           {/* <Col
             xs={3}
