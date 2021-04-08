@@ -660,37 +660,56 @@ app.post('/api/approveEvent', async (req, res) => {
     });
 });
 
-app.get('/api/getAllEvents', (res, req) => {
+app.post('/api/getAllEvents', async (req, res) => {
     const {start, end, sa_id} = req.body;
-    let sql = ``
-    {
-        start: String (yyyy/mm/dd),
-        end: String (yyyy/mm/dd),
-        sa_id: INT (UUID?)
-    }
-select e_name, e_date, e_id 
-from Events 
-where e_date >= "2021-04-1" And e_date <= "2021-06-1" and isApproved = 1
-And e_id in 
-((select e_id from Hosts where rso_id in (select rso_id from Rso where s_id in (
-select s_id from Students where u_id in (Select u_id from CreatesUniversities where sa_id = 68)))
- union 
- (select e_id from CreatesEvents where s_id in (select s_id from Students where u_id in (Select u_id from CreatesUniversities where sa_id = 68)))))
-});
 
-app.get('/api/getEvent', (res, req) => {
-    select * from Events;
-});
-
-app.get('/api/getUnapprovedEvent', (res, req) => {
-    select e_name, e_date, e_id 
+    // very bad query!! due to the bad design from the very start!! but it works.
+    let sql = `select e_name, e_date, e_id 
     from Events 
-    where and isApproved = 0
+    where e_date >= "${start}" And e_date <= "${end}" and isApproved = 1
     And e_id in 
     ((select e_id from Hosts where rso_id in (select rso_id from Rso where s_id in (
-    select s_id from Students where u_id in (Select u_id from CreatesUniversities where sa_id = 68)))
+    select s_id from Students where u_id in (Select u_id from CreatesUniversities where sa_id = ${sa_id})))
      union 
-     (select e_id from CreatesEvents where s_id in (select s_id from Students where u_id in (Select u_id from CreatesUniversities where sa_id = 68)))))
+     (select e_id from CreatesEvents where s_id in (select s_id from Students where u_id in (Select u_id from CreatesUniversities where sa_id = ${sa_id})))));`
+    conn.query(sql, (error, results) => {
+        if (error) {
+            return res.status(400).json({msg : error.sqlMessage})
+        }
+        console.log(results);
+        return res.status(200).json(results);
+
+    });
+    
+});
+
+app.post('/api/getEvent', async (req, res) => {
+    const {e_id} = req.body;
+    let sql = `Select * from Events Where e_id = ${e_id};`;
+    conn.query(sql, (error, result) => {
+        if (error) {
+            return res.status(400).json({msg : error.sqlMessage})
+        }
+        return res.status(200).json(result);
+
+    });
+});
+
+app.post('/api/getUnapprovedEvent', async (req, res) => {
+    const {sa_id} = req.body;
+    let sql = `select e_name, e_date, e_id 
+    from Events 
+    where isApproved = 0
+    And e_id in 
+    (select e_id from CreatesEvents where s_id in (select s_id from Students where u_id in (Select u_id from CreatesUniversities where sa_id = ${sa_id})));`
+     conn.query(sql, (error, results) => {
+        if (error) {
+            console.log(error);
+            return res.status(400).json({msg : error.sqlMessage})
+        }
+        return res.status(200).json(results);
+
+    });
 });
 const port = process.env.PORT;
 app.listen(port, () => {

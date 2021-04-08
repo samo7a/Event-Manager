@@ -208,7 +208,7 @@
         msg: "joined" or error, 
     }
 -----------------------------------------------
-14- /api/getAllEvents (GET)  ****************
+14- /api/getAllEvents (GET)  ** Changed to (POST)
     a- From Frontend -> Server
     {
         start: String (yyyy/mm/dd),
@@ -222,7 +222,7 @@
         e_id: INT
     }
 -----------------------------------------------
-15- /api/getEvent (GET) *********************
+15- /api/getEvent (GET) ** Changed to (POST)
     a- From Frontend -> Server
     {
         event_id: INT
@@ -243,7 +243,7 @@
         isApproved : bit (0: not approved, 1: approved)
     }
 -----------------------------------------------
-16- /api/getUnapprovedEvents (GET)   ****************
+16- /api/getUnapprovedEvents ** Changed to (POST)
     a- From Frontend -> Server
     {
         sa_id: INT
@@ -255,7 +255,7 @@
         e_date : string (YYYY/MM/DD), e.g "2012/12/30",
     }
 -----------------------------------------------
-17- /api/approveEvent (POST)   ****************
+17- /api/approveEvent (POST)
     a- From Frontend -> Server
     {
         "e_id" : Int,
