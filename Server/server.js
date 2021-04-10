@@ -54,7 +54,7 @@ app.post('/api/uploadUniPic', async (req, res, next) => {
     file.mv(`${__dirname}/uploads/${file.name}`, err => {
         if (err) {
             console.error(err);
-            return res.status(500).send(err);
+            return res.status(500).json( {msg: err} );
         }
 
         const fp = `/uploads/${file.name}`;
