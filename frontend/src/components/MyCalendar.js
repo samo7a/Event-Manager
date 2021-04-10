@@ -16,9 +16,10 @@ const MyCalendar = () => {
   const getCalendarEventsHandler = async (dateInfo) => {
     let start = dateInfo.start.toLocaleDateString('en-CA');
     let end = dateInfo.end.toLocaleDateString('en-CA');
-    let id = user ? user.id : 0;
+    let id = user.id ? user.id : 0;
 
     let js = { id: id, start: start, end: end };
+    console.log(js);
 
     try {
       let response = await fetch("/api/getAllEvents", {
