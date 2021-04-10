@@ -58,7 +58,7 @@ app.post('/api/uploadUniPic', async (req, res, next) => {
         }
 
         const fp = `/uploads/${file.name}`;
-        let sql = `UPDATE Universities SET u_profilePicture = ${fp} WHERE u_id=(SELECT u_id FROM createsUniversity WHERE sa_id=${id})`
+        let sql = `UPDATE Universities SET u_profilePicture="${fp}" WHERE u_id=(SELECT u_id FROM createsUniversity WHERE sa_id=${id})`
 
         conn.query(sql, error => {
             if (error) {
