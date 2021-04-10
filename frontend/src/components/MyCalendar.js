@@ -23,7 +23,10 @@ const MyCalendar = () => {
     try {
       let response = await fetch("/api/getAllEvents", {
         method: "POST",
-        body: js,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(js),
       })
 
       if (response.status != 200) {
