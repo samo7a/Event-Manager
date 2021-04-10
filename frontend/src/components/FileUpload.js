@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import SideMenu from './SideMenu';
 
 const FileUpload = (props) => {
-    const user = localStorage.getItem('user') ? localStorage.getItem('user') : {} ;
+    const user = localStorage.getItem('user');
     const [file, setFile] = useState('');
     const [filename, setFilename] = useState(`Choose ${props.value} Picture`);
 
@@ -14,11 +14,12 @@ const FileUpload = (props) => {
 
     const uploadFileHandler = async e => {
         e.preventDefault();
-        let id = user ? user.id : 0;
+        let id = user.id ? user.id : 0;
 
         const formData = new FormData();
         formData.append('file', file);
         formData.append('id', id);
+        console.log(formData);
 
         try {
             let response = await fetch("/api/uploadUniPic", {
