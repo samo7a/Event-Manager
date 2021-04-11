@@ -62,7 +62,7 @@
                     "fName": "Scott",
                     "lName": "Jones",
                     "password": "ocee0Eig4",
-                    "email": "ScottLJones@usa.com",
+                    "email": "ScottLJones@usa.com"
                 },
                 {
                     "s_id" : 41,
@@ -169,34 +169,34 @@
                     "fName": "Steven",
                     "lName": "Butters",
                     "password": "zi0ieyoDaiz",
-                    "email": "StevenJButters@lsu.com",
+                    "email": "StevenJButters@lsu.com"
                 },
                 {
                     "s_id" : 24,
                     "fName": "Kevin",
                     "lName": "Thompson",
                     "password": "Fei3eibee",
-                    "email": "KevinDThompson@lsu.com",
+                    "email": "KevinDThompson@lsu.com"
                 },
                 {
                     "s_id" : 25,
                     "fName": "Rebecca",
                     "lName": "Campbell",
                     "password": "ooR4zohzaiy",
-                    "email": "RebeccaACampbell@lsu.com",
+                    "email": "RebeccaACampbell@lsu.com"
                 },
                 {
                     "s_id" : 26,
                     "fName": "Leonard",
                     "lName": "Conn",
                     "password": "Eiw3Teih",
-                    "email": "LeonardTConn@lsu.com",
+                    "email": "LeonardTConn@lsu.com"
                 },
                 {
                     "s_id" : 27,
                     "fName": "Lottie",
                     "lName": "Smith",
-                    "password": "gieTh1Gaing",
+                    "password": "gieTh1Gaing"
                 },
                 {  
                     "s_id" : 28,

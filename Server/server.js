@@ -155,7 +155,7 @@ app.post('/api/signup', async (req, res) => {
             conn.query(sql1, async function (error, results) {
                 if (error || results.length === 0) {
                     return conn.rollback(function() {
-                        return res.status(401).json({msg: error.sqlMessage});
+                        return res.status(401).json({msg: error});
                     });
                 }
                 u_id = results[0].u_id;
