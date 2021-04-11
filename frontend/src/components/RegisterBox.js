@@ -130,7 +130,7 @@ const RegisterBox = (props) => {
       id="selectSearch"
       autoComplete="off"
       // printOptions="always" // Debug option
-      value={stateOps}
+      value={stateLoc}
       filterOptions={fuzzySearch}
       // filterOptions={(options) => {
       //   const filter = fuzzySearch(options);
@@ -145,7 +145,7 @@ const RegisterBox = (props) => {
   const asyncSetUni = (val) => {
     setUni(val);
   };
-  
+
   // University search menu
   // State search menu
   const UniSelect = () => (
@@ -155,7 +155,7 @@ const RegisterBox = (props) => {
       id="selectSearch"
       autoComplete="off"
       // printOptions="always" // Debug option
-      value={uniOps}
+      value={uni}
       filterOptions={fuzzySearch}
       // filterOptions={(options) => {
       //   const filter = fuzzySearch(options);
