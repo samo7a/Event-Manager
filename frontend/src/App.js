@@ -28,6 +28,9 @@ function App() {
         <Route exact path="/my-groups">
           <PageTemplate page="mygroups" />
         </Route>
+        <Route exact path="/single-group">
+          <PageTemplate page="singleGroup" />
+        </Route>
         <Route exact path="/my-account" component={AccountPage} />
         <Route exact path="/dashboard" component={AdminPage} />
       </Switch>

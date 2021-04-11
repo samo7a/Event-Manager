@@ -1,0 +1,27 @@
+.thumbnailImage {
+    /* overflow : hidden; */
+
+    /* max-width: 27.5rem; */
+    max-width: 70%;
+    padding: 1rem;
+    /* max-height: 10%; */
+    /* overflow: "hidden",
+    position: "absolute",
+    zIndex: 1, */
+}
+.rsoCard{
+     margin-left: 5%; 
+     padding-right: 15%;
+     /* align-self: center; */
+}
+.rsoCard2{
+    width: 150%;
+    
+}
+.rsoTitle{
+    width: 100%;
+    align-items: center;
+
+}
+/* .rsoInfo */
+

@@ -8,8 +8,7 @@ import {
   Modal,
   Row,
 } from "react-bootstrap";
-import "./GroupContainer.css";
-import Group from "./Group";
+// import "./GroupContainer.css";
 import GroupContainer from "./GroupContainer";
 // import pupFiller from "../pictures/pupFiller.jpeg";
 
