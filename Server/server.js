@@ -70,25 +70,26 @@ app.post('/api/uploadUniPic', async (req, res, next) => {
     })
 })
 
-app.post('/api/getAllUnis', async(req, res, next) => {
+app.post('/api/getAllUnis', async (req, res, next) => {
     const sql = `SELECT u_name, u_id FROM Universities`;
 
     conn.query(sql, (error, result) => {
         if (error) {
-            response = { universities: [], msg: error.sqlMessage};
+            let response = { universities: [], msg: error.sqlMessage};
             res.status(401).json(response);
             return;
         } else {
-            response = { universities: result, msg: ""};
+            let response = { universities: result, msg: ""};
             res.status(200).json(response);
         }
-})
+    })
+});
 
 app.post('/api/login', async (req, res, next) => {
         // req.body = { email : String, password : String }
         // res.text = { userId: Int, firstName : String, lastName : String, msg : String }
 
-        let err = '';
+        //let err = '';
         const { email, password, loginType } = req.body;
         let id = -1;
         let fn = '';
@@ -666,8 +667,8 @@ app.post('/api/approveEvent', async (req, res) => {
     sql = `update Events set isApproved = 1 where e_id = ${e_id};`;
     conn.query(sql , (error, result) => {
         if (error){
-            let response = {msg : error.sqlMessage};
-            return res.status(400).json(response);
+            let response1 = {msg : error.sqlMessage};
+            return res.status(400).json(response1);
         }
         let response = {msg: "Event Approved"};
         res.status(200).json(response);
