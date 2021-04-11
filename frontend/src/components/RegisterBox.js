@@ -1,6 +1,6 @@
 import "./RegisterBox.css";
 // import "./SelectSearch.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelect } from "react-select-search";
 import PageTitle from "./PageTitle";
 import Form from "react-bootstrap/Form";
@@ -74,14 +74,19 @@ const RegisterBox = (props) => {
     { name: "Wisconsin", value: "WI" },
     { name: "Wyoming", value: "WY" },
   ];
-  // Array of Universities (Fill)
-  const uniOps = [{ name: "UCF", value: "UCF" }];
+
 
   // Register variables
   const [fName, setfName] = useState("");
   const [lName, setlName] = useState("");
   const [email, setEmail] = useState("");
   const [uni, setUni] = useState("");
+  const [uniOps, setUniOps] = useState([
+    {
+      name: "",
+      value: ""
+    }
+  ]);
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [uniAddr1, setUniAddr1] = useState("");
@@ -110,6 +115,43 @@ const RegisterBox = (props) => {
     stateLoc: "",
     zipCode: "",
   };
+
+  const loadUniversities = async () => {
+    let js = {};
+    try {
+      let response = await fetch("/api/getAllUnis", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(js),
+      })
+
+      if (response.status != 200) {
+        throw new Error(response.status);
+      } else {
+        let data = response.json();
+        console.log("Success:", data);
+        let results = [];
+        data.forEach(d => {
+          results.push(
+            {
+              name: d.u_name,
+              value: d.u_id
+            }
+          )
+        })
+
+        setUniOps(results);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  useEffect (() => {
+    loadUniversities();
+  },[]);
 
   const toggleStudReg = (event) => {
     event.preventDefault();
