@@ -131,7 +131,7 @@ const RegisterBox = (props) => {
         throw new Error(response.status);
       } else {
         let data = response.json();
-        console.log("Success:", data.universities);
+        console.log("Success:", data);
         let results = [];
         data.universities.forEach(d => {
           results.push(
