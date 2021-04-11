@@ -133,7 +133,7 @@ const RegisterBox = (props) => {
         let data = response.json();
         console.log("Success:", data);
         let results = [];
-        data.forEach(d => {
+        data.universities.forEach(d => {
           results.push(
             {
               name: d.u_name,
