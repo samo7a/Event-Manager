@@ -19,7 +19,7 @@ const Group = (props) => {
   const [show, setShow] = useState(false);
   const modalOpen = () => setShow(true);
   const modalClose = () => setShow(false);
-  // Event fields
+  // Group fields
   const [rsoName, setName] = useState("");
   const [isActive, toggleActive] = useState(false);
   //   const [eventDesc, setDesc] = useState("S");
@@ -35,13 +35,15 @@ const Group = (props) => {
     // setThumbnail(props.group.groupTN);
   }, []);
 
+  // const activeStatus = {isActive ?
+  // {<span>}"active" : "not active"};
   return (
     <div>
       <Card>
         <Row id="cardRow" style={{ padding: 0 }}>
-          <Col id="thumbnailIMG" xs="auto" style={{ maxHeight: "100%" }}>
+          <Col id="ThumbnailIMGCol" xs="auto" style={{ maxHeight: "10%" }}>
             <Card.Img
-              className="thumbnailImage"
+              className="groupThumbnailImage"
               src={GroupThumbnail}
               thumbnail
               style={{ margin: ".1rem" }}
@@ -54,7 +56,16 @@ const Group = (props) => {
               <h4>{rsoName}</h4>
               <Card.Text style={{ marginLeft: "10rem" }}>
                 {/* <h4>RSO NAME</h4> */}
-                This group is {isActive ? "active" : "not active"}
+                This group is{" "}
+                {isActive ? (
+                  <span style={{ color: "green", fontWeight: "bold" }}>
+                    active
+                  </span>
+                ) : (
+                  <span style={{ color: "red", fontWeight: "bold" }}>
+                    not active
+                  </span>
+                )}
               </Card.Text>
             </Row>
             <Card.Text>
@@ -67,6 +78,7 @@ const Group = (props) => {
             </Card.Text>
             <Row style={{ marginLeft: 0 }}>
               <Card.Link>Click here to view options</Card.Link>
+              <Card.Link href="#">View Group Page</Card.Link>
             </Row>
             {/* </Card> */}
           </Col>
