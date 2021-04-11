@@ -131,7 +131,7 @@ const RegisterBox = (props) => {
         throw new Error(response.status);
       } else {
         let data = response.json();
-        console.log("Success:", data);
+        console.log("Success:", data.universities);
         let results = [];
         data.universities.forEach(d => {
           results.push(
@@ -140,7 +140,8 @@ const RegisterBox = (props) => {
               value: d.u_id
             }
           )
-        })
+        });
+        console.log(results);
 
         setUniOps(results);
       }
