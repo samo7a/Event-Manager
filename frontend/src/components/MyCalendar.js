@@ -33,9 +33,9 @@ const MyCalendar = () => {
       if (response.status != 200) {
         throw new Error(response.status);
       } else {
-        let data = response.json();
+        let res = JSON.parse(await response.text());
         let tempEvents = [];
-        data.forEach(d => {
+        res.forEach(d => {
           let other = {
             id: d.e_id,
             title: d.e_name,
@@ -44,7 +44,7 @@ const MyCalendar = () => {
           tempEvents.push(other);
         })
         setEvents(tempEvents);
-        console.log(`Success: ${data}`);
+        console.log(`Success: ${res}`);
       }
     } catch (error) {
       console.error("Error:", error);
