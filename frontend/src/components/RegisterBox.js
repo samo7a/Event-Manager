@@ -132,6 +132,7 @@ const RegisterBox = (props) => {
       } else {
         let res = JSON.parse(await response.text());
         console.log("Success:", res);
+      
         let results = [];
         res.universities.forEach(d => {
           results.push(

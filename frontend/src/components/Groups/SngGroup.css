@@ -2,8 +2,9 @@
     /* overflow : hidden; */
 
     /* max-width: 27.5rem; */
-    max-width: 70%;
+    max-width: 100%;
     padding: 1rem;
+    padding-right: 0%;
     /* max-height: 10%; */
     /* overflow: "hidden",
     position: "absolute",
@@ -11,17 +12,26 @@
 }
 .rsoCard{
      margin-left: 5%; 
-     padding-right: 15%;
+     /* padding-right: 15%; */
+     width: 100%;
      /* align-self: center; */
 }
 .rsoCard2{
-    width: 150%;
+    width: 97.5%;
+    border: none;  /*Border active for styling debug   */
+
     
 }
 .rsoTitle{
     width: 100%;
+    font-size: 2rem;
     align-items: center;
 
+}
+
+.upComingETitle{
+    font-size: 2rem;
+    text-decoration: underline;
 }
 /* .rsoInfo */
 

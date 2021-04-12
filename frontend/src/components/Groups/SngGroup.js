@@ -10,7 +10,7 @@ import {
   Card,
 } from "react-bootstrap";
 import "./SngGroup.css";
-import GroupContainer from "./GroupContainer";
+import EventContainer from "../Events/EventContainer";
 // import pupFiller from "../pictures/pupFiller.jpeg";
 import GroupThumbnail from "../../pictures/GroupThumbnail.jpg";
 
@@ -33,44 +33,20 @@ const SngGroup = (props) => {
   //   const [groupTN, setThumbnail] = useState("");
 
   return (
-    // <Container>
-    //   <h1> My Groups </h1>
-
-    //   <Row>
-    //     <h3> Admin of these groups </h3>
-    //     <Container style={{ backgroundColor: "red" }}>
-    //       ADMIN OF THESE GROUPS
-    //       <GroupContainer />
-    //     </Container>
-    //   </Row>
-    //   <Row>
-    //     <h3>Member of these groups</h3>
-    //     <Container style={{ backgroundColor: "red" }}>
-    //       Member OF THESE GROUPS
-    //     </Container>
-    //   </Row>
-    // </Container>
-    // <Jumbotron style={{ backgroundColor: "red" }}>
-    //   {/* <Group group={group} /> */}S{/* {console.log(group)} */}
-    // </Jumbotron>
     <Card className="rsoCard">
-      <Row id="cardRow" style={{ padding: 0 }}>
-        <Col id="thumbnailIMG" xs="6">
-          <Card.Img
-            className="thumbnailImage"
-            src={GroupThumbnail}
-            // thumbnail
-            // style={{ margin: ".1rem" }}
-          />
-          {/* {console.log(group)} */}
+      <Row id="cardRow" style={{ padding: 0, width: "auto" }}>
+        <Col id="thumbnailIMG" xs="5">
+          <Card.Img className="thumbnailImage" src={GroupThumbnail} />
         </Col>
-        <Col xs="6" id="cardInfo" style={{ paddingLeft: ".1rem" }}>
+        <Col xs="7" id="cardInfo" style={{ marginTop: "1rem" }}>
           <Card className="rsoCard2">
             <Card.Title center className="rsoTitle">
               <h4>{rsoName}</h4>
             </Card.Title>
             <Row style={{ marginLeft: "0" }}>
-              {/* <Card.Text style={{ marginLeft: "10rem" }}>
+              <Card.Subtitle
+                style={{ marginLeft: ".0rem", marginTop: "-1.5rem" }}
+              >
                 This group is{" "}
                 {isActive ? (
                   <span style={{ color: "green", fontWeight: "bold" }}>
@@ -81,7 +57,7 @@ const SngGroup = (props) => {
                     not active
                   </span>
                 )}
-              </Card.Text> */}
+              </Card.Subtitle>
             </Row>
             <Card.Text>
               <Row>
@@ -102,12 +78,18 @@ const SngGroup = (props) => {
               {/* <div>Next event: Fun day at the park!</div> */}
             </Card.Text>
             <Row style={{ marginLeft: 0 }}>
-              <Card.Link>Click here to view options</Card.Link>
-              <Card.Link href="#">View Group Page</Card.Link>
+              {/* <Card.Link>Click here to view options</Card.Link> */}
+              {/* <Card.Link href="#">View Group Page</Card.Link> */}
             </Row>
           </Card>
         </Col>
       </Row>
+      <Card style={{ margin: "1rem" }}>
+        <Card.Title className="upComingETitle">
+          <div className="upComingETitle">Upcoming Events</div>
+        </Card.Title>
+        <Card.Body>{/* <EventContainer /> */}</Card.Body>
+      </Card>
     </Card>
   );
 };
