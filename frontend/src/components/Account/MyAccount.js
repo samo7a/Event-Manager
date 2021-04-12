@@ -110,28 +110,6 @@ function MyAccount() {
                           ></Form.Control>
                         </Col>
                       </Form.Group>
-                      SEPERATE FOR SUPERADMIN?
-                      <Form.Group className="acctInfoField" as={Row}>
-                        <Form.Label
-                          className="text-left"
-                          column
-                          sm="3"
-                          color="blue"
-                          // sm="5"
-                        >
-                          <b> More Info </b>
-                        </Form.Label>
-                        <Col sm="9">
-                          <Form.Control
-                            className="text-right"
-                            // className="acctInfoData"
-                            style={{ fontSize: "1.5rem" }}
-                            plaintext
-                            readOnly
-                            defaultValue={"s"}
-                          ></Form.Control>
-                        </Col>
-                      </Form.Group>
                     </Form>
                   </Card>
                 </div>
