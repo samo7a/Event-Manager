@@ -62,14 +62,14 @@ const MyNavBar = (props) => {
       if (response.status != 200) {
         throw new Error(response.status);
       } else {
-        let data = response.json();
-        console.log("Success:", data);
+        let res = JSON.parse(await response.text());
+        console.log("Success:", res);
           setUserInfo({
-            id: data.userId,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            picture: data.picture,
+            id: res.userId,
+            firstName: res.firstName,
+            lastName: res.lastName,
+            email: res.email,
+            picture: res.picture,
           });
           !adminLogin ? window.location.href = "/home" : window.location.href = "/dashboard";
       }
