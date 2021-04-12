@@ -39,14 +39,20 @@ const Group = (props) => {
   // {<span>}"active" : "not active"};
   return (
     <div>
-      <Card>
+      <Card style={{ maxHeight: "8.12rem" }}>
         <Row id="cardRow" style={{ padding: 0 }}>
           <Col id="ThumbnailIMGCol" xs="auto" style={{ maxHeight: "10%" }}>
-            <Card.Img
+            {/* <Card.Img
               className="groupThumbnailImage"
               src={GroupThumbnail}
-              thumbnail
+              // thumbnail
+              roundedCircle
               style={{ margin: ".1rem" }}
+            /> */}
+            <Image
+              src={GroupThumbnail}
+              roundedCircle
+              className="groupThumbnailImage"
             />
             {/* {console.log(group)} */}
           </Col>
@@ -54,31 +60,53 @@ const Group = (props) => {
             {/* <Card> */}
             <Row style={{ marginLeft: "0" }}>
               <h4>{rsoName}</h4>
-              <Card.Text style={{ marginLeft: "10rem" }}>
+              <Card.Text style={{ marginLeft: "10rem", marginTop: ".25rem" }}>
                 {/* <h4>RSO NAME</h4> */}
-                This group is{" "}
+                {/* This group is{" "} */}
                 {isActive ? (
                   <span style={{ color: "green", fontWeight: "bold" }}>
-                    active
+                    Active
                   </span>
                 ) : (
                   <span style={{ color: "red", fontWeight: "bold" }}>
-                    not active
+                    ot active
                   </span>
                 )}
               </Card.Text>
             </Row>
-            <Card.Text>
+            {/* <Card.Text>
               <span>Total Members: {totalMembers} </span>
               <span style={{ marginLeft: "1.5rem" }}>
                 Total Admins: {totalAdmins}
               </span>
-              {/* <span> Addt. info:# </span> */}
               <div>Next event: Fun day at the park!</div>
+            </Card.Text> */}
+            <Card.Text overflow="hidden">
+              I go to loud places To search for someone To be quiet with Who
+              will take me home You go to loud places To find someone who Will
+              take you higher than I took you Didn't I take you to higher places
+              you can't reach without me?
             </Card.Text>
-            <Row style={{ marginLeft: 0 }}>
-              <Card.Link>Click here to view options</Card.Link>
-              <Card.Link href="#">View Group Page</Card.Link>
+            <Row
+              style={{
+                width: "100%",
+                marginLeft: 0,
+                // display: "flex",
+                // alignItems: "flex-end",
+              }}
+            >
+              {/* <Card.Link>Click here to view options</Card.Link> */}
+              <Card.Link
+                style={{
+                  // marginLeft: "10rem",
+                  // display: "flex",
+                  // alignItems: "inherit",
+                  marginRight: "-1rem",
+                }}
+                href="/single-group"
+              >
+                View Group Page
+              </Card.Link>
             </Row>
             {/* </Card> */}
           </Col>

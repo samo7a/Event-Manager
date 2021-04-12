@@ -1,12 +1,16 @@
 .groupThumbnailImage {
     /* overflow : hidden; */
     max-width: 7.5rem;
+    /* height: 100%; */
+    margin: .3rem;
     /* max-height: 10%; */
     /* overflow: "hidden",
     position: "absolute",
     zIndex: 1, */
 }
-
+/* .groupTNcard {
+ */
+/* } */
 .modalImage {
     /* overflow : hidden; */
     max-width: 40rem;
