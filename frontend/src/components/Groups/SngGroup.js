@@ -60,6 +60,17 @@ const SngGroup = (props) => {
               </Card.Subtitle>
             </Row>
             <Card.Text>
+              <Row style={{ height: "15rem", marginRight: ".5rem" }}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+                tincidunt, et lobortis eleifend, mauris urna molestie sem, et
+                tincidunt mauris arcu non diam. Proin sit amet urna neque. In
+                velit dolor, eleifend ac auctor et, vehicula ac orci. Vestibulum
+                sodales, ex in condimentum gravida, est metus dignissim enim, id
+                tristique enim nulla et neque. Aenean vulputate aliquam
+                imperdiet. Suspendisse auctor mauris at tristique ultrices.
+                Donec ultricies accumsan mauris, ut commodo elit. Fusce blandit
+                velit in nisi elementum semper.
+              </Row>
               <Row>
                 <Col>
                   <div>Total Members: {totalMembers} </div>
@@ -78,12 +89,13 @@ const SngGroup = (props) => {
               {/* <div>Next event: Fun day at the park!</div> */}
             </Card.Text>
             <Row style={{ marginLeft: 0 }}>
-              {/* <Card.Link>Click here to view options</Card.Link> */}
+              <Card.Link>IF ADMIN Click here to view options</Card.Link>
               {/* <Card.Link href="#">View Group Page</Card.Link> */}
             </Row>
           </Card>
         </Col>
       </Row>
+
       <Card style={{ margin: "1rem" }}>
         <Card.Title className="upComingETitle">
           <div className="upComingETitle">Upcoming Events</div>
