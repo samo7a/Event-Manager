@@ -43,7 +43,8 @@ const MyNavBar = (props) => {
 
   useEffect(() => {
     localStorage.clear();
-    localStorage.setItem("user", userInfo);
+    localStorage.setItem('user', JSON.stringify(userInfo));
+    console.log(localStorage.getItem('user'));
   }, [userInfo]);
 
   const doLogin = async (event) => {
