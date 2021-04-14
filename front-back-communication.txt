@@ -274,10 +274,13 @@ a- From Frontend -> Server
 
 b- From Server -> Frontend
 {
+    [
     rso_id : int,
     rso_name : string,
     status : enum (active : inactive),
     rso_description : string,
+    ]
+    
 }
 -----------------------------------------------------
 19- /api/getRsoDetails  (POST)   ***** 
