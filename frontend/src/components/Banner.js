@@ -43,8 +43,8 @@ const MyNavBar = (props) => {
 
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(userInfo));
-    console.log("Printing local storage: " + localStorage.getItem('user'));
-  });
+    console.log("Printing local storage: " + JSON.parse(localStorage.getItem('user')));
+  }, [userInfo]);
 
   const doLogin = async (event) => {
     event.preventDefault();
