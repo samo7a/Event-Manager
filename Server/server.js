@@ -486,19 +486,23 @@ app.post("/api/createRso", async (req, res) => {
 });
 
 app.post("/api/joinRso", async (req, res) => {
-  const { s_id, rso_id } = req.body;
-  let s_id1;
-  let u_id1;
-  let u_id2;
-  let sql = `select u_id from Students where s_id = ${s_id};`;
-  conn.query(sql, (error, result) => {
-    if (error) {
-      let response = { msg: error.sqlMessage };
-      return res.status(200).json(response);
-    } else {
-      if (result.length !== 0) {
-        u_id1 = result[0].u_id;
+  conn.beginTransaction(async function (err) {
+    if (err) {
+      return res.status(401).json({ msg: err.sqlMessage });
+    }
+    const { s_id, rso_id } = req.body;
+    let s_id1;
+    let u_id1;
+    let u_id2;
+    let sql = `select u_id from Students where s_id = ${s_id};`;
+
+    conn.query(sql, async function (error, results) {
+      if (error || results.length === 0) {
+        return conn.rollback(function () {
+          return res.status(401).json({ msg: error.sqlMessage });
+        });
       }
+      u_id1 = results[0].u_id;
       if (u_id1 === undefined) {
         let response = {
           msg:
@@ -506,15 +510,15 @@ app.post("/api/joinRso", async (req, res) => {
         };
         return res.status(200).json(response);
       }
-    }
-    sql = `select s_id from Rso where rso_id = ${rso_id};`;
-    conn.query(sql, (error1, result1) => {
-      if (error1) {
-        let response = { msg: error1.sqlMessage };
-        return res.status(200).json(response);
-      } else {
-        if (result1.length !== 0) {
-          s_id1 = result[0].s_id;
+      sql = `select s_id from Rso where rso_id = ${rso_id};`;
+      conn.query(sql, async function (error1, results1) {
+        if (error1) {
+          return conn.rollback(function () {
+            return res.status(401).json({ msg: error1.sqlMessage });
+          });
+        }
+        if (results1.length !== 0) {
+          s_id1 = results1[0].s_id;
         }
         if (s_id1 === undefined) {
           let response = {
@@ -523,16 +527,15 @@ app.post("/api/joinRso", async (req, res) => {
           };
           return res.status(200).json(response);
         }
-      }
-
-      sql = `select u_id from Students where s_id = ${s_id1};`;
-      conn.query(sql, (error2, result2) => {
-        if (error2) {
-          let response = { msg: error2.sqlMessage };
-          return res.status(200).json(response);
-        } else {
-          if (result2.length !== 0) {
-            u_id2 = result2[0].u_id;
+        sql = `select u_id from Students where s_id = ${s_id1};`;
+        conn.query(sql, async function (error2, results2) {
+          if (error2) {
+            return conn.rollback(function () {
+              return res.status(401).json({ msg: error2.sqlMessage });
+            });
+          }
+          if (results2.length !== 0) {
+            u_id2 = results2[0].u_id;
           }
           if (u_id2 === undefined) {
             let response = {
@@ -541,25 +544,30 @@ app.post("/api/joinRso", async (req, res) => {
             };
             return res.status(200).json(response);
           }
-        }
-        if (u_id1 != u_id2) {
-          let response = {
-            msg:
-              "You cannot join this Rso, you are not registered with this university",
-          };
-          return res.status(200).json(response);
-        }
-
-        sql = `Insert into isAMember (rso_id, s_id) values (${rso_id}, ${s_id});`;
-
-        conn.query(sql, (error3, result3) => {
-          if (error3) {
-            let response = { msg: error3, sql: sql };
-            return res.status(200).json(response);
-          } else {
-            let response = { msg: "joined", rso_id: rso_id };
+          if (u_id1 != u_id2) {
+            let response = {
+              msg:
+                "You cannot join this Rso, you are not registered with this university",
+            };
             return res.status(200).json(response);
           }
+          sql = `Insert into isAMember (rso_id, s_id) values (${rso_id}, ${s_id});`;
+          conn.query(sql, async function (error3, results3) {
+            if (error3) {
+              return conn.rollback(function () {
+                return res.status(401).json({ msg: error3.sqlMessage });
+              });
+            }
+            conn.commit(async function (error4) {
+              if (error4) {
+                return conn.rollback(function () {
+                  return res.status(401).json({ msg: error4.sqlMessage });
+                });
+              }
+              let response = { msg: "joined", rso_id: rso_id };
+              return res.status(200).json(response);
+            });
+          });
         });
       });
     });
