@@ -258,10 +258,72 @@
 17- /api/approveEvent (POST)
     a- From Frontend -> Server
     {
-        "e_id" : Int,
-        "sa_id" : Int
+        e_id : Int,
+        sa_id : Int
     }
     b- From Server -> Frontend
     {
-        "msg" : "Event approved" or mysql error. 
+        msg : "Event approved" or mysql error. 
     }
+-------------------------------------------------
+18 /api/getJoinedGroupes (POST) *******
+a- From Frontend -> Server 
+{
+    s_id : Int
+}
+
+b- From Server -> Frontend
+{
+    rso_id : int,
+    rso_name : string,
+    status : enum (active : inactive),
+    rso_description : string,
+}
+-----------------------------------------------------
+19- /api/getRsoDetails  (POST)   ***** 
+a- From Frontend -> Server
+{
+    rso_id : int,
+}
+
+b- From Server -> Frontend
+{
+    rso_name : string,
+    status : enum (active : inactive),
+    rso_description : string,
+    admin : {
+        s_id : int,
+        s_name : string,
+    },
+    members : [
+        {
+            s_id : int,
+            s_firstName : string,
+            s_lastName : string,
+            s_profilePicture : null,
+        },
+        {
+            s_id : int,
+            s_firstName : string,
+            s_lastName : string,
+            s_profilePicture : null,
+        },
+        .
+        .
+        .
+    ],
+    events : [
+        {
+            e_id : int,
+            e_name : string,
+            e_description : string,
+            e_date : string (YYYY/MM/DD), e.g "2012/12/30",
+        },
+        {
+            ...
+        },
+        .
+        .
+        .
+    ]
+}
