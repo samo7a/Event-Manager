@@ -18,7 +18,7 @@ const MyCalendar = () => {
     let end = dateInfo.end.toLocaleDateString('en-CA');
     let sa_id = user.id ? user.id : 0;
 
-    let js = { sa_id: id, start: start, end: end };
+    let js = { sa_id: sa_id, start: start, end: end };
     console.log(js);
 
     try {
