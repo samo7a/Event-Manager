@@ -726,6 +726,19 @@ app.post('/api/getUnapprovedEvent', async (req, res) => {
 
     });
 });
+
+app.post ('/api/getJoinedGroupes', async (req, res) => {
+    const {s_id} = req.body;
+    let sql = `select rso_id, rso_name, status from Rso`
+
+    {
+        rso_id : int,
+        rso_name : string,
+        status : enum (active : inactive),
+        rso_description : string,
+    }
+
+});
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`listenning on port ${port}`);
