@@ -60,6 +60,7 @@ const MyNavBar = (props) => {
       })
 
       if (response.status != 200) {
+        console.log("There is an error here!");
         throw new Error(response.status);
       } else {
         let res = JSON.parse(await response.text());
@@ -71,15 +72,15 @@ const MyNavBar = (props) => {
             email: res.email,
             picture: res.picture,
           });
-          !adminLogin ? window.location.href = "/home" : window.location.href = "/dashboard";
       }
     } catch (error) {
       console.error("Error:", error);
+      return;
     }
 
     setUName("");
     setPwd("");
-    
+    !adminLogin ? window.location.href = "/home" : window.location.href = "/dashboard";
   };
 
   const changePwdHandler = (event) => {

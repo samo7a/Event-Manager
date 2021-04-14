@@ -113,7 +113,7 @@ app.post('/api/login', async (req, res, next) => {
                     ln = result[0].sa_lastName;
                     l_email = result[0].sa_email;
                     pic = result[0].sa_profilePicture;
-                    response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
+                    response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
                     res.status(200).json(response);
                     return;
                 } else {
@@ -136,7 +136,7 @@ app.post('/api/login', async (req, res, next) => {
                     ln = result2[0].s_lastName;
                     l_email = result2[0].s_email;
                     pic = result2[0].s_profilePicture;
-                    response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
+                    response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
                     res.status(200).json(response);  
                     return;  
                 } else {
