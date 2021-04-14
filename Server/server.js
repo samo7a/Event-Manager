@@ -822,10 +822,8 @@ app.post("/api/getJoinedGroups", async (req, res) => {
   let sql = `select rso_name, rso_id, status, rso_description from Rso where rso_id in (select rso_id from isAMember where s_id = ${s_id});`;
   conn.query(sql, async (error, results) => {
     if (error) {
-      console.log(error);
       return res.status(400).json({ msg: error.sqlMessage });
     }
-    console.log(results);
     return res.status(200).json(results);
   });
 });
@@ -845,58 +843,57 @@ app.post("/api/getRsoDetails", async (req, res) => {
     if (error) {
       return res.status(401).json({ msg: error.sqlMessage });
     }
+    console.log(result);
     rso_name = result[0].rso_name;
     status = result[0].status;
     rso_description = result[0].rso_description;
     s_id = result[0].s_id;
+    sql = `select s_firstName, s_lastName from Students where s_id = ${s_id};`;
+    conn.query(sql, async (error1, result1) => {
+      if (error1) {
+        return res.status(401).json({ msg: error1.sqlMessage });
+      }
+      s_name = result1[0].s_firstName + " " + result1[0].s_lastName;
+      sql = `select count(*) as no_of_members from isAMember where rso_id = ${rso_id};`;
+      conn.query(sql, async (error2, result2) => {
+        if (error2) {
+          return res.status(401).json({ msg: error2.sqlMessage });
+        }
+        no_of_members = result2[0].no_of_members;
+        sql = `select s_id, s_firstName, s_lastName from Students where s_id in (
+          select s_id from isAMember where rso_id = ${rso_id}
+        )`;
+        conn.query(sql, async (error3, result3) => {
+          if (error3) {
+            return res.status(401).json({ msg: error3.sqlMessage });
+          }
+          members = result3;
+          sql = `select e_id, e_name, e_description, e_date from Events where e_id in (
+            select e_id from Hosts where rso_id = ${rso_id}
+          );`;
+          conn.query(sql, async (error4, result4) => {
+            if (error4) {
+              return res.status(401).json({ msg: error4.sqlMessage });
+            }
+            events = result4;
+            let response = {
+              rso_name: rso_name,
+              status: status,
+              rso_description: rso_description,
+              no_of_members: no_of_members,
+              admin: {
+                s_id: s_id,
+                s_name: s_name,
+              },
+              members: members,
+              events: events,
+            };
+            return res.status(200).json(response);
+          });
+        });
+      });
+    });
   });
-
-  sql = `select s_firstName, s_lastName from Students where s_id = ${s_id};`;
-  conn.query(sql, async (error, result) => {
-    if (error) {
-      return res.status(401).json({ msg: error.sqlMessage });
-    }
-    s_name = result[0].s_firstName + " " + result[0].s_lastName;
-  });
-  sql = `select count(*) as no_of_members from isAMember where rso_id = ${rso_id};`;
-  conn.query(sql, async (error, result) => {
-    if (error) {
-      return res.status(401).json({ msg: error.sqlMessage });
-    }
-    no_of_members = result[0].no_of_members;
-  });
-
-  sql = `select s_id, s_firstName, s_lastName from Students where s_id in (
-    select s_id from isAMember where rso_id = ${rso_id}
-  )`;
-  conn.query(sql, async (error, result) => {
-    if (error) {
-      return res.status(401).json({ msg: error.sqlMessage });
-    }
-    members = result;
-  });
-  sql = `select e_id, e_name, e_description, e_date from Events where e_id in (
-    select e_id from Hosts where rso_id = ${rso_id}
-  );`;
-  conn.query(sql, async (error, result) => {
-    if (error) {
-      return res.status(401).json({ msg: error.sqlMessage });
-    }
-    events = result;
-  });
-  let response = {
-    rso_name: rso_name,
-    status: status,
-    rso_description: rso_description,
-    no_of_members: no_of_members,
-    admin: {
-      s_id: s_id,
-      s_name: s_name,
-    },
-    members: members,
-    events: events,
-  };
-  return res.status(200).json(response);
 });
 const port = process.env.PORT;
 app.listen(port, () => {
