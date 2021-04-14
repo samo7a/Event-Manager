@@ -294,6 +294,7 @@ b- From Server -> Frontend
     rso_name : string,
     status : enum (active : inactive),
     rso_description : string,
+    no_of_members : int,
     admin : {
         s_id : int,
         s_name : string,
