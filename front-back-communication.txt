@@ -266,7 +266,7 @@
         msg : "Event approved" or mysql error. 
     }
 -------------------------------------------------
-18 /api/getJoinedGroupes (POST) *******
+18 /api/getJoinedGroups (POST)
 a- From Frontend -> Server 
 {
     s_id : Int
