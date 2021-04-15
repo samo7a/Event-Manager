@@ -65,23 +65,20 @@ const ApproveEvents = () => {
         }
     }
 
-    const eventsToApprove = unapprovedEvents.length() > 0 ? 
-        (    
-            unapprovedEvents.map((e, i) => {
-                return (
-                    <EventListItem
-                        myStyle={`event-color-${i % 2 == 0 ? "lightgray" : "white"}`}
-                        name={e.e_name}
-                        id={e.e_id}
-                        date={e.e_date}
-                        update={updateHandler}
-                        approveEvent={() => approveEventHandler(e.e_id)}
-                    />
-                )
-            })
-        ) : (
-            <span>There are no events to approve at this time</span>
-        );
+    const eventsToApprove =  (    
+        unapprovedEvents.map((e, i) => {
+            return (
+                <EventListItem
+                    myStyle={`event-color-${i % 2 == 0 ? "lightgray" : "white"}`}
+                    name={e.e_name}
+                    id={e.e_id}
+                    date={e.e_date}
+                    update={updateHandler}
+                    approveEvent={() => approveEventHandler(e.e_id)}
+                />
+            )
+        })
+    );
 
     const approveAllHandler = async () => {
         var res;
@@ -111,7 +108,7 @@ const ApproveEvents = () => {
         <div>
             <h1>Unapproved Events</h1>
             <Button onClick={approveAllHandler}>Approve All</Button>
-            {eventsToApprove}
+            {eventsToApprove ? eventsToApprove : <span>There are no events to approve at this time</span>}
         </div>
     );
 }
