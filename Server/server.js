@@ -732,9 +732,9 @@ app.post("/api/approveEvent", async (req, res) => {
 app.post("/api/approveAllEvents", async (req, res) => {
     const { sa_id } = req.body;
     
-    let sql = `update Events set isApproved = 1 where e_id = 
-        (Select e_id from CreatesEvents where s_id = 
-            (Select s_id from Students where u_id = 
+    let sql = `update Events set isApproved = 1 where e_id in 
+        (Select e_id from CreatesEvents where s_id in 
+            (Select s_id from Students where u_id in 
                 (Select u_id from CreatesUniversities where sa_id = ${sa_id}
         )))`;
     conn.query(sql, error => {
