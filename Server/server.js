@@ -88,23 +88,6 @@ app.post("/api/getAllUnis", async (req, res, next) => {
   });
 });
 
-app.post("/api/login", async (req, res, next) => {
-  // req.body = { email : String, password : String }
-  // res.text = { userId: Int, firstName : String, lastName : String, msg : String }
-
-  //let err = '';
-  const { email, password, loginType } = req.body;
-  let id = -1;
-  let fn = "";
-  let ln = "";
-  let l_email = "";
-  let pic = "";
-  let sql;
-  let response;
-
-  if (loginType) {
-    sql = `SELECT sa_id, sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
-
 app.post('/api/login', async (req, res, next) => {
     // req.body = { email : String, password : String }
     // res.text = { userId: Int, firstName : String, lastName : String, msg : String }

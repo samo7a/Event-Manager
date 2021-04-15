@@ -40,13 +40,15 @@ const ApproveEvents = () => {
     }
 
     const eventsToApprove = (
-        unapprovedEvents.map(e => {
+        unapprovedEvents.map((e, i) => {
             return (
                 <EventListItem
+                    myStyle={`event-color-${i % 2 == 0 ? "lightgray" : "white"}`}
                     name={e.e_name}
                     id={e.e_id}
                     date={e.e_date}
                     update={updateHandler}
+                    approveEvent={() => approveEventHandler(e.e_id)}
                  />
             )
         })
