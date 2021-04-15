@@ -736,7 +736,7 @@ app.post("/api/approveAllEvents", async (req, res) => {
         (Select e_id from CreatesEvents where s_id = 
             (Select s_id from Students where u_id = 
                 (Select u_id from CreatesUniversities where sa_id = ${sa_id}
-        ))))`;
+        )))`;
     conn.query(sql, error => {
       if (error) {
         let response1 = { msg: error.sqlMessage };
