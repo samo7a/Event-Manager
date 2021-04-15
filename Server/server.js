@@ -105,84 +105,61 @@ app.post("/api/login", async (req, res, next) => {
   if (loginType) {
     sql = `SELECT sa_id, sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
 
-    conn.query(sql, (error, result) => {
-      if (error) {
-        response = {
-          firstName: fn,
-          lastName: ln,
-          email: l_email,
-          picture: pic,
-          msg: error.sqlMessage,
-        };
-        res.status(401).json(response);
-        return;
-      } else if (result.length > 0) {
-        id = result[0].sa_id;
-        fn = result[0].sa_firstName;
-        ln = result[0].sa_lastName;
-        l_email = result[0].sa_email;
-        pic = result[0].sa_profilePicture;
-        response = {
-          userId: id,
-          firstName: fn,
-          lastName: ln,
-          email: l_email,
-          picture: pic,
-          msg: "",
-        };
-        res.status(200).json(response);
-        return;
-      } else {
-        response = {
-          userId: id,
-          firstName: fn,
-          lastName: ln,
-          email: l_email,
-          picture: pic,
-          msg: "You best check yourself",
-        };
-        res.status(401).json(response);
-        return;
-      }
-    });
-  } else {
-    sql = `SELECT s_firstName, s_lastName, s_email, s_profilePicture FROM Students WHERE s_email="${email}" AND s_password="${password}"`;
-    conn.query(sql, (error2, result2) => {
-      console.log(result2);
-      if (error2) {
-        response = { msg: error2.sqlMessage };
-        res.status(401).json(response);
-        return;
-      } else if (result2.length > 0) {
-        id = result2[0].s_id;
-        fn = result2[0].s_firstName;
-        ln = result2[0].s_lastName;
-        l_email = result2[0].s_email;
-        pic = result2[0].s_profilePicture;
-        response = {
-          userId: id,
-          firstName: fn,
-          lastName: ln,
-          email: l_email,
-          picture: pic,
-          msg: "",
-        };
-        res.status(200).json(response);
-        return;
-      } else {
-        response = {
-          userId: id,
-          firstName: fn,
-          lastName: ln,
-          email: l_email,
-          picture: pic,
-          msg: "You best check yourself",
-        };
-        res.status(401).json(response);
-        return;
-      }
-    });
-  }
+app.post('/api/login', async (req, res, next) => {
+    // req.body = { email : String, password : String }
+    // res.text = { userId: Int, firstName : String, lastName : String, msg : String }
+
+    //let err = '';
+    const { email, password, loginType } = req.body;
+    let id = -1;
+    let fn = '';
+    let ln = '';
+    let l_email = '';
+    let pic = '';
+    let sql;
+    let response;
+
+    if (loginType) {
+        sql = `SELECT sa_id, sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
+
+        conn.query(sql, (error, result) => {
+            if (error) {
+                response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: error.sqlMessage};
+                return res.status(401).json(response);
+            } else if (result.length > 0) {
+                id = result[0].sa_id;
+                fn = result[0].sa_firstName;
+                ln = result[0].sa_lastName;
+                l_email = result[0].sa_email;
+                pic = result[0].sa_profilePicture;
+                response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
+                return res.status(200).json(response);
+            } else {
+                response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: 'You best check yourself'};
+                return res.status(401).json(response);
+            }
+        })
+    } else {
+        sql = `SELECT s_firstName, s_lastName, s_email, s_profilePicture FROM Students WHERE s_email="${email}" AND s_password="${password}"`;
+        conn.query(sql, (error2, result2) => {
+            console.log(result2);
+            if (error2) {
+                response = {msg: error2.sqlMessage};
+                return res.status(401).json(response);
+            } else if (result2.length > 0) {
+                id = result2[0].s_id;
+                fn = result2[0].s_firstName;
+                ln = result2[0].s_lastName;
+                l_email = result2[0].s_email;
+                pic = result2[0].s_profilePicture;
+                response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
+                return res.status(200).json(response);   
+            } else {
+                response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: 'You best check yourself'};
+                return res.status(401).json(response);
+            }
+        })
+    }
 });
 
 app.post("/api/signup", async (req, res) => {
