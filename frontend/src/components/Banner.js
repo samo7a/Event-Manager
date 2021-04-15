@@ -21,14 +21,7 @@ const MyNavBar = (props) => {
   });
 
   const initialStates = {
-    message: "",
-    userInfo: {
-      id: -1,
-      firstName: "",
-      lastName: "",
-      email: "",
-      picture: "",
-    },
+    message: ""
   };
 
   const checkboxChange = (event) => {
@@ -58,12 +51,11 @@ const MyNavBar = (props) => {
         },
         body: JSON.stringify(js),
       })
-
+      var res = JSON.parse(await response.text());
       if (response.status != 200) {
         console.log("There is an error here!");
         throw new Error(response.status);
       } else {
-        let res = JSON.parse(await response.text());
         console.log("Success: ", res);
         setUserInfo({
           id: res.userId,
@@ -93,7 +85,7 @@ const MyNavBar = (props) => {
   const doLogout = (event) => {
     event.preventDefault();
     setMessage(initialStates.message);
-    setUserInfo(initialStates.userInfo);
+    localStorage.clear();
     window.location.href = "/";
   };
 
