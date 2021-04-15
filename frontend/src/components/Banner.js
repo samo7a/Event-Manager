@@ -127,7 +127,7 @@ const MyNavBar = (props) => {
               />
               <button type="submit" onClick={async (event) => {
                 await doLogin(event);
-                //finishLogin()
+                finishLogin()
                 }}>
                 Login
               </button>
