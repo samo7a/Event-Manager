@@ -27,7 +27,7 @@ const ApproveEvents = () => {
                 setUnapprovedEvents(res);
             }
         } catch (error) {
-            console.log("Error: " + error);
+            console.log("Error: ", error);
             return;
         }
     }
@@ -106,7 +106,7 @@ const ApproveEvents = () => {
 
     return (
         <div>
-            <h1>Unapproved Events</h1>
+            <span><strong>Unapproved Events</strong></span>
             <Button onClick={approveAllHandler}>Approve All</Button>
             {eventsToApprove ? eventsToApprove : <span>There are no events to approve at this time</span>}
         </div>

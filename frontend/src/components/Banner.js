@@ -44,7 +44,7 @@ const MyNavBar = (props) => {
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(userInfo));
     console.log("Printing local storage: ", JSON.parse(localStorage.getItem('user')));
-  }, [userInfo]);
+  });
 
   const doLogin = async (event) => {
     event.preventDefault();
@@ -66,13 +66,13 @@ const MyNavBar = (props) => {
         console.log(response);
         let res = JSON.parse(await response.text());
         console.log("Success: ", res);
-          setUserInfo({
-            id: res.userId,
-            firstName: res.firstName,
-            lastName: res.lastName,
-            email: res.email,
-            picture: res.picture,
-          });
+        setUserInfo({
+          id: res.userId,
+          firstName: res.firstName,
+          lastName: res.lastName,
+          email: res.email,
+          picture: res.picture,
+        });
       }
     } catch (error) {
       console.error("Error:", error);
