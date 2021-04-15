@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import "./Banner.css";
 import Navbar from "react-bootstrap/Navbar";
@@ -13,13 +13,7 @@ const MyNavBar = (props) => {
   const [pwd, setPwd] = useState("");
   const [message, setMessage] = useState("");
   const [checkboxVal, setCheckboxVal] = useState(false);
-  const [userInfo, setUserInfo] = useState({
-    id: -1,
-    firstName: "",
-    lastName: "",
-    email: "",
-    picture: "",
-  });
+
   var history = useHistory();
 
   const initialStates = {
@@ -35,11 +29,6 @@ const MyNavBar = (props) => {
       setAdminLogin(true);
     }
   };
-
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(userInfo));
-    console.log("Printing local storage: ", JSON.parse(localStorage.getItem("user")));
-  });
 
   const doLogin = async (event) => {
     event.preventDefault();
@@ -59,13 +48,14 @@ const MyNavBar = (props) => {
         throw new Error(response.status);
       } else {
         console.log("Success: ", res);
-        setUserInfo({
+        let user = {
           id: res.userId,
           firstName: res.firstName,
           lastName: res.lastName,
           email: res.email,
           picture: res.picture,
-        });
+        };
+        localStorage.setItem("user", JSON.stringify(user));
       }
     } catch (error) {
       console.error("Error:", error);
