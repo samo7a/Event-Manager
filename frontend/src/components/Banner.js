@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useHistory } from 'react-router-dom';
 import "./Banner.css";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
@@ -19,6 +20,7 @@ const MyNavBar = (props) => {
     email: "",
     picture: "",
   });
+  var history = useHistory();
 
   const initialStates = {
     message: ""
@@ -86,11 +88,11 @@ const MyNavBar = (props) => {
     event.preventDefault();
     setMessage(initialStates.message);
     localStorage.clear();
-    window.location.href = "/";
+    history.push("/");
   };
 
   const finishLogin = () => {
-    !adminLogin ? window.location.href = "/home" : window.location.href = "/dashboard";
+    !adminLogin ? history.push("/home") : history.push("/dashboard");
   }
 
   const messageSpan = message ? <span>{message}</span> : null;
