@@ -52,7 +52,7 @@ const MyNavBar = (props) => {
         body: JSON.stringify(js),
       })
       var res = JSON.parse(await response.text());
-      if (response.status != 200) {
+      if (response.status !== 200) {
         console.log("There is an error here!");
         throw new Error(response.status);
       } else {
@@ -125,7 +125,7 @@ const MyNavBar = (props) => {
               />
               <button type="submit" onClick={async (event) => {
                 await doLogin(event);
-                finishLogin()
+                //finishLogin()
                 }}>
                 Login
               </button>
