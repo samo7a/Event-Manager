@@ -729,6 +729,24 @@ app.post("/api/approveEvent", async (req, res) => {
   });
 });
 
+app.post("/api/approveAllEvents", async (req, res) => {
+    const { sa_id } = req.body;
+    
+    let sql = `update Events set isApproved = 1 where e_id = 
+        (Select e_id from CreatesEvents where s_id = 
+            (Select s_id from Students where u_id = 
+                (Select u_id from CreatesUniversities where sa_id = ${sa_id}
+        ))))`;
+    conn.query(sql, error => {
+      if (error) {
+        let response1 = { msg: error.sqlMessage };
+        return res.status(400).json(response1);
+      }
+      let response = { msg: "Events Approved" };
+      res.status(200).json(response);
+    });
+  });
+
 app.post("/api/getAllEvents", async (req, res) => {
   const { start, end, sa_id } = req.body;
 
