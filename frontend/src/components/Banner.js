@@ -81,7 +81,6 @@ const MyNavBar = (props) => {
 
     setUName("");
     setPwd("");
-    //!adminLogin ? window.location.href = "/home" : window.location.href = "/dashboard";
   };
 
   const changePwdHandler = (event) => {
@@ -130,7 +129,10 @@ const MyNavBar = (props) => {
                 className="mr-sm-2"
                 onChange={changePwdHandler}
               />
-              <button type="submit" onClick={(event) => doLogin(event)}>
+              <button type="submit" onClick={async (event) => {
+                await doLogin(event);
+                !adminLogin ? window.location.href = "/home" : window.location.href = "/dashboard";
+                }}>
                 Login
               </button>
             </Form>
