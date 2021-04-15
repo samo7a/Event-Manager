@@ -42,8 +42,8 @@ const MyNavBar = (props) => {
   };
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(userInfo));
-    console.log("Printing local storage: ", JSON.parse(localStorage.getItem('user')));
+    localStorage.setItem("user", JSON.stringify(userInfo));
+    console.log("Printing local storage: ", JSON.parse(localStorage.getItem("user")));
   });
 
   const doLogin = async (event) => {
@@ -63,7 +63,6 @@ const MyNavBar = (props) => {
         console.log("There is an error here!");
         throw new Error(response.status);
       } else {
-        console.log(response);
         let res = JSON.parse(await response.text());
         console.log("Success: ", res);
         setUserInfo({
@@ -95,9 +94,12 @@ const MyNavBar = (props) => {
     event.preventDefault();
     setMessage(initialStates.message);
     setUserInfo(initialStates.userInfo);
-    localStorage.clear();
     window.location.href = "/";
   };
+
+  const finishLogin = () => {
+    !adminLogin ? window.location.href = "/home" : window.location.href = "/dashboard";
+  }
 
   const messageSpan = message ? <span>{message}</span> : null;
   return (
@@ -131,7 +133,7 @@ const MyNavBar = (props) => {
               />
               <button type="submit" onClick={async (event) => {
                 await doLogin(event);
-                !adminLogin ? window.location.href = "/home" : window.location.href = "/dashboard";
+                finishLogin()
                 }}>
                 Login
               </button>
