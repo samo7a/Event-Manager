@@ -1,0 +1,15 @@
+.event-color-lightgray {
+    background-color: lightgray;
+}
+
+.event-color-lightgray:hover {
+    background-color: gray;
+}
+
+.event-color-white {
+    background-color: white;
+}
+
+.event-color-white:hover {
+    background-color: gray;
+}
