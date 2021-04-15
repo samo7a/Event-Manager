@@ -81,7 +81,7 @@ const MyNavBar = (props) => {
 
     setUName("");
     setPwd("");
-    !adminLogin ? window.location.href = "/home" : window.location.href = "/dashboard";
+    //!adminLogin ? window.location.href = "/home" : window.location.href = "/dashboard";
   };
 
   const changePwdHandler = (event) => {
