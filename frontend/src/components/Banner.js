@@ -63,8 +63,9 @@ const MyNavBar = (props) => {
         console.log("There is an error here!");
         throw new Error(response.status);
       } else {
+        console.log(response);
         let res = JSON.parse(await response.text());
-        console.log("Success: " + res);
+        console.log("Success: ", res);
           setUserInfo({
             id: res.userId,
             firstName: res.firstName,
