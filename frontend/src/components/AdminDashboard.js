@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import MyCalendar from './MyCalendar';
 import SideMenu from './SideMenu';
 import ApproveEvents from './ApproveEvents';
+import { MdEmail, MdContactPhone } from 'react-icons/md';
 import './AdminDashboard.css';
 import 'react-calendar/dist/Calendar.css';
 import { getUnequalProps } from '@fullcalendar/react';
@@ -12,9 +13,14 @@ import { getUnequalProps } from '@fullcalendar/react';
 const AdminDashboard = (props) => {
     
     const [eventsByDate, setEventsByDate] = useState([]);
+    const [singleEvent, setSingleEvent] = useState( {} );
 
     const handleDateClick = events => {
         setEventsByDate(events);
+    }
+
+    const handleEventClick = event => {
+        setSingleEvent(event);
     }
 
     const eventsDiv = eventsByDate.length > 0 ? (
@@ -36,24 +42,42 @@ const AdminDashboard = (props) => {
         </div>
     );
 
+    const singleEventDiv = singleEvent.length > 0 ? (
+        <div className="event-div">
+            <div className="event-title">
+                {singleEvent.e_name}
+            </div>
+            <span>{singleEvent.e_date} {singleEvent.e_time}</span>
+            <p>
+                {singleEvent.e_description}
+            </p>
+            <div>
+                {MdEmail} {singleEvent.e_contactEmail}   {MdContactPhone} {singleEvent.e_contactPhone}
+            </div>
+        </div>
+    ) : (
+        <div className="event-div event-title">
+            Select an event to see the event details
+        </div>
+    );
+
     return (
         <Container fluid >
             <Row>
-                <Col xs={1}>
-                    <SideMenu type={props.type} />
-                </Col>
                 <Col xs={3}>
                     <ApproveEvents />
                 </Col>
                 <Col>
                     <div className="calendar-div">
-                        <MyCalendar dateClick={(tempEvents) => handleDateClick(tempEvents)}/>
+                        <MyCalendar 
+                            dateClick={(tempEvents) => handleDateClick(tempEvents)}
+                            eventClick={event => handleEventClick(event)}
+                        />
                     </div>
                 </Col>
             </Row>
             <Row>
-                <Col></Col>
-                <Col></Col>
+                <Col>{singleEventDiv}</Col>
                 <Col>
                     {eventsDiv}
                 </Col>

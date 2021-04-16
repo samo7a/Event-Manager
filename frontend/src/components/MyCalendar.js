@@ -6,6 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 const MyCalendar = (props) => {
   const user = localStorage.getItem("user_data");
   const sa_id = user ? JSON.parse(user).id : 0;
+  const [event, setEvent] = useState( {} );
   const [events, setEvents] = useState([
     {
       id: 0,
@@ -86,6 +87,29 @@ const MyCalendar = (props) => {
     }
   }
 
+  const handleEventClick = async (info) => {
+    let js = { e_id: info.event.id };
+
+    try {
+      let response = await fetch("/api/getEvent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(js),
+      })
+
+      if (response.status != 200) {
+        throw new Error(response.status);
+      } else {
+        let res = JSON.parse(await response.text());
+        props.eventClick(res);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
   return (
     <FullCalendar
       datesSet={getCalendarEventsHandler}
@@ -94,6 +118,7 @@ const MyCalendar = (props) => {
       showNonCurrentDates={false}
       events={events}
       dateClick={(args) => handleDateClick(args)}
+      eventClick={(args) => handleEventClick(args)}
     />
   )
 };

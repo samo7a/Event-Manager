@@ -2,3 +2,11 @@
     font-size: 2em;
     font-weight: bold;
 }
+
+.unapproved-events-div {
+    background-color: rgba(255,255,255, 0.9);
+    padding: 1em;
+    margin-top: 1em;
+    max-height: 20em;
+    overflow-y: scroll;
+}

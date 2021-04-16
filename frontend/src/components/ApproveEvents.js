@@ -110,7 +110,7 @@ const ApproveEvents = () => {
     }
 
     return (
-        <div>
+        <div className="unapproved-events-div">
             <div className="unapproved-events-title">
                 Unapproved Events
             </div>
