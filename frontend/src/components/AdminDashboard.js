@@ -21,7 +21,9 @@ const AdminDashboard = (props) => {
                     <ApproveEvents />
                 </Col>
                 <Col>
-                    <MyCalendar />
+                    <div className="calendar-div">
+                        <MyCalendar />
+                    </div>
                 </Col>
             </Row>
         </Container>

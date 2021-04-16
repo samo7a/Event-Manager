@@ -17,7 +17,9 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={LoginPage} />
+        <Route exact path="/">
+          <LoginPage />
+        </Route>
         <Route exact path="/home">
           <PageTemplate page="events" />
         </Route>

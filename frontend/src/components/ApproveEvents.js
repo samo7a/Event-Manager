@@ -5,13 +5,14 @@ import EventListItem from './EventListItem';
 const ApproveEvents = () => {
     const [unapprovedEvents, setUnapprovedEvents] = useState([]);
     const [needsUpdate, setNeedsUpdate] = useState(false);
-    const user = JSON.parse(localStorage.getItem("user_data"));
+    const user = localStorage.getItem("user_data");
+    const sa_id = user ? JSON.parse(user) : 0;
 
     const getTheEvents = async () => {
         var res;
 
         try {
-            let js = {sa_id: user.id};
+            let js = {sa_id: sa_id};
             const response = await fetch("/api/getUnapprovedEvent", {
                 method: "POST",
                 headers: {
@@ -45,7 +46,7 @@ const ApproveEvents = () => {
         var res;
 
         try {
-            let js = {sa_id: user.id, e_id: id};
+            let js = {sa_id: sa_id, e_id: id};
             const response = await fetch("/api/approveEvent", {
                 method: "POST",
                 headers: {
@@ -84,7 +85,7 @@ const ApproveEvents = () => {
         var res;
 
         try {
-            let js = {sa_id: user.id};
+            let js = {sa_id: sa_id};
             const response = await fetch("/api/approveAllEvents", {
                 method: "POST",
                 headers: {

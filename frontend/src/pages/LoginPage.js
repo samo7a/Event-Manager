@@ -5,7 +5,7 @@ import Banner from '../components/Banner';
 
 const LoginPage = () => {
     return (
-        <div>
+        <div className="login-page">
             <Banner type="login" />
             <div>
                 <RegisterBox />

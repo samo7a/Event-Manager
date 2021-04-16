@@ -16,7 +16,7 @@ const MyCalendar = () => {
   const getCalendarEventsHandler = async (dateInfo) => {
     let start = dateInfo.start.toLocaleDateString('en-CA');
     let end = dateInfo.end.toLocaleDateString('en-CA');
-    const sa_id = user.id ? user.id : 0;
+    const sa_id = user ? JSON.parse(user).id : 0;
 
     let js = { sa_id: sa_id, start: start, end: end };
     console.log(js);
