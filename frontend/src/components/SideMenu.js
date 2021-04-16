@@ -30,9 +30,9 @@ const SideMenu = (props) => {
             <Nav.Link href="/Home" className="my-nav-link">
               Home
             </Nav.Link>
-            <Nav.Link href="/events" className="my-nav-link">
+            {/* <Nav.Link href="/events" className="my-nav-link">
               Events
-            </Nav.Link>
+            </Nav.Link> */}
             {/* <Nav.Link href="/my-groups" className="my-nav-link">
               My Groups
             </Nav.Link> */}
@@ -48,7 +48,7 @@ const SideMenu = (props) => {
               <NavDropdown.Item href="/events">
                 Upcoming Events
               </NavDropdown.Item>
-              <NavDropdown.Item href="/events">My Events</NavDropdown.Item>
+              <NavDropdown.Item href="/my-events">My Events</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown
               title="RSOs"
