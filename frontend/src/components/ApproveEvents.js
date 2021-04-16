@@ -25,6 +25,7 @@ const ApproveEvents = () => {
                 throw new Error(response.status);
             } else {
                 res = JSON.parse(await response.text());
+                console.log("GetEvents res value: ", res);
                 setUnapprovedEvents(res);
             }
         } catch (error) {
