@@ -107,7 +107,13 @@ const SngGroup = (props) => {
                 </Card.Subtitle>
               </Row>
               <Card.Text>
-                <Row style={{ height: "15rem", marginRight: ".5rem" }}>
+                <Row
+                  style={{
+                    height: "15rem",
+                    marginRight: ".5rem",
+                    overflowY: "auto",
+                  }}
+                >
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
                   tincidunt, et lobortis eleifend, mauris urna molestie sem, et
                   tincidunt mauris arcu non diam. Proin sit amet urna neque. In
@@ -156,12 +162,12 @@ const SngGroup = (props) => {
           </Col>
         </Row>
         <Row>
-          <Col xs="3">
+          <Col xs="4">
             <Card.Link
               onClick={handleEditOpen}
               style={{
-                marginLeft: "25%",
-                marginRight: "25%",
+                marginLeft: "20%",
+                // marginRight: "25%",
                 textAlign: "center",
                 cursor: "pointer",
               }}
@@ -180,7 +186,7 @@ const SngGroup = (props) => {
               </Card.Link>
             </Row>
           </Col>
-          <Col>
+          <Col xs="4">
             <Row>
               <div style={{ fontWeight: "bold" }}>Admin</div>: Jonathan Frucht{" "}
             </Row>
@@ -256,8 +262,9 @@ const SngGroup = (props) => {
         <Modal
           class="modal-lg"
           style={{
-            marginLeft: "30%",
-            marginRight: "auto",
+            // marginLeft: "30%",
+            // marginRight: "auto",
+            // width: "200%",
             marginTop: "1.75rem",
           }}
           show={showEdit}
@@ -267,33 +274,113 @@ const SngGroup = (props) => {
           // flex
         >
           <Modal.Header>
-            <Modal.Title>Edit Page</Modal.Title>
+            <Modal.Title>Edit RSO Page</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form style={{ width: "100%" }}>
-              <Row className="editCol">
-                <Col sm="3">Confirm Edit(s)</Col>
+              <Row className="center" style={{ textAlign: "center" }}>
+                <Col sm="4">Confirm Edit(s)</Col>
               </Row>
               <Row>
-                <Col sm="3" className="editCol">
-                  <Form.Check type="checkbox" label="Edit Description" />
+                <Col sm="4" className="">
+                  <Form.Check
+                    type="checkbox"
+                    className="editCol"
+                    label="Edit Name"
+                  />
                 </Col>
-                <Col sm="9">
+                <Col sm="8">
+                  <Form.Group style={{ marginLeft: "0rem", textAlign: "none" }}>
+                    <Form.Label>
+                      RSO Name
+                      <Form.Control
+                        style={{ marginRight: "1rem", width: "130%" }}
+                        type="text"
+                        // rows="10"
+                      />
+                      <Form.Text>XXX character maximum</Form.Text>
+                    </Form.Label>
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col sm="4" className="">
+                  <Form.Check
+                    type="checkbox"
+                    className="editCol"
+                    label="Edit Description"
+                  />
+                </Col>
+                <Col sm="8">
                   <Form.Group style={{ marginLeft: "0rem", textAlign: "none" }}>
                     <Form.Label>
                       RSO description
                       <Form.Control
-                        style={{ marginRight: "1rem", width: "200%" }}
+                        style={{ marginRight: "1rem", width: "140%" }}
                         as="textarea"
+                        rows="5"
                       />
                       <Form.Text>256 character maximum</Form.Text>
                     </Form.Label>
                   </Form.Group>
                 </Col>
               </Row>
+              <Row className="centerText">
+                <h5 style={{ marginLeft: "1rem" }}> Contatct Information</h5>
+              </Row>
+              <Row>
+                <Col sm="4" className="">
+                  <Form.Check
+                    type="checkbox"
+                    className="editCol"
+                    label="Edit Name"
+                  />
+                </Col>
+                <Col sm="8">
+                  <Form.Group style={{ marginLeft: "0rem", textAlign: "none" }}>
+                    <Form.Label>
+                      Name
+                      <Form.Control
+                        style={{ marginRight: "1rem", width: "140%" }}
+                        type="text"
+                      />
+                    </Form.Label>
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col sm="4" className="">
+                  <Form.Check
+                    type="checkbox"
+                    className="editCol"
+                    label="Edit Email"
+                  />
+                </Col>
+                <Col sm="8">
+                  <Form.Group style={{ marginLeft: "0rem", textAlign: "none" }}>
+                    <Form.Label>
+                      Email
+                      <Form.Control
+                        style={{ marginRight: "1rem", width: "140%" }}
+                        type="email"
+                      />
+                    </Form.Label>
+                  </Form.Group>
+                </Col>
+              </Row>
             </Form>
           </Modal.Body>
-          <Modal.Footer className="modalFooter"></Modal.Footer>
+          <Modal.Footer
+            className="modalFooter"
+            style={{ marginBottom: "1rem", marginRight: "1rem" }}
+          >
+            <Button variant="primary" type="submit">
+              Make changes
+            </Button>
+            <Button variant="primary" type="submit" onClick={handleEditClose}>
+              Close
+            </Button>
+          </Modal.Footer>
         </Modal>
       </div>
     </div>
