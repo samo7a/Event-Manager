@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,6 +10,31 @@ import 'react-calendar/dist/Calendar.css';
 import { getUnequalProps } from '@fullcalendar/react';
 
 const AdminDashboard = (props) => {
+    
+    const [eventsByDate, setEventsByDate] = useState([]);
+
+    const handleDateClick = events => {
+        setEventsByDate(events);
+    }
+
+    const eventsDiv = eventsByDate.length > 0 ? (
+        <div className="event-div">
+            {eventsByDate.forEach(e => {
+                return (
+                    <div>
+                        <div className="event-title">
+                            {e.title}
+                        </div>
+                        <span>{e.date} {e.time}</span>
+                    </div>
+                )
+            })}
+        </div>
+    ) : (
+        <div className="event-div event-title">
+            Select a date to see all events for that date
+        </div>
+    );
 
     return (
         <Container fluid >
@@ -22,8 +47,15 @@ const AdminDashboard = (props) => {
                 </Col>
                 <Col>
                     <div className="calendar-div">
-                        <MyCalendar />
+                        <MyCalendar dateClick={(tempEvents) => handleDateClick(tempEvents)}/>
                     </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col></Col>
+                <Col></Col>
+                <Col>
+                    {eventsDiv}
                 </Col>
             </Row>
         </Container>
