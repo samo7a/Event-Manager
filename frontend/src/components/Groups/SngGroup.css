@@ -48,11 +48,19 @@
     border: none;
 }
 .editCol {
-    align-items: center;
+    /* align-items: center;
     text-align: center;
-  justify-items: center;
+  justify-items: center; */
+  position: absolute;
+  top: 50%;
+  transform: translate(0,-50%);
 }
+.centerText{
+    text-align: center;
+    align-items: center;
+    justify-items: center;
 
+}
 .modal1 {
     /* width: 12%; */
 }
