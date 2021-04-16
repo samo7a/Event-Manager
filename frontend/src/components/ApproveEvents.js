@@ -5,7 +5,7 @@ import EventListItem from './EventListItem';
 const ApproveEvents = () => {
     const [unapprovedEvents, setUnapprovedEvents] = useState([]);
     const [needsUpdate, setNeedsUpdate] = useState(false);
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem("user_data"));
 
     const getTheEvents = async () => {
         var res;

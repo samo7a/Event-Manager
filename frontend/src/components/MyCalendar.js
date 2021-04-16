@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"; 
 
 const MyCalendar = () => {
-  const user = localStorage.getItem('user');
+  const user = localStorage.getItem("user_data");
   const [events, setEvents] = useState([
     {
       id: 0,
@@ -16,7 +16,7 @@ const MyCalendar = () => {
   const getCalendarEventsHandler = async (dateInfo) => {
     let start = dateInfo.start.toLocaleDateString('en-CA');
     let end = dateInfo.end.toLocaleDateString('en-CA');
-    let sa_id = user.id ? user.id : 0;
+    const sa_id = user.id ? user.id : 0;
 
     let js = { sa_id: sa_id, start: start, end: end };
     console.log(js);
