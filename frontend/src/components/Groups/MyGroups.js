@@ -73,7 +73,7 @@ const MyGroups = (props) => {
                   <Form.File id="exampleFormControlFile1" label="" />
                 </Form.Group>
                 <Form.Group controlID="rsoName">
-                  <Form.Label>Enter RSO name</Form.Label>{" "}
+                  <Form.Label>Enter RSO description</Form.Label>{" "}
                   <Form.Control
                     style={{ marginRight: "1rem", width: "100%" }}
                     as="textarea"
