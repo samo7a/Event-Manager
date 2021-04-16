@@ -6,7 +6,7 @@ const ApproveEvents = () => {
     const [unapprovedEvents, setUnapprovedEvents] = useState([]);
     const [needsUpdate, setNeedsUpdate] = useState(false);
     const user = localStorage.getItem("user_data");
-    const sa_id = user ? JSON.parse(user) : 0;
+    const sa_id = user ? JSON.parse(user).id : 0;
 
     const getTheEvents = async () => {
         var res;
