@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
 import "./Banner.css";
 import Navbar from "react-bootstrap/Navbar";
@@ -13,6 +13,26 @@ const MyNavBar = (props) => {
   const [pwd, setPwd] = useState("");
   const [message, setMessage] = useState("");
   const [checkboxVal, setCheckboxVal] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [userInfo, setUserInfo] = useState(
+    {
+      firstName: "",
+      lastName: "",
+    }
+  );
+
+  const setNamesHandler = () => {
+    if (localStorage["user_data"]) {
+      let user = JSON.parse(localStorage.getItem("user_data"));
+      setFirstName(user.firstName);
+      setLastName(user.lastName);
+    }
+  }
+
+  useEffect(() => {
+    setNamesHandler();
+  }, []);
 
   var history = useHistory();
 
@@ -55,7 +75,7 @@ const MyNavBar = (props) => {
           email: res.email,
           picture: res.picture,
         };
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user_data", JSON.stringify(user));
       }
     } catch (error) {
       console.error("Error:", error);
@@ -129,7 +149,7 @@ const MyNavBar = (props) => {
           <Navbar.Brand>EventUp</Navbar.Brand>
           <Nav className="ml-auto">
             <div className="name">
-              {userInfo.firstName ? userInfo.firstName : null}
+              {firstName} {lastName}
             </div>
             <button type="button" onClick={(event) => doLogout(event)}>
               Logout
