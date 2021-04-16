@@ -14,7 +14,8 @@
 .rsoCard{
      margin-left: 5%; 
      /* padding-right: 15%; */
-     width: 100%;
+     width: 80%;
+     
      /* align-self: center; */
 }
 .rsoCard2{
@@ -38,7 +39,8 @@
     width: 1rem;
 }
 .tableCol {
-    width: 13.5rem;
+    /* width: 23.5rem; */
+    width: 100%;
     text-align: center;
 }
 .modalFooter {
@@ -46,9 +48,18 @@
     border: none;
 }
 .editCol {
-    /* align-items: center; */
+    align-items: center;
+    text-align: center;
   justify-items: center;
 }
 
+.modal1 {
+    /* width: 12%; */
+}
+.contactInfo {
+    align-items: center;
+    text-align: center;
+  justify-items: center;
+}
 /* .rsoInfo */
 

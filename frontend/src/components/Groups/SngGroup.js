@@ -1,3 +1,10 @@
+// TODO
+// Leave RSO
+// Remove Admin List
+// Add event list
+// Add rest of edits
+// Add Contact info for single admin
+
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -27,11 +34,11 @@ const SngGroup = (props) => {
   // Modal fields
   // member/admin list modals
   const [showMem, setMemShow] = useState(false);
-  const [showAdm, setAdmShow] = useState(false);
+  const [showContactInfo, setAdmShow] = useState(false);
   const handleMClose = () => setMemShow(false);
   const handleMOpen = () => setMemShow(true);
-  const handleAdmClose = () => setAdmShow(false);
-  const handleAdmOpen = () => setAdmShow(true);
+  const handleCIClose = () => setAdmShow(false);
+  const handleCIOpen = () => setAdmShow(true);
   // edit modal
   const [showEdit, setEditShow] = useState(false);
   const handleEditClose = () => setEditShow(false);
@@ -64,9 +71,9 @@ const SngGroup = (props) => {
     <div>
       <Card className="rsoCard">
         <Row id="cardRow" style={{ padding: 0, width: "auto" }}>
-          <Col id="thumbnailIMG" xs="5">
+          <Col id="thumbnailIMG" xs="5" style={{ maxWidth: "22rem" }}>
             <Card.Img className="thumbnailImage" src={GroupThumbnail} />
-            <Card.Link
+            {/* <Card.Link
               onClick={handleEditOpen}
               style={{
                 marginLeft: "25%",
@@ -76,7 +83,7 @@ const SngGroup = (props) => {
               }}
             >
               Click here to edit page
-            </Card.Link>
+            </Card.Link> */}
           </Col>
           <Col xs="7" id="cardInfo" style={{ marginTop: "1rem" }}>
             <Card className="rsoCard2">
@@ -112,33 +119,33 @@ const SngGroup = (props) => {
                   commodo elit. Fusce blandit velit in nisi elementum semper.
                 </Row>
                 <Row>
-                  <Col>
+                  {/* <Col>
                     <div>Total Members: {totalMembers} </div>
-                  </Col>
-                  <Col>
+                  </Col> */}
+                  {/* <Col>
                     <span style={{ marginLeft: "1.5rem" }}>
                       Total Admins: {totalAdmins}
                     </span>
-                  </Col>
+                  </Col> */}
                 </Row>
                 <Row>
-                  <Col>
+                  {/* <Col>
                     <Card.Link
                       onClick={handleMOpen}
                       style={{ cursor: "pointer" }}
                     >
-                      View Admins
+                      View Members
                     </Card.Link>
-                  </Col>
+                  </Col> */}
                   <Col>
-                    <span style={{ marginLeft: "1.5rem" }}>
+                    {/* <span style={{ marginLeft: "1.5rem" }}>
                       <Card.Link
-                        onClick={handleAdmOpen}
+                        onClick={handleCIOpen}
                         style={{ cursor: "pointer" }}
                       >
                         View Admins
                       </Card.Link>
-                    </span>
+                    </span> */}
                   </Col>
                 </Row>
               </Card.Text>
@@ -146,6 +153,42 @@ const SngGroup = (props) => {
                 <Card.Link>IF ADMIN Click here to view options</Card.Link>
               </Row> */}
             </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="3">
+            <Card.Link
+              onClick={handleEditOpen}
+              style={{
+                marginLeft: "25%",
+                marginRight: "25%",
+                textAlign: "center",
+                cursor: "pointer",
+              }}
+            >
+              Click here to edit page
+            </Card.Link>
+          </Col>
+          <Col xs="2">
+            <Row>
+              <div style={{ fontWeight: "bold" }}>Total Members</div>:{" "}
+              {totalMembers}{" "}
+            </Row>
+            <Row>
+              <Card.Link onClick={handleMOpen} style={{ cursor: "pointer" }}>
+                View Members
+              </Card.Link>
+            </Row>
+          </Col>
+          <Col>
+            <Row>
+              <div style={{ fontWeight: "bold" }}>Admin</div>: Jonathan Frucht{" "}
+            </Row>
+            <Row>
+              <Card.Link onClick={handleCIOpen} style={{ cursor: "pointer" }}>
+                Contact Info
+              </Card.Link>
+            </Row>
           </Col>
         </Row>
 
@@ -168,14 +211,22 @@ const SngGroup = (props) => {
                 <tr>
                   <th className="tableNumCol">#</th>
                   <th className="tableCol">Member</th>
-                  <th className="tableCol">Email</th>
+                  {/* <th className="tableCol">Email</th> */}
                 </tr>
               </thread>
               <tbody>
                 <tr>
                   <td className="tableNumCol">1</td>
-                  <td className="tableCol">Jonathan frucht</td>
-                  <td className="tableCol">Email@Email.com</td>
+                  <td className="tableCol">
+                    <Image
+                      src={GroupThumbnail}
+                      roundedCircle
+                      className="groupThumbnailImage"
+                      style={{ maxWidth: "2rem" }}
+                    />
+                    Jonathan Frucht
+                  </td>
+                  {/* <td className="tableCol">Email@Email.com</td> */}
                 </tr>
               </tbody>
             </Table>
@@ -185,50 +236,56 @@ const SngGroup = (props) => {
           </Modal.Body>
         </Modal>
       </div>
-      {/* ADMIN LIST MODAL */}
+      {/* Contact info MODAL */}
       <div>
-        <Modal show={showAdm} onHide={handleAdmClose}>
-          <Modal.Header>
-            <Modal.Title>Admin List</Modal.Title>
+        <Modal show={showContactInfo} onHide={handleCIClose}>
+          <Modal.Header style={{ justifyContent: "center" }}>
+            <Modal.Title>Admin Contact Info</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Table striped bordered hover style={{ display: "block" }}>
-              <thread>
-                <tr>
-                  <th className="tableNumCol">#</th>
-                  <th className="tableCol">Admin</th>
-                  <th className="tableCol">Email</th>
-                </tr>
-              </thread>
-              <tbody>
-                <tr>
-                  <td className="tableNumCol">1</td>
-                  <td className="tableCol">Jonathan frucht</td>
-                  <td className="tableCol">Email@Email.com</td>
-                </tr>
-              </tbody>
-            </Table>
-            <Modal.Footer className="modalFooter">
-              <Button onClick={handleAdmClose}>Close</Button>
-            </Modal.Footer>
+            <Row className="row justify-content-center">Jonathan Frucht</Row>
+            <Row className="row justify-content-center">Email@Email.com</Row>
           </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={handleCIClose}>Close</Button>
+          </Modal.Footer>
         </Modal>
       </div>
       {/* Edit page Modal */}
       <div>
-        <Modal show={showEdit} onHide={handleEditClose}>
+        <Modal
+          class="modal-lg"
+          style={{
+            marginLeft: "30%",
+            marginRight: "auto",
+            marginTop: "1.75rem",
+          }}
+          show={showEdit}
+          onHide={handleEditClose}
+          // style={{ margin: 0 }}
+          // contentClassName="modal1"
+          // flex
+        >
           <Modal.Header>
             <Modal.Title>Edit Page</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form>
+            <Form style={{ width: "100%" }}>
               <Row className="editCol">
-                <Col sm="3">Edit field?</Col>
-                <Col sm="9" className="editCol">
-                  <Form.Group id="editDesc">
+                <Col sm="3">Confirm Edit(s)</Col>
+              </Row>
+              <Row>
+                <Col sm="3" className="editCol">
+                  <Form.Check type="checkbox" label="Edit Description" />
+                </Col>
+                <Col sm="9">
+                  <Form.Group style={{ marginLeft: "0rem", textAlign: "none" }}>
                     <Form.Label>
-                      Edit RSO description
-                      <Form.Control style={{ width: "100%" }} as="textarea" />
+                      RSO description
+                      <Form.Control
+                        style={{ marginRight: "1rem", width: "200%" }}
+                        as="textarea"
+                      />
                       <Form.Text>256 character maximum</Form.Text>
                     </Form.Label>
                   </Form.Group>
