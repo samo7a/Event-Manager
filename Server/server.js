@@ -751,7 +751,7 @@ app.post("/api/getAllEvents", async (req, res) => {
   const { start, end, sa_id } = req.body;
 
   // very bad query!! due to the bad design from the very start!! but it works.
-  let sql = `select e_name, e_date, e_id 
+  let sql = `select e_name, e_date, e_id, e_time 
     from Events 
     where e_date >= "${start}" And e_date <= "${end}" and isApproved = 1
     And e_id in 

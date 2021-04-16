@@ -39,7 +39,7 @@ const MyCalendar = () => {
           let other = {
             id: d.e_id,
             title: d.e_name,
-            date: d.e_date
+            date: d.e_date.slice(0,10) + "T" + d.e_time,
           };
           tempEvents.push(other);
         })
