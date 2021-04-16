@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import EventListItem from './EventListItem';
+import './ApproveEvents.css';
 
 const ApproveEvents = () => {
     const [unapprovedEvents, setUnapprovedEvents] = useState([]);
@@ -67,20 +68,22 @@ const ApproveEvents = () => {
         }
     }
 
-    const eventsToApprove =  (    
-        unapprovedEvents.map((e, i) => {
-            return (
-                <EventListItem
-                    myStyle={`event-color-${i % 2 == 0 ? "lightgray" : "white"}`}
-                    name={e.e_name}
-                    id={e.e_id}
-                    date={e.e_date}
-                    update={updateHandler}
-                    approveEvent={() => approveEventHandler(e.e_id)}
-                />
-            )
-        })
-    );
+    const eventsToApprove =  unapprovedEvents.length == 0 ? 
+        (<span>No events to approve</span>) : 
+        (    
+            unapprovedEvents.map((e, i) => {
+                return (
+                    <EventListItem
+                        myStyle={`event-list-item event-color-${i % 2 == 0 ? "lightgray" : "white"}`}
+                        name={e.e_name}
+                        id={e.e_id}
+                        date={e.e_date}
+                        update={updateHandler}
+                        approveEvent={() => approveEventHandler(e.e_id)}
+                    />
+                )
+            })
+        );
 
     const approveAllHandler = async () => {
         var res;
@@ -108,9 +111,13 @@ const ApproveEvents = () => {
 
     return (
         <div>
-            <span><strong>Unapproved Events</strong></span>
+            <div className="unapproved-events-title">
+                Unapproved Events
+            </div>
             <Button onClick={approveAllHandler}>Approve All</Button>
-            {eventsToApprove ? eventsToApprove : <span>There are no events to approve at this time</span>}
+            <div>
+                {eventsToApprove}
+            </div>
         </div>
     );
 }
