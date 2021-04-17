@@ -31,6 +31,9 @@ const SngGroup = (props) => {
     desc: "THis is the description area",
     date: "MM/DD/YYYY",
   };
+  // Local data
+  var user = JSON.parse(localStorage.getItem("user_data"));
+  const s_id = user ? JSON.parse(user).s_id : "F";
   // Modal fields
   // member/admin list modals
   const [showMem, setMemShow] = useState(false);
@@ -54,7 +57,8 @@ const SngGroup = (props) => {
   const totalAdmins = 5;
   // Message
   const [message, setMessage] = useState("");
-
+  // var user = JSON.parse(localStorage.getItem("user_data"));
+  // const fName = user ? JSON.parse(user).firstName : "F";
   // Rso Details
   const [rsoID, setRsoID] = useState("");
   // const [rsoName, setRsoName] = useState("");
@@ -117,12 +121,12 @@ const SngGroup = (props) => {
   const joinRSO = async () => {
     try {
       var obj = {
-        rso_id: 11,
-        s_id: 11,
+        rso_id: rsoID,
+        s_id: s_id,
       };
       var js = JSON.stringify(obj);
 
-      let response = await fetch("/api/leaveRso", {
+      let response = await fetch("/api/joinRso", {
         method: "POST",
 
         headers: {
