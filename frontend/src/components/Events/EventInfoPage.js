@@ -9,14 +9,23 @@ const EventInfoPage = (props) => {
   const [eventDesc, setDesc] = useState("S");
   const [eventDate, setDate] = useState("MM/DD/YYYY");
   const [eventRating, setRating] = useState(0);
+  const [commentPost, setComment] = useState("empty");
   // Add comment field
   // useEffect(() => {
   //   setName(props.event.name);
   //   setRso(props.event.rso);
   //   setDesc(props.event.desc);
   //   setDate(props.event.date);
+  //   setComment()
   // }, []);
   // Comment debug
+  const event = {
+    id: 12,
+    name: "Event Name",
+    rso: "Rso Name",
+    desc: "This is the description",
+    date: " MM / DD / YYYY",
+  };
   const comment = {
     commenter: "Jonathan Frucht",
     comment:
@@ -25,35 +34,43 @@ const EventInfoPage = (props) => {
     date: "MM/DD/YYYY",
   };
 
+  // const postComment = async => {
+  //   event.preventDefault();
+  //   if (commentLength > 1000)
+  //   {
+  //     setMessage("Length of comment exceeded: " + commentLength);
+  //     return;
+  //   }
+  //   else let js = {
+  //     e_id : event.id,
+  //     s_id : event.id,
+  //     comment : commentPost.value;
+  //   };
+  //   console.log(js);
+
+  //   // try
+
+  // }
+
   return (
     <div>
       <Container>
-        <Card>
-          <Card.Title>
-            <h1>EVENT NAME</h1>
-          </Card.Title>
-          <Card.Subtitle>
-            <h3>RSO NAME</h3>
+        <Card className="eventCard">
+          <Card.Title className="eventTitle">{event.name}</Card.Title>
+          <Card.Subtitle className="eventRso">
+            Hosted by {event.rso}
           </Card.Subtitle>
-          <Card.Img src={pupFiller}></Card.Img>
+          <Card.Img style={{ padding: "1rem" }} src={pupFiller}></Card.Img>
           <Card.Body>
-            <Row style={{ margin: ".5rem" }}>
-              <Col>
-                <Row>
-                  <b>Event Name:{"\xa0"}</b>
-                  {/* {eventName} */}
-                </Row>
-                <Row>
-                  <b>Hosted by:{"\xa0"}</b>
-                  {/* {eventRso} */}
-                </Row>
+            <Row>
+              <Col className="eventInfo">
                 <Row>
                   <b>Date:{"\xa0"}</b>
-                  {/* {eventDate} */}
+                  {event.date}
                 </Row>
                 <Row>
                   <b>Description:{"\xa0"}</b>
-                  {/* {eventDesc} */}
+                  {event.desc}
                 </Row>
               </Col>
             </Row>
@@ -65,14 +82,19 @@ const EventInfoPage = (props) => {
                 <Form.Group
                   style={{
                     fontSize: "1.3rem",
-                    marginLeft: "1rem",
+                    // marginLeft: "1rem",
                     marginTop: ".5rem",
                   }}
                 >
                   Post a Comment
                 </Form.Group>
                 <Form.Row className="makeCommentInput">
-                  <Form.Control as="textArea" rows="3" />
+                  <Form.Control
+                    value={commentPost}
+                    as="textArea"
+                    rows="3"
+                    onChange={setComment}
+                  />
                 </Form.Row>
                 <Form.Row style={{ alignItems: "end" }}>
                   <Button
