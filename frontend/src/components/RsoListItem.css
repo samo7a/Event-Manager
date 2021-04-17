@@ -1,0 +1,30 @@
+.rso-color-lightgray {
+    background-color: lightgray;
+}
+
+.rso-color-lightgray:hover {
+    background-color: gray;
+}
+
+.rso-color-white {
+    background-color: white;
+}
+
+.rso-color-white:hover {
+    background-color: gray;
+}
+
+.rso-list-item {
+    padding: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.rso-list-item:hover {
+    cursor: pointer;
+}
+
+.date-div {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

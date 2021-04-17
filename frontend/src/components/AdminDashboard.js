@@ -6,6 +6,7 @@ import MyCalendar from './MyCalendar';
 import ApproveEvents from './ApproveEvents';
 import FileUpload from './FileUpload';
 import { MdEmail, MdContactPhone } from 'react-icons/md';
+import RSODiv from './RSODiv';
 import './AdminDashboard.css';
 import 'react-calendar/dist/Calendar.css';
 import { getUnequalProps } from '@fullcalendar/react';
@@ -14,7 +15,6 @@ const AdminDashboard = (props) => {
     
     const [eventsByDate, setEventsByDate] = useState([]);
     const [singleEvent, setSingleEvent] = useState( {} );
-    const [rsos, setRsos] = useState( [] );
 
     const handleDateClick = events => {
         setEventsByDate(events);
@@ -22,10 +22,6 @@ const AdminDashboard = (props) => {
 
     const handleEventClick = event => {
         setSingleEvent(event);
-    }
-
-    const handleGetRso = async () => {
-
     }
 
     const eventsDiv = eventsByDate.length > 0 ? (
@@ -81,13 +77,18 @@ const AdminDashboard = (props) => {
         </div>
     );
 
+    const renderFileUpload = (
+        <div className="opaque-div">
+            <FileUpload value="university" />
+        </div>
+    );
+
     return (
         <Container fluid >
             <Row>
                 <Col xs={3}>
-                    <div className="opaque-div">
-                        <FileUpload value="university" />
-                    </div>
+                    {renderFileUpload}
+                    <RSODiv />
                     <ApproveEvents />
                     {singleEventDiv}
                     {eventsDiv}

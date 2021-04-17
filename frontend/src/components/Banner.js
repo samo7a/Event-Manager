@@ -55,7 +55,7 @@ const MyNavBar = (props) => {
     let js = { loginType: adminLogin, email: uName, password: pwd };
     console.log(js);
     try {
-      let response = await fetch("/api/login", {
+      const response = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

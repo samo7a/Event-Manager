@@ -22,12 +22,12 @@ const FileUpload = (props) => {
         console.log(formData);
 
         try {
-            let response = await fetch("/api/uploadUniPic", {
+            const response = await fetch("/api/uploadUniPic", {
               method: "POST",
               body: formData,
             })
             
-            var res = JSON.parse(response.text());
+            var res = JSON.parse(await response.text());
             if (response.status != 200) {
               throw new Error(response.status);
             } else {
