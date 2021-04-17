@@ -983,6 +983,43 @@ app.post("/api/getEventStudent", async (req, res) => {
     });
   });
 });
+
+app.post("/api/getAllRsos", async (req, res) => {
+  const { sa_id } = req.body;
+  let u_id;
+  let rsos = [];
+  let rso;
+  let admin;
+  let sql = `select u_id from CreatesUniversities where sa_id = ${sa_id};`;
+  conn.query(sql, async (error, result) => {
+    if (error) {
+      res.status(401).json({ msg: error.sqlMessage });
+    }
+    u_id = result[0].u_id;
+    sql = `select rso_id, s_id, rso_name, status, rso_rso_description from Rso where s_id = (select s_id from Students where u_id = ${u_id});`;
+    conn.query(sql, async (error1, result1) => {
+      if (error1) {
+        res.status(401).json({ msg: error1.sqlMessage });
+      }
+      for (var i = 0; i < result1.length; i++) {
+        rso = result1[i];
+        sql = `select s_id, s_firstName, s_lastName from Students where s_id = ${result1[i].s_id};`;
+        conn.query(sql, async (error2, result2) => {
+          if (error2) {
+            res.status(401).json({ msg: error2.sqlMessage });
+          }
+          admin = result2[0];
+        });
+        let obj = {
+          admin: admin,
+          rso: rso,
+        };
+        rsos.push(obj);
+      }
+      res.status(200).json(obj);
+    });
+  });
+});
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`listenning on port ${port}`);

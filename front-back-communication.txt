@@ -332,7 +332,7 @@ b- From Server -> Frontend
 }
 -----------------------------------------------------
 
-20- /api/getAllEventsStudent  (POST)   ***** 
+20- /api/getAllEventsStudent  (POST)
 a- From Frontend -> Server
 {
     s_id : int,
@@ -378,3 +378,29 @@ b- From Server -> Frontend
                         }
                      ]
     }
+----------------------------------------------------
+
+22- /api/getAllRsos (POST)
+    a- From Frontend -> Server
+    {
+        sa_id: INT
+    }
+
+    b- From Server -> Frontend
+    
+    [
+        {
+            admin : {
+                s_id : int,
+                s_firstName : string,
+                s_lastName : string
+            }
+            rso : {
+                rso_id : int,
+                rso_name : string,
+                status : enum (active : inactive),
+                rso_description : string
+            }
+        }
+    ]
+        
