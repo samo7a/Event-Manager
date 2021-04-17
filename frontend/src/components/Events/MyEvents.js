@@ -1,3 +1,7 @@
+// CHECK FORMAT OF INPUT
+// ADD LOCAL STORAGE FOR s_id
+// ADD RSO tab for rso_id
+
 import React, { useState } from "react";
 import {
   Button,
@@ -25,7 +29,116 @@ const MyEvents = (props) => {
   const [createShow, setCreateShow] = useState(false);
   const createEventClose = () => setCreateShow(false);
   const createEventOpen = () => setCreateShow(true);
-  //
+  // MSG field
+  const [message, setMessage] = useState("");
+  // newEvent fields
+  var newEventName;
+  var newEventDesc;
+  var newContactEmail;
+  var newPhone;
+  var eventType;
+  var eventLocation = "1";
+  var eventAddr = "1";
+  var eventCat;
+  var eventHR;
+  var eventMIN;
+  var eventDay;
+  var eventMonth;
+  var eventYear;
+  var eventPic;
+  // const createEvent  = async (event) => {
+  //   event.preventDefault();
+  //   setMessage("");
+  // Create event
+  const createEvent = async (event) => {
+    event.preventDefault();
+    setMessage("");
+    if (newEventName.value.length == 0) {
+      setMessage("Please include event name");
+      return;
+    }
+    if (newEventName.value.length < 3) {
+      setMessage("Event name should be longer");
+      return;
+    }
+    if (newEventDesc == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    if (newEventDesc.value.length > 1000) {
+      setMessage("Over max");
+      return;
+    }
+    if (newPhone == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    if (newPhone.value.length != 12) {
+      setMessage("Enter valid phone #");
+      return;
+    }
+    if (eventHR == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    if (eventMIN == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+
+    if (eventDay == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    if (eventMonth == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    if (eventYear == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    var formatTime = eventHR.value + ":" + eventMIN.value;
+    console.log("event time : " + formatTime);
+    var formatDate =
+      "20" + eventYear.value + "/" + eventMonth.value + "/" + eventDay.value;
+    try {
+      var newEvent = {
+        rso_id: 0,
+        s_id: 1,
+        e_name: newEventName.value,
+        e_description: newEventDesc.value,
+        e_contactEmail: newContactEmail.value,
+        e_contactPhone: newPhone.value,
+        e_type: eventType.value,
+        locationName: eventLocation.value,
+        address: eventAddr.value,
+        e_category: eventCat.value,
+        e_time: formatTime,
+        e_date: formatDate,
+        e_profilePicture: eventPic.value,
+        // isApproved: 1,
+      };
+      console.log(newEvent);
+      var js = JSON.stringify(newEvent);
+      const response = await fetch("/api/createEventRso", {
+        method: "POST",
+        // credentials: "include",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+      var res = JSON.parse(await response.text());
+      if (response.status !== 200) {
+        console.log(res.error);
+      } else {
+        console.log("Ahh");
+      }
+    } catch (e) {
+      console.log(e.toString());
+      return;
+    }
+  };
+
   return (
     <Container>
       <h1 style={{ marginLeft: "-1rem" }}> My Events </h1>
@@ -71,6 +184,7 @@ const MyEvents = (props) => {
                   <Form.Control
                     placeholder="Event Name"
                     type="text"
+                    ref={(c) => (newEventName = c)}
                   ></Form.Control>
                 </Form.Group>
                 <Form.Group controlID="eventDesc">
@@ -79,57 +193,76 @@ const MyEvents = (props) => {
                     placeholder="Please enter a description about the event"
                     style={{ marginRight: "1rem", width: "100%" }}
                     as="textarea"
+                    ref={(c) => (newEventDesc = c)}
                     rows="7"
                   />
                   <Form.Text>1000 characters maximum</Form.Text>
                 </Form.Group>
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label> Contact email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    ref={(c) => (newContactEmail = c)}
+                  />
                   <Form.Text className="text-muted"></Form.Text>
                 </Form.Group>
                 <Form.Group controlID="eventName">
                   <Form.Label>Enter contact phone number</Form.Label>
-                  <Form.Control type="text" />
+                  <Form.Control type="text" ref={(c) => (newPhone = c)} />
                   <Form.Text>Please enter in the form: XXX-XXX-XXXX</Form.Text>
                 </Form.Group>
                 <Form.Group controlId="eventType">
                   <Form.Label>Select event type</Form.Label>
-                  <Form.Control as="select">
-                    <option>Public</option>
-                    <option>Private</option>
-                    <option>RSO</option>
+                  <Form.Control as="select" ref={(c) => (eventType = c)}>
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                    <option value="rso">RSO</option>
                   </Form.Control>
                 </Form.Group>
                 <Form.Label>Enter event location</Form.Label>
-                <Form.Label>Enter event addr</Form.Label>
+                <Form.Control type="text" ref={(c) => (eventLocation = c)} />
 
+                <Form.Label>Enter event address</Form.Label>
+                <Form.Control type="text" ref={(c) => (eventAddr = c)} />
+
+                <Form.Label>Enter event category</Form.Label>
+                <Form.Control type="text" ref={(c) => (eventCat = c)} />
+                <Form.Label>Enter event time in 24Hr xx:xx format</Form.Label>
                 <InputGroup className="mb-3">
-                  <FormControl placeholder="Hour" />
-                  <FormControl placeholder="Minutes" />
-                  <FormControl placeholder="a.m./p.m." />
+                  <FormControl placeholder="Hour" ref={(c) => (eventHR = c)} />
+                  <FormControl
+                    placeholder="Minutes"
+                    ref={(c) => (eventMIN = c)}
+                  />
                 </InputGroup>
                 <Form.Label>Enter event date</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Prepend>
                     <InputGroup.Text>DD/MM/YY</InputGroup.Text>
                   </InputGroup.Prepend>
-                  <FormControl />
-                  <FormControl />
-                  <FormControl />
+                  <FormControl ref={(c) => (eventDay = c)} />
+                  <FormControl ref={(c) => (eventMonth = c)} />
+                  <FormControl ref={(c) => (eventYear = c)} />
                 </InputGroup>
                 <Form.Group controlID="rsoPic">
                   <Form.Label>Upload event profile picture</Form.Label>
-                  <Form.File id="exampleFormControlFile1" label="" />
+                  <Form.File ref={(c) => (eventPic = c)} label="" />
                 </Form.Group>
               </Form>
             </Modal.Body>
+            {message != "" ? (
+              <span id="errorMSG">
+                <span style={{ color: "red" }}>Error : </span>
+                {message}
+              </span>
+            ) : null}
             <Modal.Footer
               className="modalFooter"
               style={{ marginBottom: "1rem", marginRight: "1rem" }}
             >
-              <Button variant="primary" type="submit">
-                Create RSO
+              <Button variant="primary" type="submit" onClick={createEvent}>
+                Create Event
               </Button>
               <Button
                 variant="primary"
