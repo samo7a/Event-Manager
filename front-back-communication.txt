@@ -331,3 +331,21 @@ b- From Server -> Frontend
         .
     ]
 }
+-----------------------------------------------------
+20- /api/getAllEventsStudent  (POST)   ***** 
+a- From Frontend -> Server
+{
+    s_id : int,
+    from : int,
+    to : int,
+}
+
+b- From Server -> Frontend
+[
+    {
+        e_id : int,
+        e_name : String,
+        e_date : String,
+        e_rso : String,
+    },
+]
