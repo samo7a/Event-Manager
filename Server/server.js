@@ -996,7 +996,7 @@ app.post("/api/getAllRsos", async (req, res) => {
       res.status(401).json({ msg: error.sqlMessage });
     }
     u_id = result[0].u_id;
-    sql = `select rso_id, s_id, rso_name, status, rso_description from Rso where s_id = (select s_id from Students where u_id = ${u_id});`;
+    sql = `select rso_id, s_id, rso_name, status, rso_description from Rso where s_id in (select s_id from Students where u_id = ${u_id});`;
     conn.query(sql, async (error1, result1) => {
       if (error1) {
         res.status(401).json({ msg: error1.sqlMessage });
@@ -1009,14 +1009,14 @@ app.post("/api/getAllRsos", async (req, res) => {
             res.status(401).json({ msg: error2.sqlMessage });
           }
           admin = result2[0];
+          let obj = {
+            admin: admin,
+            rso: rso,
+          };
+          rsos.push(obj);
         });
-        let obj = {
-          admin: admin,
-          rso: rso,
-        };
-        rsos.push(obj);
       }
-      res.status(200).json(obj);
+      res.status(200).json(rsos);
     });
   });
 });
