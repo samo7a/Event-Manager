@@ -74,11 +74,11 @@ const AdminDashboard = (props) => {
                         <MyCalendar 
                             dateClick={(tempEvents) => {
                                 handleDateClick(tempEvents);
-                                console.log();("tempEvents: ", tempEvents);
+                                console.log("tempEvents: ", tempEvents);
                             }}
                             eventClick={event => {
-                                handleEventClick("event: ", event);
-                                console.log(event);
+                                handleEventClick(event);
+                                console.log("event: ", event);
                             }}
                         />
                     </div>
