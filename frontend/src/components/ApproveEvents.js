@@ -114,7 +114,9 @@ const ApproveEvents = () => {
             <div className="unapproved-events-title">
                 Unapproved Events
             </div>
-            <Button onClick={approveAllHandler}>Approve All</Button>
+            <div className="approve-all-button">
+                <Button onClick={approveAllHandler}>Approve All</Button>
+            </div>
             <div>
                 {eventsToApprove}
             </div>

@@ -79,7 +79,7 @@ const AdminDashboard = (props) => {
                             eventClick={event => {
                                 handleEventClick("event: ", event);
                                 console.log(event);
-                            }
+                            }}
                         />
                     </div>
                 </Col>
