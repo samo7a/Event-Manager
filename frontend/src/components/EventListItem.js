@@ -6,7 +6,9 @@ const EventListItem = (props) => {
 
     return (
         <div className={props.myStyle}>
-            <span><strong>{props.name}</strong></span>
+            <span>
+                <strong>{props.name}</strong>
+            </span>
             <div className="date-div">
                 {props.date.slice(0, 10)}
             </div>

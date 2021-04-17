@@ -3,8 +3,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import MyCalendar from './MyCalendar';
-import SideMenu from './SideMenu';
 import ApproveEvents from './ApproveEvents';
+import FileUpload from './FileUpload';
 import { MdEmail, MdContactPhone } from 'react-icons/md';
 import './AdminDashboard.css';
 import 'react-calendar/dist/Calendar.css';
@@ -47,12 +47,12 @@ const AdminDashboard = (props) => {
             <div className="event-title">
                 {singleEvent[0].e_name}
             </div>
-            <span>{singleEvent[0].e_date} {singleEvent.e_time}</span>
+            <span>{singleEvent[0].e_date.slice(0, 10)} {singleEvent.e_time}</span>
             <p>
                 {singleEvent[0].e_description}
             </p>
             <div>
-                {MdEmail} {singleEvent[0].e_contactEmail}   {MdContactPhone} {singleEvent[0].e_contactPhone}
+                <MdEmail /> {singleEvent[0].e_contactEmail}   <MdContactPhone /> {singleEvent[0].e_contactPhone}
             </div>
         </div>
     ) : (
@@ -65,6 +65,9 @@ const AdminDashboard = (props) => {
         <Container fluid >
             <Row>
                 <Col xs={3}>
+                    <div className="opaque-div">
+                        <FileUpload value="university" />
+                    </div>
                     <ApproveEvents />
                     {singleEventDiv}
                     {eventsDiv}
@@ -72,14 +75,8 @@ const AdminDashboard = (props) => {
                 <Col>
                     <div className="calendar-div">
                         <MyCalendar 
-                            dateClick={(tempEvents) => {
-                                handleDateClick(tempEvents);
-                                console.log("tempEvents: ", tempEvents);
-                            }}
-                            eventClick={event => {
-                                handleEventClick(event);
-                                console.log("event: ", event);
-                            }}
+                            dateClick={tempEvents => handleDateClick(tempEvents)}
+                            eventClick={event => handleEventClick(event)}
                         />
                     </div>
                 </Col>

@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import SideMenu from './SideMenu';
+import Container from 'react-bootstrap/Container';
 
 const FileUpload = (props) => {
-    const user = localStorage.getItem('user');
+    let check = localStorage.getItem('user_data');
+    const user = check ? JSON.parse(check) : null;
     const [file, setFile] = useState('');
     const [filename, setFilename] = useState(`Choose ${props.value} Picture`);
 
@@ -14,7 +14,7 @@ const FileUpload = (props) => {
 
     const uploadFileHandler = async e => {
         e.preventDefault();
-        let id = user.id ? user.id : 0;
+        let id = user ? user.id : 0;
 
         const formData = new FormData();
         formData.append('file', file);
@@ -43,20 +43,14 @@ const FileUpload = (props) => {
     
     return (
         <Container fluid>
-            <Row>
-                <Col xs={1}>
-                    <SideMenu type={props.type} />
-                </Col>
-                <Col xs={2}>
-                    <form onSubmit={uploadFileHandler}>
-                        <div className="custom-file">
-                            <input type="file" className="custom-file-input mt-4" id="customFile" onChange={setFileHandler} />
-                            <label className="custom-file-label" htmlFor="customFile"> {filename} </label>
-                        </div>
-                        <input type="submit" value="Upload" className="btn btn-primary btn-block" />
-                    </form>
-                </Col>
-            </Row>
+            <span>Update or add a {props.value} picture</span>
+            <form onSubmit={uploadFileHandler}>
+                <div className="custom-file">
+                    <input type="file" className="custom-file-input mt-4" id="customFile" onChange={setFileHandler} />
+                    <label className="custom-file-label" htmlFor="customFile"> {filename} </label>
+                </div>
+                <input type="submit" value="Upload" className="btn btn-primary btn-block" />
+            </form>
         </Container>
     )
 }
