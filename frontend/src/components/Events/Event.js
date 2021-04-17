@@ -31,12 +31,11 @@ const Event = (props) => {
     setRso(props.event.rso);
     setDesc(props.event.desc);
     setDate(props.event.date);
-
   }, []);
-  const getEventSingle = async => {
+  const getEventSingle = async () => {
     try {
       setEventID(props.event.e_id);
-      var obj = { e_id : props.event.e_id};
+      var obj = { e_id: props.event.e_id };
       var js = JSON.stringify(obj);
       let response = await fetch("/api/getEventStudent", {
         method: "POST",
@@ -55,7 +54,7 @@ const Event = (props) => {
       console.error("Error:", error);
     }
   };
-  
+
   // const goToPage = (async_ => {
   //   event.preventDefault();
   //   <PageTemplate page="singleEvent" event={props} />
