@@ -878,17 +878,15 @@ app.post("/api/getRsoDetails", async (req, res) => {
 });
 app.post("/api/getAllEventsStudent", async (req, res) => {
   const { s_id, from, to } = req.body;
-  let u_id1;
+  let u_id;
   let events;
-  let privateE;
-  let rsoE;
   let sql = `select u_id from Students where s_id = ${s_id}`;
   conn.query(sql, async (error, result) => {
     if (error) {
       res.status(401).json({ msg: error.sqlMessage });
     }
-    u_id1 = result[0].u_id;
-    sql = `select e_id, e_name, e_type from Events where e_type = 'public' and isApproved = 1;`;
+    u_id = result[0].u_id;
+    sql = `select e_id, e_name, e_type, e_time, e_date from Events where e_type = 'public' and isApproved = 1;`;
     conn.query(sql, async (error1, result1) => {
       if (error1) {
         res.status(401).json({ msg: error1.sqlMessage });
@@ -900,7 +898,7 @@ app.post("/api/getAllEventsStudent", async (req, res) => {
           res.status(401).json({ msg: error2.sqlMessage });
         }
         for (var i = 0; i < result2.length; i++) {
-          sql = `select e_id, e_name, e_type from Events where e_type = 'rso' and e_id in  (select e_id from Hosts where rso_id = ${result2[i].rso_id})`;
+          sql = `select e_id, e_name, e_type, e_time, e_date from Events where e_type = 'rso' and e_id in  (select e_id from Hosts where rso_id = ${result2[i].rso_id})`;
           conn.query(sql, async (error3, result3) => {
             if (error3) {
               res.status(401).json({ msg: error3.sqlMessage });
@@ -910,7 +908,7 @@ app.post("/api/getAllEventsStudent", async (req, res) => {
             }
           });
         }
-        sql = `select e_id, e_name, e_type from Events where e_type = 'private';`;
+        sql = `select e_id, e_name, e_type, e_time, e_date from Events where e_type = 'private';`;
         conn.query(sql, async (error4, result4) => {
           if (error4) {
             res.status(401).json({ msg: error4.sqlMessage });
@@ -921,16 +919,16 @@ app.post("/api/getAllEventsStudent", async (req, res) => {
               if (error5) {
                 res.status(401).json({ msg: error5.sqlMessage });
               }
-              if (u_id1 === result5[0].u_id) {
+              if (u_id === result5[0].u_id) {
                 events.push(result4[k]);
               }
             });
           }
-          let rangeEvents;
+          let rangeEvents = [];
           for (var l = from; l < to; l++) {
             rangeEvents.push(events[l]);
           }
-          res.status(200).json(rangEvents);
+          res.status(200).json(rangeEvents);
         });
       });
     });
