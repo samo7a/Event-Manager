@@ -5,22 +5,27 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import "./MyAccount.css";
 function MyAccount() {
-  const user = {
-    fName: "Jon",
-    lName: "Frucht",
-    email: "Email@gmail.com",
-    Uni: "University of Central Florida",
-  };
+  // const user = {
+  //   fName: "Jon",
+  //   lName: "Frucht",
+  //   email: "Email@gmail.com",
+  //   Uni: "University of Central Florida",
+  // };
+  var user = JSON.parse(localStorage.getItem("user_data"));
+  const fName = user ? JSON.parse(user).firstName : "F";
+  const lName = user ? JSON.parse(user).lastName : "L";
+  const email = user ? JSON.parse(user).email : "E";
+  // const uni =
   return (
     <div>
-      <div style={{ padding: "0%", height: "100", backgroundColor: "red" }}>
+      <div style={{ padding: "0%", height: "100" }}>
         <Container
           // fluid
           style={{
             padding: "0",
             margin: 0,
             height: "100%",
-            backgroundColor: "red",
+            // backgroundColor: "red",
           }}
         >
           <Row
@@ -35,7 +40,7 @@ function MyAccount() {
               name="middle"
               fluid
               style={{
-                backgroundColor: "#aabbcc",
+                // backgroundColor: "#aabbcc",
                 height: "100vh",
                 position: "absolute",
                 // width: "100%",
@@ -46,8 +51,8 @@ function MyAccount() {
             >
               <div id="accountDiv" className="accountDiv">
                 <div id="accountWrapper">
-                  <h1 className="pageTitle">Account Information</h1>
                   <Card className="acctCard">
+                    <h1 className="pageTitle">Account Information</h1>
                     {/* Account info fields */}
                     <Form>
                       <Form.Group className="acctInfoField" as={Row}>
@@ -55,7 +60,7 @@ function MyAccount() {
                           className="text-left"
                           column
                           sm="3"
-                          color="blue"
+                          // color="blue"
                           // sm="5"
                         >
                           <b> Name </b>
@@ -66,7 +71,7 @@ function MyAccount() {
                             style={{ fontSize: "1.5rem" }}
                             plaintext
                             readOnly
-                            defaultValue={user.fName + " " + user.lName}
+                            defaultValue={fName + " " + lName}
                           ></Form.Control>
                         </Col>
                       </Form.Group>
@@ -75,7 +80,7 @@ function MyAccount() {
                           className="text-left"
                           column
                           sm="3"
-                          color="blue"
+                          // color="blue"
                           // sm="5"
                         >
                           <b> Email </b>
@@ -86,11 +91,11 @@ function MyAccount() {
                             style={{ fontSize: "1.5rem" }}
                             plaintext
                             readOnly
-                            defaultValue={user.email}
+                            defaultValue={email}
                           ></Form.Control>
                         </Col>
                       </Form.Group>
-                      <Form.Group className="acctInfoField" as={Row}>
+                      {/* <Form.Group className="acctInfoField" as={Row}>
                         <Form.Label
                           className="text-left"
                           column
@@ -106,10 +111,10 @@ function MyAccount() {
                             style={{ fontSize: "1.5rem" }}
                             plaintext
                             readOnly
-                            defaultValue={user.Uni}
+                            // defaultValue={Uni}
                           ></Form.Control>
                         </Col>
-                      </Form.Group>
+                      </Form.Group> */}
                     </Form>
                   </Card>
                 </div>
