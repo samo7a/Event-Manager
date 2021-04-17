@@ -48,13 +48,47 @@ const SngGroup = (props) => {
   const handleLeaveClose = () => setLeaveShow(false);
   const handleLeaveOpen = () => setLeaveShow(true);
   // Group fields
-  const rsoName = "Florida Outdoor Adventure Club";
+  const rsoNameDEBUG = "Florida Outdoor Adventure Club";
   const isActive = true;
-  //   const [eventDesc, setDesc] = useState("S");
   const totalMembers = 19;
   const totalAdmins = 5;
-  //   const [groupTN, setThumbnail] = useState("");
 
+  // Rso Details
+  const [rsoID, setRsoID] = useState("");
+  const [rsoName, setRsoName] = useState("");
+  const [rsoStat, setStatus] = useState("");
+  const [rsoDesc, setDesc] = useState("");
+  const [memNum, setMemNum] = useState(1);
+  const [admin, setAdmin] = useState({ s_id: 0, s_name: "Name" });
+  // const [members,setMems] = useState({})
+  // const [events,setMems] = useState({})
+
+  const getRsoDetails = async () => {
+    try {
+      setRsoID(props.rso.rsoID);
+      var obj = { rso_id: rsoID };
+      var js = JSON.stringify(obj);
+      let response = await fetch("/api/getRsoDetails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(js),
+      });
+      var res = JSON.parse(await response.text());
+      if (response.status != 200) {
+        throw new Error(response.status);
+      } else {
+        setRsoName(res.rso_name);
+        setStatus(res.status);
+        setDesc(res.rso_description);
+        setMemNum(res.no_of_members);
+        setAdmin(res.admin);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   const leaveRSO = async () => {
     try {
       var obj = {
@@ -71,12 +105,9 @@ const SngGroup = (props) => {
         },
         body: JSON.stringify(js),
       });
-
       if (response.status != 200) {
         throw new Error(response.status);
       } else {
-        console.log("Leave success!");
-        // window.location.href = "/";
       }
     } catch (error) {
       console.error("Error:", error);
@@ -104,7 +135,7 @@ const SngGroup = (props) => {
           <Col xs="7" id="cardInfo" style={{ marginTop: "1rem" }}>
             <Card className="rsoCard2">
               <Card.Title center className="rsoTitle">
-                <h4>{rsoName}</h4>
+                <h4>{rsoNameDEBUG}</h4>
               </Card.Title>
               <Row style={{ marginLeft: "0" }}>
                 <Card.Subtitle
