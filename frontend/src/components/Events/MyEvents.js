@@ -57,8 +57,8 @@ const MyEvents = (props) => {
       setMessage("Please include event name");
       return;
     }
-    if (newEventName.value.length < 3) {
-      setMessage("Event name should be longer");
+    if (newEventName.value.length > 45) {
+      setMessage("Event Name exceed limit of 45 Characters");
       return;
     }
     if (newEventDesc == null) {
@@ -67,6 +67,15 @@ const MyEvents = (props) => {
     }
     if (newEventDesc.value.length > 1000) {
       setMessage("Over max");
+      return;
+    }
+    if (newContactEmail == null) {
+      setMessage("Please enter an email");
+      return;
+    }
+    var expression = /\S+@\S+/;
+    if (!expression.test(newContactEmail.value.toLowerCase())) {
+      setMessage("Please enter a valid email address");
       return;
     }
     if (newPhone == null) {
@@ -85,7 +94,14 @@ const MyEvents = (props) => {
       setMessage("Please fill all fields");
       return;
     }
-
+    if (eventHR >= 24) {
+      setMessage("Please enter a valid hour (0 - 23)");
+      return;
+    }
+    if (eventMIN >= 60) {
+      setMessage("Please enter a valid minute (0 - 59)");
+      return;
+    }
     if (eventDay == null) {
       setMessage("Please fill all fields");
       return;
@@ -186,6 +202,7 @@ const MyEvents = (props) => {
                     type="text"
                     ref={(c) => (newEventName = c)}
                   ></Form.Control>
+                  <Form.Text>45 characters maximum</Form.Text>
                 </Form.Group>
                 <Form.Group controlID="eventDesc">
                   <Form.Label>Enter event description</Form.Label>{" "}
@@ -228,7 +245,7 @@ const MyEvents = (props) => {
 
                 <Form.Label>Enter event category</Form.Label>
                 <Form.Control type="text" ref={(c) => (eventCat = c)} />
-                <Form.Label>Enter event time in 24Hr xx:xx format</Form.Label>
+                <Form.Label>Enter event time in 24Hr format</Form.Label>
                 <InputGroup className="mb-3">
                   <FormControl placeholder="Hour" ref={(c) => (eventHR = c)} />
                   <FormControl
@@ -248,6 +265,7 @@ const MyEvents = (props) => {
                 <Form.Group controlID="rsoPic">
                   <Form.Label>Upload event profile picture</Form.Label>
                   <Form.File ref={(c) => (eventPic = c)} label="" />
+                  <Form.Text>5MB maximum</Form.Text>
                 </Form.Group>
               </Form>
             </Modal.Body>
