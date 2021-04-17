@@ -21,7 +21,7 @@ const RSODiv = () => {
         var res;
 
         try {
-            const response = await fetch("/api/getAllRSO", {
+            const response = await fetch("/api/getAllRsos", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
