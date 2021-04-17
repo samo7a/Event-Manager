@@ -25,8 +25,8 @@ const AdminDashboard = (props) => {
 
     const eventsDiv = eventsByDate.length > 0 ? (
         <div className="event-div">
-            {eventsByDate.forEach(e => {
-                return (
+            {eventsByDate.map(e => 
+                (
                     <div>
                         <div className="event-title">
                             {e.title}
@@ -34,7 +34,7 @@ const AdminDashboard = (props) => {
                         <span>{e.date} {e.time}</span>
                     </div>
                 )
-            })}
+            )}
         </div>
     ) : (
         <div className="event-div event-title">
@@ -45,14 +45,14 @@ const AdminDashboard = (props) => {
     const singleEventDiv = singleEvent.length > 0 ? (
         <div className="event-div">
             <div className="event-title">
-                {singleEvent.e_name}
+                {singleEvent[0].e_name}
             </div>
-            <span>{singleEvent.e_date} {singleEvent.e_time}</span>
+            <span>{singleEvent[0].e_date} {singleEvent.e_time}</span>
             <p>
-                {singleEvent.e_description}
+                {singleEvent[0].e_description}
             </p>
             <div>
-                {MdEmail} {singleEvent.e_contactEmail}   {MdContactPhone} {singleEvent.e_contactPhone}
+                {MdEmail} {singleEvent[0].e_contactEmail}   {MdContactPhone} {singleEvent[0].e_contactPhone}
             </div>
         </div>
     ) : (
