@@ -88,61 +88,95 @@ app.post("/api/getAllUnis", async (req, res, next) => {
   });
 });
 
-app.post('/api/login', async (req, res, next) => {
-    // req.body = { email : String, password : String }
-    // res.text = { userId: Int, firstName : String, lastName : String, msg : String }
+app.post("/api/login", async (req, res, next) => {
+  // req.body = { email : String, password : String }
+  // res.text = { userId: Int, firstName : String, lastName : String, msg : String }
 
-    //let err = '';
-    const { email, password, loginType } = req.body;
-    let id = -1;
-    let fn = '';
-    let ln = '';
-    let l_email = '';
-    let pic = '';
-    let sql;
-    let response;
+  //let err = '';
+  const { email, password, loginType } = req.body;
+  let id = -1;
+  let fn = "";
+  let ln = "";
+  let l_email = "";
+  let pic = "";
+  let sql;
+  let response;
 
-    if (loginType) {
-        sql = `SELECT sa_id, sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
+  if (loginType) {
+    sql = `SELECT sa_id, sa_firstName, sa_lastName, sa_email, sa_profilePicture FROM SuperAdmins WHERE sa_email="${email}" AND sa_password="${password}"`;
 
-        conn.query(sql, (error, result) => {
-            if (error) {
-                response = { firstName: fn, lastName: ln, email: l_email, picture: pic, msg: error.sqlMessage};
-                return res.status(401).json(response);
-            } else if (result.length > 0) {
-                id = result[0].sa_id;
-                fn = result[0].sa_firstName;
-                ln = result[0].sa_lastName;
-                l_email = result[0].sa_email;
-                pic = result[0].sa_profilePicture;
-                response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
-                return res.status(200).json(response);
-            } else {
-                response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: 'You best check yourself'};
-                return res.status(401).json(response);
-            }
-        })
-    } else {
-        sql = `SELECT s_firstName, s_lastName, s_email, s_profilePicture FROM Students WHERE s_email="${email}" AND s_password="${password}"`;
-        conn.query(sql, (error2, result2) => {
-            console.log(result2);
-            if (error2) {
-                response = {msg: error2.sqlMessage};
-                return res.status(401).json(response);
-            } else if (result2.length > 0) {
-                id = result2[0].s_id;
-                fn = result2[0].s_firstName;
-                ln = result2[0].s_lastName;
-                l_email = result2[0].s_email;
-                pic = result2[0].s_profilePicture;
-                response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: '' };
-                return res.status(200).json(response);   
-            } else {
-                response = { userId: id, firstName: fn, lastName: ln, email: l_email, picture: pic, msg: 'You best check yourself'};
-                return res.status(401).json(response);
-            }
-        })
-    }
+    conn.query(sql, (error, result) => {
+      if (error) {
+        response = {
+          firstName: fn,
+          lastName: ln,
+          email: l_email,
+          picture: pic,
+          msg: error.sqlMessage,
+        };
+        return res.status(401).json(response);
+      } else if (result.length > 0) {
+        id = result[0].sa_id;
+        fn = result[0].sa_firstName;
+        ln = result[0].sa_lastName;
+        l_email = result[0].sa_email;
+        pic = result[0].sa_profilePicture;
+        response = {
+          userId: id,
+          firstName: fn,
+          lastName: ln,
+          email: l_email,
+          picture: pic,
+          msg: "",
+        };
+        return res.status(200).json(response);
+      } else {
+        response = {
+          userId: id,
+          firstName: fn,
+          lastName: ln,
+          email: l_email,
+          picture: pic,
+          msg: "You best check yourself",
+        };
+        return res.status(401).json(response);
+      }
+    });
+  } else {
+    sql = `SELECT s_firstName, s_lastName, s_email, s_profilePicture FROM Students WHERE s_email="${email}" AND s_password="${password}"`;
+    conn.query(sql, (error2, result2) => {
+      console.log(result2);
+      if (error2) {
+        response = { msg: error2.sqlMessage };
+        return res.status(401).json(response);
+      } else if (result2.length > 0) {
+        id = result2[0].s_id;
+        fn = result2[0].s_firstName;
+        ln = result2[0].s_lastName;
+        l_email = result2[0].s_email;
+        pic = result2[0].s_profilePicture;
+        response = {
+          userId: id,
+          firstName: fn,
+          lastName: ln,
+          email: l_email,
+          picture: pic,
+          msg: "",
+        };
+        return res.status(200).json(response);
+      } else {
+        response = {
+          userId: id,
+          firstName: fn,
+          lastName: ln,
+          email: l_email,
+          picture: pic,
+          msg: "You best check yourself",
+        };
+        return res.status(401).json(response);
+      }
+    });
+  }
 });
 
 app.post("/api/signup", async (req, res) => {
@@ -685,67 +719,36 @@ app.post("/api/updateUniversity", async (req, res) => {
 
 app.post("/api/approveEvent", async (req, res) => {
   const { e_id, sa_id } = req.body;
-  let u_id1;
-  let u_id2;
-  let sql = `select u_id from Students where s_id = (
-        select s_id from Rso where rso_id = (
-        select rso_id from Hosts where e_id = ${e_id}));`;
+
+  let sql = `update Events set isApproved = 1 where e_id = ${e_id};`;
   conn.query(sql, (error, result) => {
     if (error) {
       let response = { msg: error.sqlMessage };
       return res.status(400).json(response);
     }
-    u_id1 = result[0].u_id;
-    console.log(result);
-    console.log(u_id1);
-  });
-  sql = `select u_id from CreatesUniversities where sa_id = ${sa_id};`;
-  conn.query(sql, (error, result) => {
-    if (error) {
-      let response = { msg: error.sqlMessage };
-      return res.status(400).json(response);
+    if (result.length === 0) {
+      return res.status(200).json({ msg: "Event Approved" });
     }
-    u_id2 = result[0].u_id;
-    console.log(result);
-    console.log(u_id2);
-  });
-
-  if (u_id1 !== u_id2) {
-    let response = {
-      msg:
-        "This Admin has no control over this university, I wonder how this would happen",
-    };
-    return res.status(400).json(response);
-  }
-
-  sql = `update Events set isApproved = 1 where e_id = ${e_id};`;
-  conn.query(sql, (error, result) => {
-    if (error) {
-      let response1 = { msg: error.sqlMessage };
-      return res.status(400).json(response1);
-    }
-    let response = { msg: "Event Approved" };
-    res.status(200).json(response);
   });
 });
 
 app.post("/api/approveAllEvents", async (req, res) => {
-    const { sa_id } = req.body;
-    
-    let sql = `update Events set isApproved = 1 where e_id in 
+  const { sa_id } = req.body;
+
+  let sql = `update Events set isApproved = 1 where e_id in 
         (Select e_id from CreatesEvents where s_id in 
             (Select s_id from Students where u_id in 
                 (Select u_id from CreatesUniversities where sa_id = ${sa_id}
         )))`;
-    conn.query(sql, error => {
-      if (error) {
-        let response1 = { msg: error.sqlMessage };
-        return res.status(400).json(response1);
-      }
-      let response = { msg: "Events Approved" };
-      res.status(200).json(response);
-    });
+  conn.query(sql, (error) => {
+    if (error) {
+      let response1 = { msg: error.sqlMessage };
+      return res.status(400).json(response1);
+    }
+    let response = { msg: "Events Approved" };
+    res.status(200).json(response);
   });
+});
 
 app.post("/api/getAllEvents", async (req, res) => {
   const { start, end, sa_id } = req.body;
@@ -873,6 +876,13 @@ app.post("/api/getRsoDetails", async (req, res) => {
     });
   });
 });
+app.post('/api/getAllEventsStudent', async (req, res) => {
+  const {s_id, from , to} = req.body;
+  sql = ``;
+});
+app.post('/api/getSingleEvent', async (req, res) => {
+  const {e_id}
+})
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`listenning on port ${port}`);

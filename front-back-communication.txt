@@ -283,7 +283,7 @@ b- From Server -> Frontend
     
 }
 -----------------------------------------------------
-19- /api/getRsoDetails  (POST)   ***** 
+19- /api/getRsoDetails  (POST)
 a- From Frontend -> Server
 {
     rso_id : int,
@@ -346,6 +346,37 @@ b- From Server -> Frontend
         e_id : int,
         e_name : String,
         e_date : String,
-        e_rso : String,
+        rso_name : String,
+        e_type : (public, private, rso)
     },
 ]
+
+---------------------------------------------------------
+21- /api/getSigle/Event (POST)
+a- From Frontend -> Server
+{
+    e_id : int
+}
+
+b- From Server -> Frontend
+[
+    {
+        e_name : String,
+        e_date : String,
+        rso_name : String,
+        e_type : (public, private, rso)
+        e_time : string,
+        e_category : string,
+        e_description : string,
+        e_contactEmail : string,
+        e_contactPhone : string,
+        locationName : string,
+        latitude : double/float,
+        longitude : double/float,
+        comments : [
+            
+        ]
+    },
+]
+
+
