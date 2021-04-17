@@ -8,7 +8,7 @@ import {
   Modal,
   Row,
   ButtonGroup,
-  ButtonToolbar
+  ButtonToolbar,
 } from "react-bootstrap";
 import "./Event.css";
 import pupFiller from "../../pictures/pupFiller.jpeg";
@@ -23,12 +23,44 @@ const Event = (props) => {
   const [eventRso, setRso] = useState("");
   const [eventDesc, setDesc] = useState("S");
   const [eventDate, setDate] = useState("MM/DD/YYYY");
+  const [eventID, setEventID] = useState("");
+  const [eventDetails, setDetails] = useState({});
+
   useEffect(() => {
     setName(props.event.name);
     setRso(props.event.rso);
     setDesc(props.event.desc);
     setDate(props.event.date);
+
   }, []);
+  const getEventSingle = async => {
+    try {
+      setEventID(props.event.e_id);
+      var obj = { e_id : props.event.e_id};
+      var js = JSON.stringify(obj);
+      let response = await fetch("/api/getEventStudent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: js,
+      });
+      var res = JSON.parse(await response.text());
+      if (response.status != 200) {
+        throw new Error(response.status);
+      } else {
+        setDetails(res);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
+  // const goToPage = (async_ => {
+  //   event.preventDefault();
+  //   <PageTemplate page="singleEvent" event={props} />
+
+  // }
 
   return (
     <div>
@@ -36,7 +68,8 @@ const Event = (props) => {
         <h1>{eventName}</h1>
         <h4>{eventRso}</h4>
         <Image className="previewImage" src={pupFiller} />
-        <p style={{ fontSize: "1.3rem" }}>{eventDesc}</p>
+        {/* <p style={{ fontSize: "1.3rem" }}>{eventDesc}</p> */}
+        <p style={{ fontSize: "1.3rem" }}>{eventDate}</p>
       </Container>
       {/* Event Modal */}
       <Modal show={show} onHide={modalClose}>
@@ -67,11 +100,16 @@ const Event = (props) => {
           <Modal.Footer>
             <Row>
               <ButtonToolbar aria-label="Toolbar for event buttons">
-                <ButtonGroup className="ml-0" aria-label="View Event">
+                <ButtonGroup
+                  className="ml-0"
+                  aria-label="View Event"
+                  // onClick={goToPage}
+                >
                   <Button>View Event</Button>
                 </ButtonGroup>
                 <ButtonGroup className="ml-5" aria-label="Second group">
-                  <Button>Add to Calendar</Button> <Button onClick={modalClose}> Close </Button> 
+                  <Button>Add to Calendar</Button>{" "}
+                  <Button onClick={modalClose}> Close </Button>
                 </ButtonGroup>
               </ButtonToolbar>
             </Row>
