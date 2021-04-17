@@ -52,6 +52,8 @@ const SngGroup = (props) => {
   const isActive = true;
   const totalMembers = 19;
   const totalAdmins = 5;
+  // Message
+  const [message, setMessage] = useState("");
 
   // Rso Details
   const [rsoID, setRsoID] = useState("");
@@ -108,6 +110,33 @@ const SngGroup = (props) => {
       if (response.status != 200) {
         throw new Error(response.status);
       } else {
+        setMessage("Left Successfully!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  // Join RSO
+  const joinRSO = async () => {
+    try {
+      var obj = {
+        rso_id: 11,
+        s_id: 11,
+      };
+      var js = JSON.stringify(obj);
+
+      let response = await fetch("/api/leaveRso", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(js),
+      });
+      if (response.status != 200) {
+        throw new Error(response.status);
+      } else {
+        setMessage("Joined Successfully!");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -244,9 +273,24 @@ const SngGroup = (props) => {
             </Row>
           </Col>
         </Row>
+        <Row>
+          {message != "" ? (
+            <span id="errorMSG">
+              <span style={{ color: "blue" }}> Alert!: </span>
+              {message}
+            </span>
+          ) : null}
+        </Row>
         <Row style={{ marginLeft: "1rem" }}>
           <Button variant="danger" onClick={handleLeaveOpen}>
             Leave RSO
+          </Button>
+          <Button
+            style={{ marginLeft: "1rem" }}
+            variant="primary"
+            onClick={joinRSO}
+          >
+            Join RSO
           </Button>
         </Row>
         <Card style={{ margin: "1rem" }}>

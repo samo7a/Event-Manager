@@ -8,6 +8,7 @@ import pupFiller from "../../pictures/pupFiller.jpeg";
 import "./EventInfoPage.css";
 const EventInfoPage = (props) => {
   // Event fields
+  const [eventDetails, setDetails] = useState({});
   const [eventName, setName] = useState("");
   const [eventRso, setRso] = useState("");
   const [eventDesc, setDesc] = useState("S");
@@ -22,17 +23,21 @@ const EventInfoPage = (props) => {
   // const [commentPost, setComment] = useState("empty");
   // Add comment field
   var user = JSON.parse(localStorage.getItem("user_data"));
-  const [userID, setUserId] = useState("");
-  const [fName, setFName] = useState("");
-  const [lname, setLName] = useState("");
+  const s_id = user ? JSON.parse(user).id : 0;
+  const fName = user ? JSON.parse(user).firstName : "F";
+  const lName = user ? JSON.parse(user).lastName : "L";
+
+  // const [userID, setUserId] = useState("");
+  // const [fName, setFName] = useState("");
+  // const [lname, setLName] = useState("");
 
   useEffect(() => {
     // setUserId(user.userID);
     // setFName(user.firstName);
     // setLName(user.lastName);
-    setUserId(userDEBUG.id.value);
-    setFName(userDEBUG.firstName.value);
-    setLName(userDEBUG.lastName);
+    // setUserId(userDEBUG.id.value);
+    // setFName(userDEBUG.firstName.value);
+    // setLName(userDEBUG.lastName);
     // setName(props.event.name);
     // setRso(props.event.rso);
     // setDesc(props.event.desc);
@@ -58,7 +63,31 @@ const EventInfoPage = (props) => {
     time: "11:45pm",
     date: "MM/DD/YYYY",
   };
-
+  const getEventDetails = async () => {
+    try {
+      var eventId = {
+        event_id: event.id,
+      };
+      console.log(eventId);
+      var js = JSON.stringify(eventId);
+      const response = await fetch("/api/getEventStudent", {
+        method: "POST",
+        // credentials: "include",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+      var res = JSON.parse(await response.text());
+      if (response.status !== 200) {
+        console.log(res.error);
+      } else {
+        console.log("Ahh");
+        setDetails(res);
+      }
+    } catch (e) {
+      console.log(e.toString());
+      return;
+    }
+  };
   const postComment = async (event) => {
     event.preventDefault();
     alert("This doesnt work yet");
