@@ -43,6 +43,10 @@ const SngGroup = (props) => {
   const [showEdit, setEditShow] = useState(false);
   const handleEditClose = () => setEditShow(false);
   const handleEditOpen = () => setEditShow(true);
+  // leave modal
+  const [showLeave, setLeaveShow] = useState(false);
+  const handleLeaveClose = () => setLeaveShow(false);
+  const handleLeaveOpen = () => setLeaveShow(true);
   // Group fields
   const rsoName = "Florida Outdoor Adventure Club";
   const isActive = true;
@@ -51,21 +55,33 @@ const SngGroup = (props) => {
   const totalAdmins = 5;
   //   const [groupTN, setThumbnail] = useState("");
 
-  // const viewModal = () => (
-  //   <div>
-  //     <Modal show={show} onHide={handleClose}>
-  //       <Modal.Header>
-  //         <Modal.Title>{viewType} List</Modal.Title>
-  //       </Modal.Header>
-  //       <Modal.Body>
-  //         <Row>
-  //           <Col>{viewType}</Col>
-  //           <Col>Email</Col>
-  //         </Row>
-  //       </Modal.Body>
-  //     </Modal>
-  //   </div>
-  // );
+  const leaveRSO = async () => {
+    try {
+      var obj = {
+        rso_id: 11,
+        s_id: 11,
+      };
+      var js = JSON.stringify(obj);
+
+      let response = await fetch("/api/leaveRso", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(js),
+      });
+
+      if (response.status != 200) {
+        throw new Error(response.status);
+      } else {
+        console.log("Leave success!");
+        // window.location.href = "/";
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   return (
     <div>
@@ -197,7 +213,11 @@ const SngGroup = (props) => {
             </Row>
           </Col>
         </Row>
-
+        <Row style={{ marginLeft: "1rem" }}>
+          <Button variant="danger" onClick={handleLeaveOpen}>
+            Leave RSO
+          </Button>
+        </Row>
         <Card style={{ margin: "1rem" }}>
           <Card.Title className="upComingETitle">
             <div className="upComingETitle">Upcoming Events</div>
@@ -205,6 +225,24 @@ const SngGroup = (props) => {
           <Card.Body>{/* <EventContainer /> */}</Card.Body>
         </Card>
       </Card>
+      {/* LEAVE RSO MODAL */}
+      <div>
+        <Modal show={showLeave} onHide={handleLeaveClose}>
+          <Modal.Title>Leaving Confirmation</Modal.Title>
+          <Modal.Body>
+            Are you sure you would like to leave this RSO? You can rejoin at any
+            time.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={leaveRSO}>
+              Leave RSO
+            </Button>
+            <Button variant="primary" onClick={handleLeaveClose}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
       {/* MEMBER LIST MODAL*/}
       <div>
         <Modal show={showMem} onHide={handleMClose}>
