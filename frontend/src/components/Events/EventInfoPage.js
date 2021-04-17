@@ -14,16 +14,34 @@ const EventInfoPage = (props) => {
   const [eventDate, setDate] = useState("MM/DD/YYYY");
   const [eventRating, setRating] = useState(0);
   const [message, setMessage] = useState("");
-
+  const userDEBUG = {
+    id: 12,
+    firstName: "Jon",
+    lastName: "Frucht",
+  };
   // const [commentPost, setComment] = useState("empty");
   // Add comment field
-  // useEffect(() => {
-  //   setName(props.event.name);
-  //   setRso(props.event.rso);
-  //   setDesc(props.event.desc);
-  //   setDate(props.event.date);
-  //   setComment()
-  // }, []);
+  var user = JSON.parse(localStorage.getItem("user_data"));
+  const [userID, setUserId] = useState("");
+  const [fName, setFName] = useState("");
+  const [lname, setLName] = useState("");
+
+  useEffect(() => {
+    // setUserId(user.userID);
+    // setFName(user.firstName);
+    // setLName(user.lastName);
+    setUserId(userDEBUG.id.value);
+    setFName(userDEBUG.firstName.value);
+    setLName(userDEBUG.lastName);
+    // setName(props.event.name);
+    // setRso(props.event.rso);
+    // setDesc(props.event.desc);
+    // setDate(props.event.date);
+    console.log(user);
+    // setComment()
+  }, []);
+  // var user = JSON.parse(localStorage.getItem("user_data"));
+
   var newComment;
   // Comment debug
   const event = {
@@ -41,9 +59,14 @@ const EventInfoPage = (props) => {
     date: "MM/DD/YYYY",
   };
 
-  const postComment = (async) => {
+  const postComment = async (event) => {
     event.preventDefault();
+    alert("This doesnt work yet");
+    return;
+    // alert(newComment);
+    // alert(newComment.value);
     setMessage("");
+    // return;
     if (newComment.value.length == null) {
       setMessage("Please enter a comment");
       return;
@@ -54,29 +77,31 @@ const EventInfoPage = (props) => {
       );
       return;
     }
-    // try {
-    //   var newComment = {
-    //     e_id : event.id,
-    //     s_id : event.id,
-    //     comment : newComment.value,
-    //   };
-    //   var js = JSON.stringify(newComment);
-    //   const response = await fetch("/api/addComment", {
-    //     method: "POST",
-    //     credentials: "include",
-    //     body: js,
-    //     headers: { "Content-Type": "application/json" },
-    //   });
-    //   var res = JSON.parse(await response.text());
-    //   if (response.status !== 200) {
-    //     console.log(res.error);
-    //   } else {
-    //     console.log("Ahh");
-    //   }
-    // } catch (e) {
-    //   console.log(e.toString());
-    //   return;
-    // }
+
+    try {
+      var newComment = {
+        e_id: event.id,
+        s_id: userDEBUG.id,
+        comment: newComment.value,
+      };
+      console.log(newComment);
+      var js = JSON.stringify(newComment);
+      const response = await fetch("/api/addComment", {
+        method: "POST",
+        credentials: "include",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+      var res = JSON.parse(await response.text());
+      if (response.status !== 200) {
+        console.log(res.error);
+      } else {
+        console.log("Ahh");
+      }
+    } catch (e) {
+      console.log(e.toString());
+      return;
+    }
   };
 
   return (
@@ -131,7 +156,7 @@ const EventInfoPage = (props) => {
                 <Form.Row style={{ alignItems: "end" }}>
                   <Button
                     variant="primary"
-                    type="submit"
+                    // type="submit"
                     onClick={postComment}
                     style={{ marginLeft: "70%", marginBottom: "1rem" }}
                   >
