@@ -1,3 +1,7 @@
+// TODO
+// Find out why page refreshed when post comment is added
+// Find out why message is displayed
+// Find out why await throws an error in the try block
 import React, { useState, useEffect } from "react";
 import { Card, Container, Button, Col, Row, Form } from "react-bootstrap";
 import pupFiller from "../../pictures/pupFiller.jpeg";
@@ -9,7 +13,9 @@ const EventInfoPage = (props) => {
   const [eventDesc, setDesc] = useState("S");
   const [eventDate, setDate] = useState("MM/DD/YYYY");
   const [eventRating, setRating] = useState(0);
-  const [commentPost, setComment] = useState("empty");
+  const [message, setMessage] = useState("");
+
+  // const [commentPost, setComment] = useState("empty");
   // Add comment field
   // useEffect(() => {
   //   setName(props.event.name);
@@ -18,6 +24,7 @@ const EventInfoPage = (props) => {
   //   setDate(props.event.date);
   //   setComment()
   // }, []);
+  var newComment;
   // Comment debug
   const event = {
     id: 12,
@@ -34,23 +41,43 @@ const EventInfoPage = (props) => {
     date: "MM/DD/YYYY",
   };
 
-  // const postComment = async => {
-  //   event.preventDefault();
-  //   if (commentLength > 1000)
-  //   {
-  //     setMessage("Length of comment exceeded: " + commentLength);
-  //     return;
-  //   }
-  //   else let js = {
-  //     e_id : event.id,
-  //     s_id : event.id,
-  //     comment : commentPost.value;
-  //   };
-  //   console.log(js);
-
-  //   // try
-
-  // }
+  const postComment = (async) => {
+    event.preventDefault();
+    setMessage("");
+    if (newComment.value.length == null) {
+      setMessage("Please enter a comment");
+      return;
+    }
+    if (newComment.value.length > 1000) {
+      setMessage(
+        "Length of comment exceeded: " + (newComment.value.length - 1000)
+      );
+      return;
+    }
+    // try {
+    //   var newComment = {
+    //     e_id : event.id,
+    //     s_id : event.id,
+    //     comment : newComment.value,
+    //   };
+    //   var js = JSON.stringify(newComment);
+    //   const response = await fetch("/api/addComment", {
+    //     method: "POST",
+    //     credentials: "include",
+    //     body: js,
+    //     headers: { "Content-Type": "application/json" },
+    //   });
+    //   var res = JSON.parse(await response.text());
+    //   if (response.status !== 200) {
+    //     console.log(res.error);
+    //   } else {
+    //     console.log("Ahh");
+    //   }
+    // } catch (e) {
+    //   console.log(e.toString());
+    //   return;
+    // }
+  };
 
   return (
     <div>
@@ -88,18 +115,24 @@ const EventInfoPage = (props) => {
                 >
                   Post a Comment
                 </Form.Group>
+                {message != "" ? (
+                  <span id="errorMSG">
+                    <span style={{ color: "red" }}>Error : </span>
+                    {message}
+                  </span>
+                ) : null}
                 <Form.Row className="makeCommentInput">
                   <Form.Control
-                    value={commentPost}
                     as="textArea"
                     rows="3"
-                    onChange={setComment}
+                    ref={(c) => (newComment = c)}
                   />
                 </Form.Row>
                 <Form.Row style={{ alignItems: "end" }}>
                   <Button
                     variant="primary"
                     type="submit"
+                    onClick={postComment}
                     style={{ marginLeft: "70%", marginBottom: "1rem" }}
                   >
                     Post comment
