@@ -125,7 +125,6 @@
         e_description : string,
         e_contactEmail : string,
         e_contactPhone : string,
-        e_type = string (either "public", or "private", or "rso"; anyother value will cause an error)
         locationName : string,
         address : string,
         e_category : string,
@@ -347,7 +346,6 @@ b- From Server -> Frontend
         e_id : int,
         e_name : String,
         e_date : String,
-        rso_name : String,
         e_type : (public, private, rso)
     },
 ]

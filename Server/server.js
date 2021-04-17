@@ -415,7 +415,6 @@ app.post("/api/createEventStudent", async (req, res) => {
     e_description,
     e_contactPhone,
     e_contactEmail,
-    e_type,
     locationName,
     address,
     e_category,
@@ -436,7 +435,7 @@ app.post("/api/createEventStudent", async (req, res) => {
     let lng = googleJson.results[0].geometry.location.lng;
     let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, 
             locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) 
-            VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "${e_type}", 
+            VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "public", 
             "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", ${e_profilePicture}, ${isApproved});`;
     conn.query(sql, async function (error, results) {
       if (error) {
@@ -877,10 +876,66 @@ app.post("/api/getRsoDetails", async (req, res) => {
     });
   });
 });
-// app.post("/api/getAllEventsStudent", async (req, res) => {
-//   const { s_id, from, to } = req.body;
-//   sql = ``;
-// });
+app.post("/api/getAllEventsStudent", async (req, res) => {
+  const { s_id, from, to } = req.body;
+  let u_id1;
+  let events;
+  let privateE;
+  let rsoE;
+  let sql = `select u_id from Students where s_id = ${s_id}`;
+  conn.query(sql, async (error, result) => {
+    if (error) {
+      res.status(401).json({ msg: error.sqlMessage });
+    }
+    u_id1 = result[0].u_id;
+    sql = `select e_id, e_name, e_type from Events where e_type = 'public' and isApproved = 1;`;
+    conn.query(sql, async (error1, result1) => {
+      if (error1) {
+        res.status(401).json({ msg: error1.sqlMessage });
+      }
+      events = result1;
+      sql = `select rso_id from isAMember where s_id = ${s_id};`;
+      conn.query(sql, async (error2, result2) => {
+        if (error2) {
+          res.status(401).json({ msg: error2.sqlMessage });
+        }
+        for (var i = 0; i < result2.length; i++) {
+          sql = `select e_id, e_name, e_type from Events where e_type = 'rso' and e_id in  (select e_id from Hosts where rso_id = ${result2[i].rso_id})`;
+          conn.query(sql, async (error3, result3) => {
+            if (error3) {
+              res.status(401).json({ msg: error3.sqlMessage });
+            }
+            for (var j = 0; j < result3.length; j++) {
+              events.push(result3[j]);
+            }
+          });
+        }
+        sql = `select e_id, e_name, e_type from Events where e_type = 'private';`;
+        conn.query(sql, async (error4, result4) => {
+          if (error4) {
+            res.status(401).json({ msg: error4.sqlMessage });
+          }
+          for (var k = 0; k < result4; k++) {
+            sql = `select u_id from Students where s_id in (select s_id from Rso where rso_id in (select rso_id from Hosts where e_id = ${result4[k].e_id}));`;
+            conn.query(sql, async (error5, result5) => {
+              if (error5) {
+                res.status(401).json({ msg: error5.sqlMessage });
+              }
+              if (u_id1 === result5[0].u_id) {
+                events.push(result4[k]);
+              }
+            });
+          }
+          let rangeEvents;
+          for (var l = from; l < to; l++) {
+            rangeEvents.push(events[l]);
+          }
+          res.status(200).json(rangEvents);
+        });
+      });
+    });
+  });
+});
 app.post("/api/getEventStudent", async (req, res) => {
   const { e_id } = req.body;
   let avgRating;
