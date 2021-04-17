@@ -66,20 +66,22 @@ const AdminDashboard = (props) => {
             <Row>
                 <Col xs={3}>
                     <ApproveEvents />
+                    {singleEventDiv}
+                    {eventsDiv}
                 </Col>
                 <Col>
                     <div className="calendar-div">
                         <MyCalendar 
-                            dateClick={(tempEvents) => handleDateClick(tempEvents)}
-                            eventClick={event => handleEventClick(event)}
+                            dateClick={(tempEvents) => {
+                                handleDateClick(tempEvents);
+                                console.lot("tempEvents: ", tempEvents);
+                            }}
+                            eventClick={event => {
+                                handleEventClick("event: ", event);
+                                console.log(event);
+                            }
                         />
                     </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col>{singleEventDiv}</Col>
-                <Col>
-                    {eventsDiv}
                 </Col>
             </Row>
         </Container>
