@@ -74,7 +74,7 @@ const AdminDashboard = (props) => {
                         <MyCalendar 
                             dateClick={(tempEvents) => {
                                 handleDateClick(tempEvents);
-                                console.lot("tempEvents: ", tempEvents);
+                                console.log();("tempEvents: ", tempEvents);
                             }}
                             eventClick={event => {
                                 handleEventClick("event: ", event);
