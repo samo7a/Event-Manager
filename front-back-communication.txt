@@ -332,6 +332,7 @@ b- From Server -> Frontend
     ]
 }
 -----------------------------------------------------
+
 20- /api/getAllEventsStudent  (POST)   ***** 
 a- From Frontend -> Server
 {
@@ -349,3 +350,32 @@ b- From Server -> Frontend
         e_rso : String,
     },
 ]
+----------------------------------------------------
+
+21- /api/getEventStudent (POST)
+    a- From Frontend -> Server
+    {
+        event_id: INT
+    }
+    b- From Server -> Frontend
+    {
+        e_name,
+        e_description : string,
+        e_contactEmail : string,
+        e_contactPhone : string,
+        locationName : string,
+        address : string,
+        e_category : string,
+        e_time : string (xx:xx  24hr system)  e.g "16:35"
+        e_date : string (YYYY/MM/DD), e.g "2012/12/30",
+        e_profilePicture : could be null or a picture,
+        latitude: Real,
+        longitude: Real,
+        e_comments : [
+                        {
+                            commentId: int,
+                            s_id: int,
+                            comment: String,
+                        }
+                     ]
+    }
