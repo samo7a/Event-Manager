@@ -33,6 +33,9 @@ function App() {
         <Route exact path="/my-events">
           <PageTemplate page="myevents" />
         </Route>
+        <Route exact path="/single-event">
+          <PageTemplate page="singleEvent" />
+        </Route>
         <Route exact path="/single-group">
           <PageTemplate page="singleGroup" />
         </Route>

@@ -1,0 +1,33 @@
+.cardComment {
+    width: 80%;
+    /* max-width: 50%; */
+}
+.cardCommentTitle {
+    margin-left: 1rem;
+    margin-top: .5rem;
+    font-size: 1rem;
+}
+.cardCommentBody {
+    padding-top: 0rem;
+    /* background-color: rgba(160,160,160, .1); */
+}
+.cardCommentFooter {
+    text-align: end;
+    font-size: .8rem;
+    padding-top: .2rem;
+    padding-bottom: .2rem;
+    /* background-color:rgba(160,160,160, .3); */
+}
+.makeCommentInput {
+    /* text-align: center; */
+    /* align-items: center; */
+    /* justify-items: center; */
+    width: 80%;
+    /* margin-right:0%; */
+    margin-left: 10%;
+    margin-bottom: 5%;
+}
+/* 
+text-align: center;
+    align-items: center;
+    justify-items: center; */

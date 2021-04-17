@@ -8,6 +8,7 @@ import "./PageLayout.css";
 import MyGroupPage from "./Groups/MyGroups";
 import SingleGroup from "./Groups/SngGroup";
 import MyEventPage from "./Events/MyEvents";
+import EventInfoPage from "./Events/EventInfoPage";
 const PageLayout = (props) => {
   const pageChoice = props.page;
   return (
@@ -24,6 +25,8 @@ const PageLayout = (props) => {
                 return <SingleGroup />;
               case "myevents":
                 return <MyEventPage />;
+              case "singleEvent":
+                return <EventInfoPage />;
               default:
                 break;
             }
