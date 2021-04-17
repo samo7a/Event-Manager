@@ -6,6 +6,7 @@ const fetch = require("node-fetch");
 require("dotenv").config();
 
 const mysql = require("mysql");
+const e = require("express");
 const conn = mysql.createConnection({
   host: process.env.DATA_BASE_HOST,
   user: process.env.DATA_BASE_USER,
@@ -876,13 +877,59 @@ app.post("/api/getRsoDetails", async (req, res) => {
     });
   });
 });
-app.post('/api/getAllEventsStudent', async (req, res) => {
-  const {s_id, from , to} = req.body;
-  sql = ``;
+// app.post("/api/getAllEventsStudent", async (req, res) => {
+//   const { s_id, from, to } = req.body;
+//   sql = ``;
+// });
+app.post("/api/getEventStudent", async (req, res) => {
+  const { e_id } = req.body;
+  let avgRating;
+  let obj;
+  let event;
+  let comments;
+  let sql = `select * from Events where e_id = ${e_id};`;
+  conn.query(sql, async (error, result) => {
+    if (error) {
+      res.status(401).json({ msg: error.sqlMessage });
+    }
+    if (result.length > 0) {
+      event = result[0];
+    } else {
+      event = {};
+    }
+
+    sql = `select Avg(rating) as avgRating from Rates where e_id = ${e_id};`;
+    conn.query(sql, async (error1, result1) => {
+      if (error1) {
+        res.status(401).json({ msg: error1.sqlMessage });
+      }
+      avgRating = result1[0].avgRating;
+      sql = `select commentId, s_id, comment from Comments where e_id = ${e_id};`;
+      conn.query(sql, async (error2, result2) => {
+        if (error1) {
+          res.status(401).json({ msg: error2.sqlMessage });
+        }
+        comments = result2;
+        obj = {
+          e_name: event.e_name,
+          e_description: event.e_description,
+          e_contactEmail: event.e_contactEmail,
+          e_contactPhone: event.e_contactPhone,
+          locationName: event.locationName,
+          e_category: event.e_category,
+          e_time: event.e_time,
+          e_date: event.e_date,
+          e_profilePicture: null,
+          latitude: event.latitude,
+          longitude: event.longitude,
+          avgRating: avgRating,
+          comments: comments,
+        };
+        res.status(200).json(obj);
+      });
+    });
+  });
 });
-app.post('/api/getSingleEvent', async (req, res) => {
-  const {e_id}
-})
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`listenning on port ${port}`);
