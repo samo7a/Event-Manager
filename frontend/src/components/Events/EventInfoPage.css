@@ -1,5 +1,26 @@
+.eventCard {
+    width: 100%;
+    margin-left: 10%;
+    text-align: center;
+}
+.eventTitle {
+    /* margin-left: 1rem; */
+    font-size: 3rem;
+}
+.eventRso {
+    /* margin-left: 1rem; */
+    font-size: 2rem;
+    margin-bottom:0rem;
+}
+.eventInfo {
+    font-size: 1rem;
+    margin: .5rem;
+}
 .cardComment {
     width: 80%;
+    /* align-self: center; */
+    margin-left: 10%;
+    margin-bottom: 10%;
     /* max-width: 50%; */
 }
 .cardCommentTitle {
