@@ -332,6 +332,7 @@ b- From Server -> Frontend
     ]
 }
 -----------------------------------------------------
+
 20- /api/getAllEventsStudent  (POST)   ***** 
 a- From Frontend -> Server
 {
@@ -350,33 +351,32 @@ b- From Server -> Frontend
         e_type : (public, private, rso)
     },
 ]
+----------------------------------------------------
 
----------------------------------------------------------
-21- /api/getSigle/Event (POST)
-a- From Frontend -> Server
-{
-    e_id : int
-}
-
-b- From Server -> Frontend
-[
+21- /api/getEventStudent (POST)
+    a- From Frontend -> Server
     {
-        e_name : String,
-        e_date : String,
-        rso_name : String,
-        e_type : (public, private, rso)
-        e_time : string,
-        e_category : string,
+        event_id: INT
+    }
+    b- From Server -> Frontend
+    {
+        e_name,
         e_description : string,
         e_contactEmail : string,
         e_contactPhone : string,
         locationName : string,
-        latitude : double/float,
-        longitude : double/float,
-        comments : [
-            
-        ]
-    },
-]
-
-
+        address : string,
+        e_category : string,
+        e_time : string (xx:xx  24hr system)  e.g "16:35"
+        e_date : string (YYYY/MM/DD), e.g "2012/12/30",
+        e_profilePicture : could be null or a picture,
+        latitude: Real,
+        longitude: Real,
+        e_comments : [
+                        {
+                            commentId: int,
+                            s_id: int,
+                            comment: String,
+                        }
+                     ]
+    }

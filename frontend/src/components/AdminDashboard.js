@@ -14,6 +14,7 @@ const AdminDashboard = (props) => {
     
     const [eventsByDate, setEventsByDate] = useState([]);
     const [singleEvent, setSingleEvent] = useState( {} );
+    const [rsos, setRsos] = useState( [] );
 
     const handleDateClick = events => {
         setEventsByDate(events);
@@ -23,8 +24,15 @@ const AdminDashboard = (props) => {
         setSingleEvent(event);
     }
 
+    const handleGetRso = async () => {
+
+    }
+
     const eventsDiv = eventsByDate.length > 0 ? (
         <div className="event-div">
+            <div className="div-title">
+                Events by date
+            </div>
             {eventsByDate.map(e => 
                 (
                     <div>
@@ -37,13 +45,19 @@ const AdminDashboard = (props) => {
             )}
         </div>
     ) : (
-        <div className="event-div event-title">
+        <div className="event-div">
+            <div className="div-title">
+                Events by date
+            </div>
             Select a date to see all events for that date
         </div>
     );
 
     const singleEventDiv = singleEvent.length > 0 ? (
         <div className="event-div">
+            <div className="div-title">
+                Event Details
+            </div>
             <div className="event-title">
                 {singleEvent[0].e_name}
             </div>
@@ -52,11 +66,17 @@ const AdminDashboard = (props) => {
                 {singleEvent[0].e_description}
             </p>
             <div>
-                <MdEmail /> {singleEvent[0].e_contactEmail}   <MdContactPhone /> {singleEvent[0].e_contactPhone}
+                <MdEmail /> {singleEvent[0].e_contactEmail}  
+            </div>
+            <div>
+                <MdContactPhone /> {singleEvent[0].e_contactPhone}
             </div>
         </div>
     ) : (
-        <div className="event-div event-title">
+        <div className="event-div">
+            <div className="div-title">
+                    Event Details
+            </div>
             Select an event to see the event details
         </div>
     );

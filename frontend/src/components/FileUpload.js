@@ -26,12 +26,13 @@ const FileUpload = (props) => {
               method: "POST",
               body: formData,
             })
-      
+            
+            var res = JSON.parse(response.text());
             if (response.status != 200) {
               throw new Error(response.status);
             } else {
-              let data = response.json();
-              console.log(`Success: ${data}`);
+
+              console.log(`Success: ${res}`);
             }
           } catch (error) {
             console.error("Error:", error);
