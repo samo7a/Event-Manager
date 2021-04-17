@@ -57,11 +57,12 @@ const SngGroup = (props) => {
 
   // Rso Details
   const [rsoID, setRsoID] = useState("");
-  const [rsoName, setRsoName] = useState("");
-  const [rsoStat, setStatus] = useState("");
-  const [rsoDesc, setDesc] = useState("");
-  const [memNum, setMemNum] = useState(1);
-  const [admin, setAdmin] = useState({ s_id: 0, s_name: "Name" });
+  // const [rsoName, setRsoName] = useState("");
+  // const [rsoStat, setStatus] = useState("");
+  // const [rsoDesc, setDesc] = useState("");
+  // const [memNum, setMemNum] = useState(1);
+  // const [admin, setAdmin] = useState({ s_id: 0, s_name: "Name" });
+  const [rsoDetails, setDetails] = useState({});
   // const [members,setMems] = useState({})
   // const [events,setMems] = useState({})
 
@@ -75,17 +76,13 @@ const SngGroup = (props) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(js),
+        body: js,
       });
       var res = JSON.parse(await response.text());
       if (response.status != 200) {
         throw new Error(response.status);
       } else {
-        setRsoName(res.rso_name);
-        setStatus(res.status);
-        setDesc(res.rso_description);
-        setMemNum(res.no_of_members);
-        setAdmin(res.admin);
+        setDetails(res);
       }
     } catch (error) {
       console.error("Error:", error);
