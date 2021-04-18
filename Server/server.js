@@ -679,7 +679,7 @@ app.post("/api/updateEvent", async (res, req) => {
 app.post("/api/getUniversity", async (req, res) => {
   const { sa_id } = req.body;
   let sql = `SELECT u_name, u_noOfStudents, u_profilePicture, u_description, locationName, latitude, longitude FROM Universities WHERE u_id=(SELECT u_id FROM CreatesUniversities WHERE sa_id=${sa_id})`;
-  conn.query(sql, (error, result) => {
+  conn.query(sql, async (error, result) => {
     if (error) {
       let response = { msg: error.sqlMessage };
       res.status(500).json(response);
@@ -694,6 +694,11 @@ app.post("/api/getUniversity", async (req, res) => {
       let locationName = result[0].locationName;
       let latitude = result[0].latitude;
       let longitude = result[0].longitude;
+      let add = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.AIzaSyDCyXm_G0BLJLc7n5AlTP2q8qQhrZuOkO8}`
+      );
+      let address = add.results[0].formatted_address;
+      console.log(address);
       let response = {
         u_name: u_name,
         u_noOfStudents: u_noOfStudents,
@@ -702,6 +707,7 @@ app.post("/api/getUniversity", async (req, res) => {
         locationName: locationName,
         latitude: latitude,
         longitude: longitude,
+        address: address,
       };
       res.status(200).json(response);
     }
