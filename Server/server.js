@@ -844,6 +844,7 @@ app.post("/api/getRsoDetails", async (req, res) => {
   let no_of_members;
   let s_id;
   let s_name;
+  let s_email;
   let members;
   let events;
   let sql = `select rso_name, s_id, status, rso_description from Rso where rso_id = ${rso_id};`;
@@ -856,12 +857,13 @@ app.post("/api/getRsoDetails", async (req, res) => {
     status = result[0].status;
     rso_description = result[0].rso_description;
     s_id = result[0].s_id;
-    sql = `select s_firstName, s_lastName from Students where s_id = ${s_id};`;
+    sql = `select s_firstName, s_lastName, s_email from Students where s_id = ${s_id};`;
     conn.query(sql, async (error1, result1) => {
       if (error1) {
         return res.status(401).json({ msg: error1.sqlMessage });
       }
       s_name = result1[0].s_firstName + " " + result1[0].s_lastName;
+      s_email = result1[0].s_email;
       sql = `select count(*) as no_of_members from isAMember where rso_id = ${rso_id};`;
       conn.query(sql, async (error2, result2) => {
         if (error2) {
@@ -892,6 +894,7 @@ app.post("/api/getRsoDetails", async (req, res) => {
               admin: {
                 s_id: s_id,
                 s_name: s_name,
+                s_email: s_email,
               },
               members: members,
               events: events,
@@ -1014,9 +1017,7 @@ app.post("/api/getEventStudent", async (req, res) => {
 app.post("/api/getAllRsos", async (req, res) => {
   const { sa_id } = req.body;
   let u_id;
-  let rso = {};
   let obj = {};
-  let admin;
   let rsos = [];
   let admins = [];
   let array = [];
@@ -1026,33 +1027,36 @@ app.post("/api/getAllRsos", async (req, res) => {
       res.status(401).json({ msg: error.sqlMessage });
     }
     u_id = result[0].u_id;
-    sql = `select rso_id, s_id, rso_name, status, rso_description from Rso where s_id in (select s_id from Students where u_id = ${u_id});`;
+    sql = `select s_id, s_firstName, s_lastName from Students where s_id in (select s_id from Rso where s_id in (select s_id from Students where u_id = ${u_id}));`;
     conn.query(sql, async (error1, result1) => {
       if (error1) {
         res.status(401).json({ msg: error1.sqlMessage });
       }
       for (var i = 0; i < result1.length; i++) {
-        rsos.push(result1[i]);
+        admins.push(result1[i]);
       }
-      sql = `select s_id, s_firstName, s_lastName from Students where s_id in (select s_id from Rso where s_id in (select s_id from Students where u_id = ${u_id}));`;
 
-      conn.query(sql, async (error2, result2) => {
-        if (error2) {
-          res.status(401).json({ msg: error2.sqlMessage });
-        }
-        for (var j = 0; j < result2.length; j++) {
-          admins.push(result2[j]);
-        }
-        for (var k = 0; k < rsos.length; k++) {
-          obj = {
-            admin: admins[k],
-            rso: rsos[k],
-          };
-          array.push(obj);
-        }
-        console.log(array);
-        res.status(200).json(array);
-      });
+      for (var k = 0; k < result1; k++) {
+        sql = `select rso_id, s_id, rso_name, status, rso_description from Rso where s_id = ${result1[i].s_id}`;
+        conn.query(sql, async (error2, result2) => {
+          if (error2) {
+            res.status(401).json({ msg: error2.sqlMessage });
+          }
+          console.log("result2 array of rsos " + result2);
+          for (var j = 0; j < result2.length; j++) {
+            rsos.push(result2[i]);
+          }
+          for (var l = 0; l < admins.length; l++) {
+            obj = {
+              admin: admins[l],
+              rso: rsos[l],
+            };
+            array.push(obj);
+          }
+          console.log(array);
+          res.status(200).json(array);
+        });
+      }
     });
   });
 });
