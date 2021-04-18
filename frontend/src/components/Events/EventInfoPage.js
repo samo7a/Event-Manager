@@ -8,7 +8,7 @@ import pupFiller from "../../pictures/pupFiller.jpeg";
 import "./EventInfoPage.css";
 const EventInfoPage = (props) => {
   // Event fields
-  const [eventDetails, setDetails] = useState({});
+  // const [eventDetails, setDetails] = useState({});
   const [eventName, setName] = useState("");
   const [eventRso, setRso] = useState("");
   const [eventDesc, setDesc] = useState("S");
