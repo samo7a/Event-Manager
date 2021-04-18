@@ -127,6 +127,28 @@ const EventInfoPage = (props) => {
       return;
     }
   };
+  const generateComments =
+    eventDetails.comments != null ? (
+      eventDetails.comments.length == 0 ? (
+        <span>No comments yet, be the first!</span>
+      ) : (
+        eventDetails.comments.map((e) => {
+          return <Comment info={e} />;
+        })
+      )
+    ) : null;
+  const Comment = (param) => {
+    return (
+      <Card className="cardComment">
+        <Card.Title className="cardCommentTitle">{param.s_id}</Card.Title>
+        <Card.Body className="cardCommentBody">{param.comment}</Card.Body>
+        <Card.Footer className="cardCommentFooter">
+          Posted at time on date
+        </Card.Footer>
+      </Card>
+    );
+  };
+
   const formatDate = (param) => {
     if (param != null) {
       let returnVar = ";";
@@ -226,6 +248,7 @@ const EventInfoPage = (props) => {
                 Posted at {comment.time} on {comment.date}
               </Card.Footer>
             </Card>
+            {generateComments}
           </Card.Footer>
         </Card>
       </Container>
