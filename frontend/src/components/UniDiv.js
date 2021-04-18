@@ -54,7 +54,8 @@ const UniDiv = () => {
                 <div><strong>University: </strong>{uniContent.u_name}</div>
                 <div><strong>Student count: </strong>{uniContent.u_noOfStudents}</div>
                 <div><strong>Description: </strong>{uniContent.u_description}</div>
-                <div><strong>Location: </strong>{uniContent.u_locationName}</div>
+                <div><strong>Location: </strong>{uniContent.locationName}</div>
+                <div><strong>Address: </strong>{uniContent.address}</div>
             </div>
         </div>
     ) : (
