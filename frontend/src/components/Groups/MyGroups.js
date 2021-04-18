@@ -20,6 +20,9 @@ const MyGroups = (props) => {
     desc: "THis is the description area",
     date: "MM/DD/YYYY",
   };
+  // Local data
+  var user = JSON.parse(localStorage.getItem("user_data"));
+  var student_id = user ? JSON.parse(user).s_id : "X";
   const [createShow, setCreateShow] = useState(false);
   const createRSOClose = () => setCreateShow(false);
   const createRSOOpen = () => setCreateShow(true);
@@ -30,6 +33,7 @@ const MyGroups = (props) => {
   var newRsoName;
   var newRsoDesc;
   var newRsoPic;
+  // repeat test
 
   const createNewRso = async (event) => {
     event.preventDefault();
@@ -39,9 +43,9 @@ const MyGroups = (props) => {
     // Check length of desc
     // console.log(newRsoDesc.value.length);
     // console.log(newRsoDesc.value);
-    if (newRsoName.value.length < 2) {
+    if (newRsoName.value.length > 45) {
       console.error("nameErr");
-      setMessage("Please enter a RSO name of at least 2 length");
+      setMessage("The RSO name is over the maximum limit");
       return;
     }
     if (newRsoDesc.value.length > 1000) {
@@ -57,7 +61,7 @@ const MyGroups = (props) => {
         rso_name: newRsoName.value,
         rso_description: newRsoDesc.value,
         rso_profilePicture: newRsoPic.value,
-        // s_id :
+        s_id: student_id,
       };
       var js = JSON.stringify(newRso);
       const response = await fetch("/api/createRso", {
@@ -70,8 +74,7 @@ const MyGroups = (props) => {
       if (response.status !== 200) {
         console.log(res.error);
       } else {
-        // ADD REPLACEMENT FOR ALERT
-        // toggleUpdatePassMsg();
+        console.log("RSO created");
       }
     } catch (e) {
       console.log(e.toString());
@@ -80,7 +83,7 @@ const MyGroups = (props) => {
   };
   return (
     <Container>
-      <h1 style={{ marginLeft: "-1rem" }}> My RSOs </h1>
+      <h1 style={{ marginLeft: "-1rem" }}> RSOs </h1>
 
       <Row>
         <Col xs="9" style={{ padding: 0 }}>
@@ -98,6 +101,12 @@ const MyGroups = (props) => {
       </Row>
       <Row>
         <h3>Member of these RSOs</h3>
+        <Container style={{ backgroundColor: "red" }}>
+          Member OF THESE GROUPS
+        </Container>
+      </Row>
+      <Row>
+        <h3>Other RSOs at your university</h3>
         <Container style={{ backgroundColor: "red" }}>
           Member OF THESE GROUPS
         </Container>
@@ -120,11 +129,14 @@ const MyGroups = (props) => {
               <Form>
                 <Form.Group controlID="rsoName">
                   <Form.Label>Enter RSO name</Form.Label>
+
                   <Form.Control type="text" ref={(c) => (newRsoName = c)} />
+                  <Form.Text>45 characters maximum</Form.Text>
                 </Form.Group>
                 <Form.Group controlID="rsoPic">
                   <Form.Label>Upload RSO profile picture</Form.Label>
                   <Form.File label="" ref={(c) => (newRsoPic = c)} />
+                  <Form.Text>5 MB maximum</Form.Text>
                 </Form.Group>
                 <Form.Group controlID="rsoName">
                   <Form.Label>Enter RSO description</Form.Label>{" "}
