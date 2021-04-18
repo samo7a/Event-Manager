@@ -189,6 +189,27 @@ const SngGroup = (props) => {
       console.error("Error:", error);
     }
   };
+  const generateMembers =
+    rsoDetails.members != null ? (
+      rsoDetails.members.length == 0 ? (
+        <span>No members!</span>
+      ) : (
+        rsoDetails.members.map((e, i) => {
+          <tr>
+            <td className="tableNumCol">{i}</td>
+            <td className="tableCol">
+              <Image
+                src={GroupThumbnail}
+                roundedCircle
+                className="groupThumbnailImage"
+                style={{ maxWidth: "2rem" }}
+              />
+              {e.s_firstName + " " + e.s_lastName}
+            </td>
+          </tr>;
+        })
+      )
+    ) : null;
 
   return (
     <div style={{ margin: "auto", minWidth: "40%" }}>
@@ -377,27 +398,7 @@ const SngGroup = (props) => {
                   {/* <th className="tableCol">Email</th> */}
                 </tr>
               </thread>
-              <tbody>
-                {rsoDetails.members != null
-                  ? rsoDetails.members.length == 0
-                    ? null
-                    : rsoDetails.members.map((e) => {
-                        <tr>
-                          <td className="tableNumCol">1</td>
-                          <td className="tableCol">
-                            <Image
-                              src={GroupThumbnail}
-                              roundedCircle
-                              className="groupThumbnailImage"
-                              style={{ maxWidth: "2rem" }}
-                            />
-                            {e.s_firstName + " " + e.s_lastName}
-                          </td>
-                          {/* <td className="tableCol">Email@Email.com</td> */}
-                        </tr>;
-                      })
-                  : null}
-              </tbody>
+              <tbody>{generateMembers}</tbody>
             </Table>
             <Modal.Footer className="modalFooter">
               <Button onClick={handleMClose}>Close</Button>
