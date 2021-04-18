@@ -2,7 +2,7 @@
 // ADD LOCAL STORAGE FOR s_id
 // ADD RSO tab for rso_id
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Col,
@@ -62,6 +62,9 @@ const MyEvents = (props) => {
   //   event.preventDefault();
   //   setMessage("");
   // getAllevents
+  useEffect(() => {
+    getAllEvents();
+  }, []);
   const getAllEvents = async () => {
     try {
       let js = JSON.stringify({ s_id: s_id, from: 1, to: 4 });
