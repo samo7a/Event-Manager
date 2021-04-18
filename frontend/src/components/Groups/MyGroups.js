@@ -122,8 +122,8 @@ const MyGroups = (props) => {
       <span>Not apart of any groups</span>
     ) : (
       joinedGroups.map((e) => {
-        console.log(joinedGroups[e].rso_id.value);
-        return <Group rso_id={joinedGroups[e].rso_id.value} />;
+        console.log(e.rso_id);
+        return <Group rso_id={e.rso_id} />;
       })
     );
 
