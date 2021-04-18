@@ -71,8 +71,8 @@ const Event = (props) => {
         onClick={modalOpen}
         style={{ backgroundColor: "yellowgreen" }}
       >
-        <h1>{eventName}</h1>
-        <h4>{eventRso}</h4>
+        <h1>{eventDetails.e_name}</h1>
+        {/* <h4>{eventDetails.}</h4> */}
         <Image className="previewImage" src={pupFiller} />
         {/* <p style={{ fontSize: "1.3rem" }}>{eventDesc}</p> */}
         <p style={{ fontSize: "1.3rem" }}>{eventDate}</p>
@@ -87,19 +87,19 @@ const Event = (props) => {
             <Col>
               <Row>
                 <b>Event Name:{"\xa0"}</b>
-                {eventName}
+                {eventDetails.e_name}
               </Row>
               <Row>
                 <b>Hosted by:{"\xa0"}</b>
-                {eventRso}
+                {/* {eventRso} */}
               </Row>
               <Row>
                 <b>Date:{"\xa0"}</b>
-                {eventDate}
+                {eventDetails.e_date}
               </Row>
               <Row>
                 <b>Description:{"\xa0"}</b>
-                {eventDesc}
+                {eventDetails.e_description}
               </Row>
             </Col>
           </Row>
