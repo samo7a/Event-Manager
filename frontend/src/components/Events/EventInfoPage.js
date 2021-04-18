@@ -127,17 +127,6 @@ const EventInfoPage = (props) => {
       return;
     }
   };
-  const generateComments =
-    eventDetails.comments != null ? (
-      eventDetails.comments.length == 0 ? (
-        <span>No comments yet, be the first!</span>
-      ) : (
-        eventDetails.comments.map((e) => {
-          console.log(e);
-          return <Comment info={e} />;
-        })
-      )
-    ) : null;
   const Comment = (param) => {
     return (
       <Card className="cardComment">
@@ -149,6 +138,17 @@ const EventInfoPage = (props) => {
       </Card>
     );
   };
+  const generateComments =
+    eventDetails.comments != null ? (
+      eventDetails.comments.length == 0 ? (
+        <span>No comments yet, be the first!</span>
+      ) : (
+        eventDetails.comments.map((e) => {
+          console.log(e);
+          return <Comment info={e} />;
+        })
+      )
+    ) : null;
 
   const formatDate = (param) => {
     if (param != null) {
