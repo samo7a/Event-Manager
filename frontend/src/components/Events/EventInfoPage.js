@@ -23,9 +23,9 @@ const EventInfoPage = (props) => {
   // const [commentPost, setComment] = useState("empty");
   // Add comment field
   var user = JSON.parse(localStorage.getItem("user_data"));
-  const s_id = user ? JSON.parse(user).id : 0;
-  const fName = user ? JSON.parse(user).firstName : "F";
-  const lName = user ? JSON.parse(user).lastName : "L";
+  const s_id = user ? user.id : 0;
+  const fName = user ? user.firstName : "F";
+  const lName = user ? user.lastName : "L";
 
   // const [userID, setUserId] = useState("");
   // const [fName, setFName] = useState("");

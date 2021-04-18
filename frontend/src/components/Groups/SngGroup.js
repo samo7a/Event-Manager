@@ -33,7 +33,8 @@ const SngGroup = (props) => {
   };
   // Local data
   var user = JSON.parse(localStorage.getItem("user_data"));
-  const s_id = user ? JSON.parse(user).s_id : "F";
+  console.log(user);
+  const s_id = user ? user.id : "F";
   // Modal fields
   // member/admin list modals
   const [showMem, setMemShow] = useState(false);
@@ -303,9 +304,13 @@ const SngGroup = (props) => {
       </Card>
       {/* LEAVE RSO MODAL */}
       <div>
-        <Modal show={showLeave} onHide={handleLeaveClose}>
+        <Modal
+          style={{ textAlign: "center" }}
+          show={showLeave}
+          onHide={handleLeaveClose}
+        >
           <Modal.Title>Leaving Confirmation</Modal.Title>
-          <Modal.Body>
+          <Modal.Body style={{ marginLeft: "0rem" }}>
             Are you sure you would like to leave this RSO? You can rejoin at any
             time.
           </Modal.Body>

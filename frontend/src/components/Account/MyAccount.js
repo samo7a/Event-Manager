@@ -12,9 +12,9 @@ function MyAccount() {
   //   Uni: "University of Central Florida",
   // };
   var user = JSON.parse(localStorage.getItem("user_data"));
-  const fName = user ? JSON.parse(user).firstName : "F";
-  const lName = user ? JSON.parse(user).lastName : "L";
-  const email = user ? JSON.parse(user).email : "E";
+  const fName = user ? user.firstName : "F";
+  const lName = user ? user.lastName : "L";
+  const email = user ? user.email : "E";
   // const uni =
   return (
     <div>

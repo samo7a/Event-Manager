@@ -22,7 +22,7 @@ const MyGroups = (props) => {
   };
   // Local data
   var user = JSON.parse(localStorage.getItem("user_data"));
-  var student_id = user ? JSON.parse(user).s_id : "X";
+  var student_id = user ? user.id : "X";
   // create rso
   const [createShow, setCreateShow] = useState(false);
   const createRSOClose = () => setCreateShow(false);
