@@ -378,21 +378,25 @@ const SngGroup = (props) => {
                 </tr>
               </thread>
               <tbody>
-                <tr>
-                  <td className="tableNumCol">1</td>
-                  <td className="tableCol">
-                    <Image
-                      src={GroupThumbnail}
-                      roundedCircle
-                      className="groupThumbnailImage"
-                      style={{ maxWidth: "2rem" }}
-                    />
-                    {rsoDetails.members[0].s_firstName +
-                      " " +
-                      rsoDetails.members[0].s_lastName}
-                  </td>
-                  {/* <td className="tableCol">Email@Email.com</td> */}
-                </tr>
+                {rsoDetails.members != null
+                  ? rsoDetails.members.length == 0
+                    ? null
+                    : rsoDetails.members.map((e) => {
+                        <tr>
+                          <td className="tableNumCol">1</td>
+                          <td className="tableCol">
+                            <Image
+                              src={GroupThumbnail}
+                              roundedCircle
+                              className="groupThumbnailImage"
+                              style={{ maxWidth: "2rem" }}
+                            />
+                            {e.s_firstName + " " + e.s_lastName}
+                          </td>
+                          {/* <td className="tableCol">Email@Email.com</td> */}
+                        </tr>;
+                      })
+                  : null}
               </tbody>
             </Table>
             <Modal.Footer className="modalFooter">
