@@ -21,8 +21,7 @@ const MyGroups = (props) => {
     date: "MM/DD/YYYY",
   };
   // Local data
-  const user = JSON.parse(localStorage.getItem("user_data"));
-  const student_id = user ? user.id : "X";
+
   // create rso
   const [createShow, setCreateShow] = useState(false);
   const createRSOClose = () => setCreateShow(false);
@@ -37,6 +36,8 @@ const MyGroups = (props) => {
   var newRsoPic;
 
   const getJoinedGroups = async () => {
+    const user = JSON.parse(localStorage.getItem("user_data"));
+    const student_id = user ? user.id : "X";
     try {
       var sID = { s_id: student_id };
       var js = JSON.stringify(sID);
@@ -65,6 +66,8 @@ const MyGroups = (props) => {
   }, []);
 
   const createNewRso = async (event) => {
+    const user = JSON.parse(localStorage.getItem("user_data"));
+    const student_id = user ? user.id : "X";
     event.preventDefault();
     setMessage("");
     // Check if form is valid
