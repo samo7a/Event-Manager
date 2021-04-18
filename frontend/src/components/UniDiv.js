@@ -36,7 +36,7 @@ const UniDiv = () => {
         }
     }
 
-    useEffect(() => loadRsoListHandler(), [showUniModal]);
+    useEffect(() => loadUniHandler(), [showUniModal]);
 
     const handleUniShow = () => {
         setShowUniModal(true);
@@ -91,7 +91,7 @@ const UniDiv = () => {
     const updateUniHandler = async (e) => {
         e.preventDefault();
 
-        var js = {sa_id: sa_id, universityName: uniContent.u_name, address: uniContent.address, u_profilePicture: uniContent.u_profilePicture, u_description: uniContent.u_description };
+        var js = {u_id: uniContent.u_id, universityName: uniContent.u_name, address: uniContent.address, u_profilePicture: uniContent.u_profilePicture, u_description: uniContent.u_description };
         var res;
 
         try {
