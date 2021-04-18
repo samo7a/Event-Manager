@@ -44,7 +44,6 @@ const MyCalendar = (props) => {
           tempEvents.push(other);
         })
         setEvents(tempEvents);
-        console.log(`Success: ${res}`);
       }
     } catch (error) {
       console.error("Error:", error);
