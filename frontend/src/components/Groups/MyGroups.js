@@ -9,6 +9,7 @@ import {
   Form,
   Row,
 } from "react-bootstrap";
+import Group from "./Group";
 // import "./GroupContainer.css";
 import GroupContainer from "./GroupContainer";
 // import pupFiller from "../pictures/pupFiller.jpeg";
@@ -32,7 +33,7 @@ const MyGroups = (props) => {
   // MSG
   const [message, setMessage] = useState("");
   // getJoinedGroups
-  const [joinedGroups, setJoinedGroups] = useState({});
+  const [joinedGroups, setJoinedGroups] = useState([]);
   // New Rso fields
   var newRsoName;
   var newRsoDesc;
@@ -116,6 +117,15 @@ const MyGroups = (props) => {
       return;
     }
   };
+  const generateJoinedGroups =
+    joinedGroups.length == 0 ? (
+      <span>Not apart of any groups</span>
+    ) : (
+      joinedGroups.map((e) => {
+        return <Group rso_id={joinedGroups[e].rso_id} />;
+      })
+    );
+
   return (
     <Container>
       <h1 style={{ marginLeft: "-1rem" }}> RSOs </h1>
@@ -137,7 +147,7 @@ const MyGroups = (props) => {
       <Row>
         <h3>Member of these RSOs</h3>
         <Container style={{ backgroundColor: "red" }}>
-          Member OF THESE GROUPS
+          {generateJoinedGroups}
         </Container>
       </Row>
       <Row>
