@@ -159,6 +159,9 @@ const MyGroups = (props) => {
         <Container style={{ backgroundColor: "red" }}>
           ADMIN OF THESE GROUPS
           {/* <GroupContainer /> */}
+          {window.location.href == "http://localhost:3000/my-groups" ? (
+            <GroupContainer />
+          ) : null}
         </Container>
       </Row>
       <Row>
