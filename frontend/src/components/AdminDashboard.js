@@ -117,15 +117,15 @@ const AdminDashboard = (props) => {
                     <Row>
                         <Col>
                             <MdContactPhone />
-                             {singleEvent[0].e_contactPhone} |
+                             {singleEvent[0].e_contactPhone}
                         </Col>
                         <Col>
                             <MdEmail />
-                             {singleEvent[0].e_contactEmail} |
+                             {singleEvent[0].e_contactEmail}
                         </Col>
                         <Col>
                             <AiFillClockCircle />
-                             {moment(singleEvent[0].e_time, 'HH:mm').format('h:mm a')} |
+                             {moment(singleEvent[0].e_time, 'HH:mm').format('h:mm a')}
                         </Col>
                         <Col>
                             <AiFillCalendar />
@@ -148,7 +148,7 @@ const AdminDashboard = (props) => {
                             </Row>
                         </Col>
                         <Col>
-                            <img src={`https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${singleEvent[0].latitude},${singleEvent[0].longitude}&key=${process.env.REACT_APP_GOOGLE_STATIC_MAPS_API_KEY}`} />
+                            <img src={`https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${singleEvent[0].latitude},${singleEvent[0].longitude}&key="AIzaSyAMEVLMbPzwRN-pX7gBwb-jvMw7o_bDyqs"`} />
                         </Col>
                     </Row>
                 </Modal.Body>
