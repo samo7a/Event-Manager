@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -23,17 +23,44 @@ const MyGroups = (props) => {
   // Local data
   var user = JSON.parse(localStorage.getItem("user_data"));
   var student_id = user ? JSON.parse(user).s_id : "X";
+  // create rso
   const [createShow, setCreateShow] = useState(false);
   const createRSOClose = () => setCreateShow(false);
   const createRSOOpen = () => setCreateShow(true);
   // MSG
   const [message, setMessage] = useState("");
-
+  // getJoinedGroups
+  const [joinedGroups, setJoinedGroups] = useState({});
   // New Rso fields
   var newRsoName;
   var newRsoDesc;
   var newRsoPic;
-  // repeat test
+  useEffect(() => {
+    getJoinedGroups();
+  }, []);
+  const getJoinedGroups = async () => {
+    try {
+      var sID = { s_id: student_id };
+      var js = JSON.stringify(sID);
+      const response = await fetch("/api/getJoinedGroups", {
+        method: "POST",
+        // credentials: "include",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+      var res = JSON.parse(await response.text());
+      if (response.status !== 200) {
+        console.log(res.error);
+      } else {
+        console.log("GetJoinedGroups success");
+        setJoinedGroups(res);
+        console.log(joinedGroups);
+      }
+    } catch (e) {
+      console.log(e.toString());
+      return;
+    }
+  };
 
   const createNewRso = async (event) => {
     event.preventDefault();
