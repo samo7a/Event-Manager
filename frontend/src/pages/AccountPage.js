@@ -8,10 +8,7 @@ import SideMenu from "../components/SideMenu";
 
 const AccountPage = () => {
   return (
-    <div
-      className=" "
-      style={{ height: "100vh", backgroundColor: "green", overflow: "hidden" }}
-    >
+    <div className=" " style={{ height: "100vh", overflow: "hidden" }}>
       <Banner />
       <Container
         fluid
@@ -19,7 +16,6 @@ const AccountPage = () => {
           padding: "0px",
           margin: "0",
           height: "100%",
-          backgroundColor: "yellow",
         }}
       >
         <Row>
@@ -30,7 +26,6 @@ const AccountPage = () => {
             style={{
               padding: "0px",
               margin: "0 px",
-              backgroundColor: "blue",
             }}
           >
             <div>
