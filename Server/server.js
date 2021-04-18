@@ -798,7 +798,14 @@ app.post("/api/getEvent", async (req, res) => {
     if (error) {
       return res.status(400).json({ msg: error.sqlMessage });
     }
-    return res.status(200).json(result);
+
+    let url = `https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${result[0].latitude},${result[0].longitude}&key=${process.env.GOOGLE_STATIC_MAPS_API_KEY}`;
+    let map = await fetch(url);
+    let obj = {
+      event: result,
+      map: map,
+    };
+    return res.status(200).json(obj);
   });
 });
 
@@ -1011,6 +1018,7 @@ app.post("/api/getAllRsos", async (req, res) => {
   let obj = {};
   let admin;
   let rsos = [];
+  let admins = [];
   let array = [];
   let sql = `select u_id from CreatesUniversities where sa_id = ${sa_id};`;
   conn.query(sql, async (error, result) => {
@@ -1023,42 +1031,28 @@ app.post("/api/getAllRsos", async (req, res) => {
       if (error1) {
         res.status(401).json({ msg: error1.sqlMessage });
       }
-      result1.forEach((item) => {
-        rso = item;
-        sql = `select s_id, s_firstName, s_lastName from Students where s_id = ${item.s_id};`;
-        conn.query(sql, async (error2, result2) => {
-          if (error2) {
-            res.status(401).json({ msg: error2.sqlMessage });
-          }
-          admin = result2[0];
+      for (var i = 0; i < result1.length; i++) {
+        rsos.push(result1[i]);
+      }
+      sql = `select s_id, s_firstName, s_lastName from Students where s_id in (select s_id from Rso where s_id in (select s_id from Students where u_id = ${u_id}));`;
+
+      conn.query(sql, async (error2, result2) => {
+        if (error2) {
+          res.status(401).json({ msg: error2.sqlMessage });
+        }
+        for (var j = 0; j < result2.length; j++) {
+          admins.push(result2[j]);
+        }
+        for (var k = 0; k < rsos.length; k++) {
           obj = {
-            admin: admin,
-            rso: rso,
+            admin: admins[k],
+            rso: rsos[k],
           };
-          rsos.push(obj);
-          array = rsos;
-        });
+          array.push(obj);
+        }
         console.log(array);
         res.status(200).json(array);
       });
-      // for (var i = 0; i < result1.length; i++) {
-      //   rso = result1[i];
-      //   sql = `select s_id, s_firstName, s_lastName from Students where s_id = ${result1[i].s_id};`;
-      //   conn.query(sql, async (error2, result2) => {
-      //     if (error2) {
-      //       res.status(401).json({ msg: error2.sqlMessage });
-      //     }
-      //     admin = result2[0];
-      //     obj = {
-      //       admin: admin,
-      //       rso: rso,
-      //     };
-      //     rsos.push(obj);
-      //     array = rsos;
-      //   });
-      // }
-      // console.log(array);
-      // res.status(200).json(array);
     });
   });
 });
