@@ -794,7 +794,7 @@ app.post("/api/getAllEvents", async (req, res) => {
 app.post("/api/getEvent", async (req, res) => {
   const { e_id } = req.body;
   let sql = `Select * from Events Where e_id = ${e_id};`;
-  conn.query(sql, (error, result) => {
+  conn.query(sql, async (error, result) => {
     if (error) {
       return res.status(400).json({ msg: error.sqlMessage });
     }
