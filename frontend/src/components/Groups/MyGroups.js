@@ -48,9 +48,12 @@ const MyGroups = (props) => {
         body: js,
         headers: { "Content-Type": "application/json" },
       });
+      console.log(sID);
+      console.log(js);
       var res = JSON.parse(await response.text());
       if (response.status !== 200) {
-        console.log(response.status);
+        // console.log(response.status);
+        console.error(response.status);
       } else {
         console.log("GetJoinedGroups success");
         setJoinedGroups(res);
