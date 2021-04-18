@@ -20,15 +20,9 @@ const AdminDashboard = (props) => {
     const [eventsByDate, setEventsByDate] = useState([]);
     const [singleEvent, setSingleEvent] = useState( {} );
     const [showEvent, setShowEvent] = useState(false);
-    const [map, setMap] = useState('');
 
     const handleDateClick = events => {
         setEventsByDate(events);
-    }
-
-    const handleEventClick = event => {
-        setSingleEvent(event);
-        //setShowEvent(true);
     }
 
     const handleEventShow = async (e_id) => {
@@ -48,7 +42,7 @@ const AdminDashboard = (props) => {
                 throw new Error(response.status);
             } else {
                 res = JSON.parse(await response.text());
-                console.log("The event with google maps: ", res);
+                console.log(res);
                 setSingleEvent(res);
                 //setShowEvent(true);
             }
@@ -105,49 +99,49 @@ const AdminDashboard = (props) => {
                     <div className="calendar-div">
                         <MyCalendar 
                             dateClick={tempEvents => handleDateClick(tempEvents)}
-                            eventClick={event => handleEventClick(event)}
+                            eventClick={id => handleEventShow(id)}
                         />
                     </div>
                 </Col>
             </Row>
             <Modal show={showEvent} onHide={handleEventClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{singleEvent[0].e_name}</Modal.Title>
+                    <Modal.Title>{singleEvent.e_name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
                         <Col>
                             <MdContactPhone />
-                            {singleEvent[0].e_contactPhone}
+                            {singleEvent.e_contactPhone}
                         </Col>
                         <Col>
                             <MdEmail />
-                            {singleEvent[0].e_contactEmail}
+                            {singleEvent.e_contactEmail}
                         </Col>
                         <Col>
                             <AiFillClockCircle />
-                            {moment(singleEvent[0].e_time, 'HH:mm').format('h:mm a')}
+                            {moment(singleEvent.e_time, 'HH:mm').format('h:mm a')}
                         </Col>
                         <Col>
                             <AiFillCalendar />
-                            {moment(singleEvent[0].e_date.slice(0, 10), "YYYY-MM-DD").format("dddd, MMMM Do YYYY")}
+                            {moment(singleEvent.e_date.slice(0, 10), "YYYY-MM-DD").format("dddd, MMMM Do YYYY")}
                         </Col>
                     </Row>
                     <Row>
-                        <p>{singleEvent[0].e_description}</p>
+                        <p>{singleEvent.e_description}</p>
                     </Row>
                     <Row>
                         <Col>
                             <Row>
                                 <span>Location:</span>
-                                {singleEvent[0].locationName}
+                                {singleEvent.locationName}
                             </Row>
                             <Row>
-                                {singleEvent[0].address}
+                                {singleEvent.address}
                             </Row>
                         </Col>
                         <Col>
-                            <img src={`https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${singleEvent[0].latitude},${singleEvent[0].longitude}&key=${process.env.REACT_APP_GOOGLE_STATIC_MAPS_API_KEY}`} />
+                            <img src={`https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${singleEvent.latitude},${singleEvent.longitude}&key=${process.env.REACT_APP_GOOGLE_STATIC_MAPS_API_KEY}`} />
                         </Col>
                     </Row>
                 </Modal.Body>

@@ -87,27 +87,8 @@ const MyCalendar = (props) => {
     }
   }
 
-  const handleEventClick = async (info) => {
-    let js = { e_id: info.event.id };
-
-    try {
-      let response = await fetch("/api/getEvent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(js),
-      })
-
-      if (response.status != 200) {
-        throw new Error(response.status);
-      } else {
-        let res = JSON.parse(await response.text());
-        props.eventClick(res);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+  const handleEventClick = (info) => {
+    props.eventClick(info.event.id);
   }
 
   return (
