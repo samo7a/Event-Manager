@@ -678,7 +678,7 @@ app.post("/api/updateEvent", async (res, req) => {
 
 app.post("/api/getUniversity", async (req, res) => {
   const { sa_id } = req.body;
-  let sql = `SELECT u_name, u_noOfStudents, u_profilePicture, u_description, locationName, latitude, longitude FROM Universities WHERE u_id=(SELECT u_id FROM CreatesUniversities WHERE sa_id=${sa_id})`;
+  let sql = `SELECT u_id, u_name, u_noOfStudents, u_profilePicture, u_description, locationName, latitude, longitude FROM Universities WHERE u_id=(SELECT u_id FROM CreatesUniversities WHERE sa_id=${sa_id})`;
   conn.query(sql, async (error, result) => {
     if (error) {
       let response = { msg: error.sqlMessage };
@@ -687,6 +687,7 @@ app.post("/api/getUniversity", async (req, res) => {
       let response = { msg: "You are not authorized, fool!" };
       res.status(404).json(response);
     } else {
+      let u_id = result[0].u_id;
       let u_name = result[0].u_name;
       let u_noOfStudents = result[0].u_noOfStudents;
       let u_profilePicture = result[0].u_profilePicture;
@@ -694,12 +695,13 @@ app.post("/api/getUniversity", async (req, res) => {
       let locationName = result[0].locationName;
       let latitude = result[0].latitude;
       let longitude = result[0].longitude;
-      let add = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.AIzaSyDCyXm_G0BLJLc7n5AlTP2q8qQhrZuOkO8}`
-      );
-      let address = add.results[0].formatted_address;
+      let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
+      let googleResponse = await fetch(url);
+      let googleJson = await googleResponse.json();
+      let address = googleJson.results[0].formatted_address;
       console.log(address);
       let response = {
+        u_id: u_id,
         u_name: u_name,
         u_noOfStudents: u_noOfStudents,
         u_profilePicture: u_profilePicture,
