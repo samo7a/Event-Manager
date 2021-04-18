@@ -130,7 +130,7 @@ const SngGroup = (props) => {
   const getRsoDetails = async () => {
     try {
       // setRsoID(props.rso_id);
-      setRsoID(13);
+      // setRsoID(13);
       var obj = { rso_id: rsoID };
       var js = JSON.stringify(obj);
       let response = await fetch("/api/getRsoDetails", {

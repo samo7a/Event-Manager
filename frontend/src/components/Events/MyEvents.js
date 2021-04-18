@@ -16,10 +16,14 @@ import {
   FormControl,
 } from "react-bootstrap";
 // import "./GroupContainer.css";
+import Event from "./Event";
 import EventContainer from "./EventContainer";
 // import pupFiller from "../pictures/pupFiller.jpeg";
 
 const MyEvents = (props) => {
+  let check = localStorage.getItem("user_data");
+  const user = check ? JSON.parse(check) : null;
+  const s_id = user ? user.id : 0;
   const group = {
     name: "Group Name",
     rso: "rso name",
@@ -29,6 +33,14 @@ const MyEvents = (props) => {
   const [createShow, setCreateShow] = useState(false);
   const createEventClose = () => setCreateShow(false);
   const createEventOpen = () => setCreateShow(true);
+  const [allEvents, setAllEvents] = useState([
+    {
+      e_id: 0,
+      e_name: "e_name",
+      e_date: "e_date",
+      e_type: "private",
+    },
+  ]);
   // MSG field
   const [message, setMessage] = useState("");
   // newEvent fields
@@ -49,6 +61,29 @@ const MyEvents = (props) => {
   // const createEvent  = async (event) => {
   //   event.preventDefault();
   //   setMessage("");
+  // getAllevents
+  const getAllEvents = async () => {
+    try {
+      let js = JSON.stringify({ s_id: s_id, from: 1, to: 4 });
+      console.log(js);
+      const response = await fetch("/api/getAllEventsStudent", {
+        method: "POST",
+        // credentials: "include",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+      var res = JSON.parse(await response.text());
+      if (response.status !== 200) {
+        console.log(res.error);
+      } else {
+        console.log(res);
+        setAllEvents(res);
+      }
+    } catch (e) {
+      console.log(e.toString());
+      return;
+    }
+  };
   // Create event
   const createEvent = async (event) => {
     event.preventDefault();
@@ -139,7 +174,7 @@ const MyEvents = (props) => {
       var js = JSON.stringify(newEvent);
       const response = await fetch("/api/createEventRso", {
         method: "POST",
-        credentials: "include",
+        // credentials: "include",
         body: js,
         headers: { "Content-Type": "application/json" },
       });
@@ -154,6 +189,16 @@ const MyEvents = (props) => {
       return;
     }
   };
+
+  const generateAllEvents =
+    allEvents.length == 0 ? (
+      <span>Not apart of any groups</span>
+    ) : (
+      allEvents.map((e) => {
+        console.log(e.rso_id);
+        return e.rso_id != "0" ? <Event e_id={e.e_id} /> : null;
+      })
+    );
 
   return (
     <Container>
@@ -177,6 +222,7 @@ const MyEvents = (props) => {
         <h3>Following these events</h3>
         <Container style={{ backgroundColor: "red" }}>
           Following these Events
+          {generateAllEvents}
         </Container>
       </Row>
       <Row>

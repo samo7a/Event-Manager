@@ -27,19 +27,20 @@ const Event = (props) => {
   const [eventDetails, setDetails] = useState({});
 
   useEffect(() => {
-    setName(props.event.name);
-    setRso(props.event.rso);
-    setDesc(props.event.desc);
-    setDate(props.event.date);
+    // setName(props.event.name);
+    // setRso(props.event.rso);
+    // setDesc(props.event.desc);
+    // setDate(props.event.date);
+    getEventSingle();
   }, []);
   const getEventSingle = async () => {
     try {
-      setEventID(props.event.e_id);
+      setEventID(props.e_id);
       var obj = { e_id: props.event.e_id };
       var js = JSON.stringify(obj);
       let response = await fetch("/api/getEventStudent", {
         method: "POST",
-        credentials: "include",
+        // credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -49,6 +50,7 @@ const Event = (props) => {
       if (response.status != 200) {
         throw new Error(response.status);
       } else {
+        console.log(res);
         setDetails(res);
       }
     } catch (error) {
