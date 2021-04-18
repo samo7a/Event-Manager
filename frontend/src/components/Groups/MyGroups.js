@@ -21,8 +21,8 @@ const MyGroups = (props) => {
     date: "MM/DD/YYYY",
   };
   // Local data
-  var user = JSON.parse(localStorage.getItem("user_data"));
-  var student_id = user ? user.id : "X";
+  const user = JSON.parse(localStorage.getItem("user_data"));
+  const student_id = user ? user.id : "X";
   // create rso
   const [createShow, setCreateShow] = useState(false);
   const createRSOClose = () => setCreateShow(false);
@@ -35,16 +35,14 @@ const MyGroups = (props) => {
   var newRsoName;
   var newRsoDesc;
   var newRsoPic;
-  useEffect(() => {
-    getJoinedGroups();
-  }, []);
+
   const getJoinedGroups = async () => {
     try {
       var sID = { s_id: student_id };
       var js = JSON.stringify(sID);
       const response = await fetch("/api/getJoinedGroups", {
         method: "POST",
-        credentials: "include",
+        // credentials: "include",
         body: js,
         headers: { "Content-Type": "application/json" },
       });
@@ -61,6 +59,10 @@ const MyGroups = (props) => {
       return;
     }
   };
+  useEffect(() => {
+    // setUserID();
+    getJoinedGroups();
+  }, []);
 
   const createNewRso = async (event) => {
     event.preventDefault();
