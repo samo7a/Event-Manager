@@ -36,7 +36,7 @@ const Event = (props) => {
   const getEventSingle = async () => {
     try {
       setEventID(props.e_id);
-      var obj = { e_id: props.event.e_id };
+      var obj = { e_id: props.e_id };
       var js = JSON.stringify(obj);
       let response = await fetch("/api/getEventStudent", {
         method: "POST",
