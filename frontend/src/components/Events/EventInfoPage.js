@@ -79,7 +79,7 @@ const EventInfoPage = (props) => {
   };
   const postComment = async (event) => {
     event.preventDefault();
-    setMessage(" ");
+    setMessage("");
     // alert("This doesnt work yet");
     if (newComment == null) {
       setMessage(" Can not post empty comment.");
@@ -103,7 +103,8 @@ const EventInfoPage = (props) => {
 
     try {
       var newCommentObj = {
-        e_id: props.e_id,
+        // e_id: props.e_id,
+        e_id: 20,
         s_id: s_id,
         comment: newComment.value,
       };
@@ -152,7 +153,7 @@ const EventInfoPage = (props) => {
 
   const formatDate = (param) => {
     if (param != null) {
-      let returnVar = ";";
+      let returnVar = "";
       returnVar +=
         param.substring(8, 10) +
         "/" +
