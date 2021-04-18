@@ -149,7 +149,9 @@ const AdminDashboard = (props) => {
                             {singleEvent[0].locationName}
                         </Col>
                         <Col>
-                            <img src={`https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${singleEvent[0].latitude},${singleEvent[0].longitude}&key=AIzaSyDzw7H843GHOFrttAxMR2rnBdJh6z-AGfc`} />
+                            <a href={`https://www.google.com/maps/search/?api=1&query=${singleEvent[0].latitude},${singleEvent[0].longitude}`} target="_blank">
+                                <img src={`https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=400x400&markers=color:blue%7C${singleEvent[0].latitude},${singleEvent[0].longitude}&key=AIzaSyDzw7H843GHOFrttAxMR2rnBdJh6z-AGfc`} />
+                            </a>
                         </Col>
                     </Row>
                 </Modal.Body>
