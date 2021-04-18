@@ -569,7 +569,7 @@ app.post("/api/joinRso", async (req, res) => {
           conn.query(sql, async function (error3, results3) {
             if (error3) {
               return conn.rollback(function () {
-                return res.status(401).json({ msg: error3.sqlMessage });
+                return res.status(401).json({ msg: "Already joined" });
               });
             }
             conn.commit(async function (error4) {
