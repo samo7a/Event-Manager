@@ -1017,7 +1017,9 @@ app.post("/api/getEventStudent", async (req, res) => {
 app.post("/api/getAllRsos", async (req, res) => {
   const { sa_id } = req.body;
   let u_id;
+  let rso = {};
   let obj = {};
+  let admin;
   let rsos = [];
   let admins = [];
   let array = [];
@@ -1026,38 +1028,34 @@ app.post("/api/getAllRsos", async (req, res) => {
     if (error) {
       res.status(401).json({ msg: error.sqlMessage });
     }
-    array.push(null);
     u_id = result[0].u_id;
-    sql = `select s_id, s_firstName, s_lastName from Students where s_id in (select s_id from Rso where s_id in (select s_id from Students where u_id = ${u_id}));`;
+    sql = `select rso_id, s_id, rso_name, status, rso_description from Rso where s_id in (select s_id from Students where u_id = ${u_id});`;
     conn.query(sql, async (error1, result1) => {
       if (error1) {
         res.status(401).json({ msg: error1.sqlMessage });
       }
-      array.push(null);
       for (var i = 0; i < result1.length; i++) {
-        admins.push(result1[i]);
+        rsos.push(result1[i]);
       }
+      sql = `select s_id, s_firstName, s_lastName from Students where s_id in (select s_id from Rso where s_id in (select s_id from Students where u_id = ${u_id}));`;
 
-      for (var k = 0; k < result1.length; k++) {
-        sql = `select rso_id, s_id, rso_name, status, rso_description from Rso where s_id = ${result1[k].s_id};`;
-        conn.query(sql, async (error2, result2) => {
-          if (error2) {
-            res.status(401).json({ msg: error2.sqlMessage });
-          }
-          for (var j = 0; j < result2.length; j++) {
-            rsos.push(result2[j]);
-          }
-          for (var l = 0; l < admins.length; l++) {
-            obj = {
-              admin: admins[l],
-              rso: rsos[l],
-            };
-            array.push(obj);
-          }
-        });
-      }
-      console.log("array before sending to frontend" + JSON.stringify(array));
-      res.status(200).json(array);
+      conn.query(sql, async (error2, result2) => {
+        if (error2) {
+          res.status(401).json({ msg: error2.sqlMessage });
+        }
+        for (var j = 0; j < result2.length; j++) {
+          admins.push(result2[j]);
+        }
+        for (var k = 0; k < rsos.length; k++) {
+          obj = {
+            admin: admins[k],
+            rso: rsos[k],
+          };
+          array.push(obj);
+        }
+        console.log(array);
+        res.status(200).json(array);
+      });
     });
   });
 });
