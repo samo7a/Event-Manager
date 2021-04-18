@@ -719,14 +719,10 @@ app.post("/api/updateUniversity", async (req, res) => {
   const {
     u_id,
     universityName,
-    uniAddr1,
-    uniAddr2,
-    state,
-    zip,
+    address,
     u_description,
     u_profilePicture,
   } = req.body;
-  let address = uniAddr1 + " " + uniAddr2 + ", " + state + ", " + zip;
   let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
   let googleResponse = await fetch(url);
   let googleJson = await googleResponse.json();
