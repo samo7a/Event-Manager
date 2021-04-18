@@ -199,7 +199,7 @@ const MyEvents = (props) => {
     ) : (
       allEvents.map((e) => {
         console.log(e.e_id);
-        return e.e_id != "0" ? <Event e_id={e.e_id} /> : null;
+        return e.e_id != "0" && e.e_id != null ? <Event e_id={e.e_id} /> : null;
       })
     );
 
