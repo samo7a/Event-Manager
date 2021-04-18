@@ -718,7 +718,7 @@ app.post("/api/updateUniversity", async (req, res) => {
 });
 
 app.post("/api/approveEvent", async (req, res) => {
-  const { e_id, sa_id } = req.body;
+  const { e_id } = req.body;
 
   let sql = `update Events set isApproved = 1 where e_id = ${e_id};`;
   conn.query(sql, (error, result) => {
@@ -988,7 +988,9 @@ app.post("/api/getAllRsos", async (req, res) => {
   const { sa_id } = req.body;
   let u_id;
   let rsos = [];
-  let rso;
+  //let admins = [];
+  let rso = {};
+  let obj = {};
   let admin;
   let sql = `select u_id from CreatesUniversities where sa_id = ${sa_id};`;
   conn.query(sql, async (error, result) => {
@@ -1009,16 +1011,18 @@ app.post("/api/getAllRsos", async (req, res) => {
             res.status(401).json({ msg: error2.sqlMessage });
           }
           admin = result2[0];
-          let obj = {
+          console.log(admin);
+          obj = {
             admin: admin,
             rso: rso,
           };
-
           rsos.push(obj);
+          if (i === result1.length - 1) {
+            console.log(rsos);
+            res.status(200).json(rsos);
+          }
         });
       }
-      console.log(rsos);
-      res.status(200).json(rsos);
     });
   });
 });
