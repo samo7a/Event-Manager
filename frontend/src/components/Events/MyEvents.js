@@ -67,7 +67,7 @@ const MyEvents = (props) => {
   }, []);
   const getAllEvents = async () => {
     try {
-      let js = JSON.stringify({ s_id: s_id, from: 1, to: 4 });
+      let js = JSON.stringify({ s_id: s_id, from: 0, to: 2 });
       console.log(js);
       const response = await fetch("/api/getAllEventsStudent", {
         method: "POST",
@@ -199,7 +199,7 @@ const MyEvents = (props) => {
     ) : (
       allEvents.map((e) => {
         // console.log(e.e_id);
-        return e.e_id != "0" && e.e_id != null ? <Event e_id={e.e_id} /> : null;
+        return e.e_id != null && e.e_id != "0" ? <Event e_id={e.e_id} /> : null;
       })
     );
 
