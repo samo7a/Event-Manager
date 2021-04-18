@@ -61,11 +61,11 @@ const Event = (props) => {
     if (param != null) {
       let returnVar = ";";
       returnVar +=
-        param.substring(8, 9) +
+        param.substring(8, 10) +
         "/" +
-        param.substring(5, 6) +
+        param.substring(5, 7) +
         "/" +
-        param.substring(0, 3);
+        param.substring(0, 4);
       return returnVar;
     } else return "No date";
   };

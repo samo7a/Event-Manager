@@ -103,15 +103,15 @@ const EventInfoPage = (props) => {
 
     try {
       var newCommentObj = {
-        e_id: event.id,
-        s_id: userDEBUG.id,
+        e_id: props.e_id,
+        s_id: s_id,
         comment: newComment.value,
       };
       console.log(newCommentObj);
       var js = JSON.stringify(newCommentObj);
       const response = await fetch("/api/addComment", {
         method: "POST",
-        credentials: "include",
+        // credentials: "include",
         body: js,
         headers: { "Content-Type": "application/json" },
       });
@@ -133,6 +133,7 @@ const EventInfoPage = (props) => {
         <span>No comments yet, be the first!</span>
       ) : (
         eventDetails.comments.map((e) => {
+          console.log(e);
           return <Comment info={e} />;
         })
       )
@@ -153,11 +154,11 @@ const EventInfoPage = (props) => {
     if (param != null) {
       let returnVar = ";";
       returnVar +=
-        param.substring(8, 9) +
+        param.substring(8, 10) +
         "/" +
-        param.substring(5, 6) +
+        param.substring(5, 7) +
         "/" +
-        param.substring(0, 3);
+        param.substring(0, 4);
       return returnVar;
     } else return "No date";
   };
