@@ -466,16 +466,36 @@ app.post("/api/createEventStudent", async (req, res) => {
 
 app.post("/api/createRso", async (req, res) => {
   const { rso_name, rso_description, rso_profilePicture, s_id } = req.body;
-  let sql = `Insert into Rso (rso_name, rso_description, rso_profilePicture, s_id) values ("${rso_name}", "${rso_description}", "${rso_profilePicture}", ${s_id});`;
-  conn.query(sql, (error, result) => {
-    if (error) {
-      let response = { msg: error.sqlMessage };
-      res.status(200).json(response);
-    } else {
-      let rso_id = result.insertId;
-      let response = { msg: "Rso Created", rso_id: rso_id };
-      res.status(200).json(response);
+
+  conn.beginTransaction(async function (err) {
+    if (err) {
+      return res.status(401).json({ msg: err.sqlMessage });
     }
+    let sql = `Insert into Rso (rso_name, rso_description, rso_profilePicture, s_id) values ("${rso_name}", "${rso_description}", "${rso_profilePicture}", ${s_id});`;
+    conn.query(sql, (error, result) => {
+      if (error) {
+        return conn.rollback(function () {
+          return res.status(401).json({ msg: error.sqlMessage });
+        });
+      }
+      let rso_id = result.insertId;
+      sql = `Insert into isAMember (rso_id, s_id) values (${rso_id}, ${s_id});`;
+      conn.query(sql, (error2, result2) => {
+        if (error2) {
+          return conn.rollback(function () {
+            return res.status(401).json({ msg: error2.sqlMessage });
+          });
+        }
+      });
+      conn.commit(async function (error3) {
+        if (error3) {
+          return conn.rollback(function () {
+            return res.status(401).json({ msg: error3.sqlMessage });
+          });
+        }
+        return res.status(200).json({ msg: "Rso Created!", rso_id: rso_id });
+      });
+    });
   });
 });
 
@@ -774,7 +794,7 @@ app.post("/api/getAllEvents", async (req, res) => {
 app.post("/api/getEvent", async (req, res) => {
   const { e_id } = req.body;
   let sql = `Select * from Events Where e_id = ${e_id};`;
-  conn.query(sql, (error, result) => {
+  conn.query(sql, async (error, result) => {
     if (error) {
       return res.status(400).json({ msg: error.sqlMessage });
     }
@@ -800,7 +820,7 @@ app.post("/api/getUnapprovedEvent", async (req, res) => {
 
 app.post("/api/getJoinedGroups", async (req, res) => {
   const { s_id } = req.body;
-  let sql = `select rso_name, rso_id, status, rso_description from Rso where rso_id in (select rso_id from isAMember where s_id = ${s_id});`;
+  let sql = `select s_id, rso_name, rso_id, status, rso_description from Rso where rso_id in (select rso_id from isAMember where s_id = ${s_id});`;
   conn.query(sql, async (error, results) => {
     if (error) {
       return res.status(400).json({ msg: error.sqlMessage });
@@ -987,9 +1007,8 @@ app.post("/api/getEventStudent", async (req, res) => {
 app.post("/api/getAllRsos", async (req, res) => {
   const { sa_id } = req.body;
   let u_id;
-  let rsos = [];
   //let admins = [];
-  let rso = {};
+  var rso = {};
   let obj = {};
   let admin;
   let sql = `select u_id from CreatesUniversities where sa_id = ${sa_id};`;
@@ -1000,9 +1019,11 @@ app.post("/api/getAllRsos", async (req, res) => {
     u_id = result[0].u_id;
     sql = `select rso_id, s_id, rso_name, status, rso_description from Rso where s_id in (select s_id from Students where u_id = ${u_id});`;
     conn.query(sql, async (error1, result1) => {
+      let array = [];
       if (error1) {
         res.status(401).json({ msg: error1.sqlMessage });
       }
+      let rsos = [];
       for (var i = 0; i < result1.length; i++) {
         rso = result1[i];
         sql = `select s_id, s_firstName, s_lastName from Students where s_id = ${result1[i].s_id};`;
@@ -1011,18 +1032,16 @@ app.post("/api/getAllRsos", async (req, res) => {
             res.status(401).json({ msg: error2.sqlMessage });
           }
           admin = result2[0];
-          console.log(admin);
           obj = {
             admin: admin,
             rso: rso,
           };
           rsos.push(obj);
-          if (i === result1.length - 1) {
-            console.log(rsos);
-            res.status(200).json(rsos);
-          }
+          array = rsos;
         });
       }
+      console.log(array);
+      res.status(200).json(array);
     });
   });
 });
