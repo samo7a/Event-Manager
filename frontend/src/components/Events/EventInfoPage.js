@@ -90,11 +90,16 @@ const EventInfoPage = (props) => {
   };
   const postComment = async (event) => {
     event.preventDefault();
-    alert("This doesnt work yet");
-    return;
+    setMessage(" ");
+    // alert("This doesnt work yet");
+    if (newComment == null) {
+      setMessage(" Can not post empty comment.");
+      return;
+    }
+    // return;
     // alert(newComment);
     // alert(newComment.value);
-    setMessage("");
+    // setMessage("");
     // return;
     if (newComment.value.length == null) {
       setMessage("Please enter a comment");
@@ -108,13 +113,13 @@ const EventInfoPage = (props) => {
     }
 
     try {
-      var newComment = {
+      var newCommentObj = {
         e_id: event.id,
         s_id: userDEBUG.id,
         comment: newComment.value,
       };
-      console.log(newComment);
-      var js = JSON.stringify(newComment);
+      console.log(newCommentObj);
+      var js = JSON.stringify(newCommentObj);
       const response = await fetch("/api/addComment", {
         method: "POST",
         credentials: "include",
@@ -194,6 +199,20 @@ const EventInfoPage = (props) => {
                 </Form.Row>
               </Form>
             </Card>
+            {/* MAP ALL COMMENTS BELOW */}
+            {/* {eventDetails.comments.forEach((comments) => {
+              <Card className="cardComment">
+                <Card.Title className="cardCommentTitle">
+                  {comment.commenter}
+                </Card.Title>
+                <Card.Body className="cardCommentBody">
+                  {comment.comment}
+                </Card.Body>
+                <Card.Footer className="cardCommentFooter">
+                  Posted at {comment.time} on {comment.date}
+                </Card.Footer>
+              </Card>;
+            })} */}
             <Card className="cardComment">
               <Card.Title className="cardCommentTitle">
                 {comment.commenter}
