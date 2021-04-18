@@ -18,7 +18,13 @@ import { getUnequalProps } from '@fullcalendar/react';
 const AdminDashboard = (props) => {
     
     const [eventsByDate, setEventsByDate] = useState([]);
-    const [singleEvent, setSingleEvent] = useState( {} );
+    const [singleEvent, setSingleEvent] = useState( {
+        e_name: "",
+        e_date: "",
+        e_time: "",
+        e_description: "",
+        
+    } );
     const [showEvent, setShowEvent] = useState(false);
 
     const handleDateClick = events => {
