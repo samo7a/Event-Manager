@@ -8,7 +8,12 @@ const RSODiv = () => {
     const user = check ? JSON.parse(check) : null;
     const sa_id = user ? user.id : 0;
 
-    const [rsoList, setRsoList] = useState([]);
+    const [rsoList, setRsoList] = useState([
+        {
+            admin: {},
+            rso: {},
+        },
+    ]);
     const [showRsoModal, setShowRsoModal] = useState(false);
     const [rso, setRso] = useState({
         admin: {},
@@ -75,7 +80,7 @@ const RSODiv = () => {
         setShowRsoModal(false);
     };
 
-    const renderRsos = rsoList.length > 0 ? (
+    const renderRsos = rsoList[0].rso.rso_name ? (
         <div className="opaque-div">
             <div className="div-title">
                 RSOs
@@ -83,12 +88,12 @@ const RSODiv = () => {
             {rsoList.map((r,i) => {
                 return (
                     <RsoListItem
-                        name={r.rso_name}
-                        id={r.rso_id}
-                        status={r.status}
-                        s_name={r.firstName + r.lastName}
+                        name={r.rso.rso_name}
+                        id={r.rso.rso_id}
+                        status={r.rso.status}
+                        s_name={r.admin.s_firstName + r.admin.s_lastName}
                         myStyle={`rso-list-item rso-color-${i % 2 == 0 ? "lightgray" : "white"}`}
-                        click={() => handleRsoClick(r.rso_id, r.firstName, r.lastName)}
+                        click={() => handleRsoClick(r.rso.rso_id)}
                     />
                 )
             })}
