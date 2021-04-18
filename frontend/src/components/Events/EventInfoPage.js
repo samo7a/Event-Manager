@@ -131,8 +131,8 @@ const EventInfoPage = (props) => {
   const Comment = (param) => {
     return (
       <Card className="cardComment">
-        <Card.Title className="cardCommentTitle">{param.s_id}</Card.Title>
-        <Card.Body className="cardCommentBody">{param.comment}</Card.Body>
+        <Card.Title className="cardCommentTitle">{param.info.s_id}</Card.Title>
+        <Card.Body className="cardCommentBody">{param.info.comment}</Card.Body>
         <Card.Footer className="cardCommentFooter">
           Posted at time on date
         </Card.Footer>
