@@ -134,8 +134,10 @@ const SngGroup = (props) => {
   };
   const leaveRSO = async () => {
     try {
+      setRsoID(props.rso_id);
+      // setRsoID(13);
       var obj = {
-        rso_id: rsoID,
+        rso_id: 13,
         s_id: s_id,
       };
       var js = JSON.stringify(obj);
@@ -161,7 +163,7 @@ const SngGroup = (props) => {
   const joinRSO = async () => {
     try {
       var obj = {
-        rso_id: rsoID,
+        rso_id: 13,
         s_id: s_id,
       };
       var js = JSON.stringify(obj);
