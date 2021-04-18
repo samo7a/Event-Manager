@@ -9,6 +9,10 @@ const UniDiv = () => {
 
     const [uniContent, setUniContent] = useState( {} );
     const [showUniModal, setShowUniModal] = useState(false);
+    const [uName, setUName] = useState("");
+    const [uDescription, setUDescription] = useState("");
+    const [uAddress, setUAddress] = useState("");
+    const [uLocationName, setULocationName] = useState("");
 
     const loadUniHandler = async () => {
         var js = {sa_id: sa_id};
@@ -67,34 +71,10 @@ const UniDiv = () => {
         </div>
     );
 
-    const updateUniContent = (e, type) => {
-        let val = e.target.value;
-        console.log(val);
-        let content = uniContent;
-        console.log(content);
-
-        switch (type) {
-            case 0:
-                content.u_name = val;
-                break;
-            case 1: 
-                content.u_description = val;
-                break;
-            case 2:
-                content.address = val;
-                break;
-            case 3: 
-                content.locationName = val;
-                break;
-        }
-
-        setUniContent(content);
-    }
-
     const updateUniHandler = async (e) => {
         e.preventDefault();
 
-        var js = {u_id: uniContent.u_id, universityName: uniContent.u_name, address: uniContent.address, u_profilePicture: uniContent.u_profilePicture, u_description: uniContent.u_description };
+        var js = {u_id: uniContent.u_id, universityName: uName, address: uAddress, u_profilePicture: uniContent.u_profilePicture, u_description: uDescription };
         var res;
 
         try {
@@ -118,12 +98,28 @@ const UniDiv = () => {
         }
     }
 
+    const updateUName = (event) => {
+        setUName(event.target.value);
+    };
+
+    const updateUDescription = (event) => {
+        setUDescription(event.target.value);
+    };
+
+    const updateULocationName = (event) => {
+        setULocationName(event.target.value);
+    };
+
+    const updateUAddress = (event) => {
+        setUAddress(event.target.value);
+    };
+
     return (
         <div>
             {renderUniDiv}
             <Modal show={showUniModal} onHide={handleUniClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{uniContent.u_name}</Modal.Title>
+                    <Modal.Title>Update {uniContent.u_name} Profile</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -132,7 +128,7 @@ const UniDiv = () => {
                                 University name
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="input" value={uniContent.u_name} onChange={e => updateUniContent(e, 0)} />
+                                <Form.Control type="input" value={uName} onChange={updateUName} />
                             </Col>
                         </Form.Group>
 
@@ -141,7 +137,7 @@ const UniDiv = () => {
                                 Description
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="input" value={uniContent.u_description} onChange={e => updateUniContent(e, 1)} />
+                                <Form.Control type="input" value={uDescription} onChange={updateUDescription} />
                             </Col>
                         </Form.Group>
 
@@ -150,7 +146,7 @@ const UniDiv = () => {
                                 Address
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="input" value={uniContent.address} onChange={e => updateUniContent(e, 2)} />
+                                <Form.Control type="input" value={uAddress} onChange={updateUAddress} />
                             </Col>
                         </Form.Group>
 
@@ -159,7 +155,7 @@ const UniDiv = () => {
                                 Location name
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="input" value={uniContent.locationName} onChange={e => updateUniContent(e, 3)} />
+                                <Form.Control type="input" value={uLocationName} onChange={updateULocationName} />
                             </Col>
                         </Form.Group>
                     </Form>
