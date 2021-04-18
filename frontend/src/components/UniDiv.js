@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Row, Col, Button, Modal} from 'react-bootstrap';
+import {Row, Col, Button, Modal, Form, FormGroup, ButtonGroup} from 'react-bootstrap';
 import './UniDiv.css';
 
 const UniDiv = () => {
@@ -167,7 +167,7 @@ const UniDiv = () => {
                         <Button variant="primary" type="submit" onClick={updateUniHandler}>
                                 Update
                         </Button>
-                        <Button variant="secondary" onClick={handleRsoClose}>
+                        <Button variant="secondary" onClick={handleUniClose}>
                             Close
                         </Button>
                     </ButtonGroup>
@@ -177,4 +177,4 @@ const UniDiv = () => {
     );
 };
 
-export default RSODiv;
+export default UniDiv;

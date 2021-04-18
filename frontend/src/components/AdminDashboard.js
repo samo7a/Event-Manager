@@ -10,6 +10,7 @@ import FileUpload from './FileUpload';
 import { MdEmail, MdContactPhone } from 'react-icons/md';
 import { AiFillClockCircle, AiFillCalendar } from 'react-icons/ai';
 import RSODiv from './RSODiv';
+import UniDiv from './UniDiv';
 import moment from 'moment';
 import './AdminDashboard.css';
 import 'react-calendar/dist/Calendar.css';
@@ -95,7 +96,7 @@ const AdminDashboard = (props) => {
         <Container fluid >
             <Row>
                 <Col xs={3}>
-                    {renderFileUpload}
+                    <UniDiv />
                     <RSODiv />
                     <ApproveEvents />
                     {eventsDiv}
