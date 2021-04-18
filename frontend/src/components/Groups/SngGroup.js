@@ -68,31 +68,9 @@ const SngGroup = (props) => {
   // const [memNum, setMemNum] = useState(1);
   // const [admin, setAdmin] = useState({ s_id: 0, s_name: "Name" });
   const [rsoDetails, setDetails] = useState({
-    rso_name: "",
-    status: "",
-    rso_description: "",
-    no_of_members: 11,
-    admin: {
-      s_id: 0,
-      s_name: "",
-      s_email: "",
-    },
-    members: [
-      {
-        s_id: 1,
-        s_firstName: "",
-        s_lastName: "",
-        s_profilePicture: null,
-      },
-    ],
-    events: [
-      {
-        e_id: 99,
-        e_name: "",
-        e_description: "",
-        e_date: "",
-      },
-    ],
+    admin: {},
+    members: [{}],
+    events: [{}],
   });
   // const [members,setMems] = useState({})
   // const [events,setMems] = useState({})
