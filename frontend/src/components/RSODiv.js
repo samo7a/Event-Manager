@@ -123,9 +123,13 @@ const RSODiv = () => {
                     <Row>
                         <Col>
                             <Row>Members:</Row>
-                            {rso.members.map(m => {
+                            {rso.members.map((m,i) => {
                                 return (
-                                    <Row>{m.firstName} {m.lastName}</Row>
+                                    <Row>
+                                        <div>
+                                            {i+1}. {m.s_firstName} {m.s_lastName}
+                                        </div>
+                                    </Row>
                                 )
                             })}
                         </Col>
