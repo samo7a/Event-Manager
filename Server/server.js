@@ -1013,9 +1013,11 @@ app.post("/api/getAllRsos", async (req, res) => {
             admin: admin,
             rso: rso,
           };
+
           rsos.push(obj);
         });
       }
+      console.log(rsos);
       res.status(200).json(rsos);
     });
   });
