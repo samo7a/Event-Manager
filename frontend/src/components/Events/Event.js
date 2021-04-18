@@ -57,7 +57,18 @@ const Event = (props) => {
       console.error("Error:", error);
     }
   };
-
+  const formatDate = (param) => {
+    if (param != null) {
+      let returnVar = ";";
+      returnVar +=
+        param.substring(8, 9) +
+        "/" +
+        param.substring(5, 6) +
+        "/" +
+        param.substring(0, 3);
+      return returnVar;
+    } else return "No date";
+  };
   // const goToPage = (async_ => {
   //   event.preventDefault();
   //   <PageTemplate page="singleEvent" event={props} />
@@ -75,7 +86,7 @@ const Event = (props) => {
         {/* <h4>{eventDetails.}</h4> */}
         <Image className="previewImage" src={pupFiller} />
         {/* <p style={{ fontSize: "1.3rem" }}>{eventDesc}</p> */}
-        <p style={{ fontSize: "1.3rem" }}>{eventDate}</p>
+        <p style={{ fontSize: "1.3rem" }}> {formatDate(eventDetails.e_date)}</p>
       </Container>
       {/* Event Modal */}
       <Modal show={show} onHide={modalClose}>
@@ -90,12 +101,12 @@ const Event = (props) => {
                 {eventDetails.e_name}
               </Row>
               <Row>
-                <b>Hosted by:{"\xa0"}</b>
+                {/* <b>Hosted by:{"\xa0"}</b> */}
                 {/* {eventRso} */}
               </Row>
               <Row>
                 <b>Date:{"\xa0"}</b>
-                {eventDetails.e_date}
+                {formatDate(eventDetails.e_date)}
               </Row>
               <Row>
                 <b>Description:{"\xa0"}</b>

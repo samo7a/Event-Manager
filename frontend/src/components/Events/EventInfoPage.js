@@ -127,6 +127,18 @@ const EventInfoPage = (props) => {
       return;
     }
   };
+  const formatDate = (param) => {
+    if (param != null) {
+      let returnVar = ";";
+      returnVar +=
+        param.substring(8, 9) +
+        "/" +
+        param.substring(5, 6) +
+        "/" +
+        param.substring(0, 3);
+      return returnVar;
+    } else return "No date";
+  };
 
   return (
     <div>
@@ -142,7 +154,7 @@ const EventInfoPage = (props) => {
               <Col className="eventInfo">
                 <Row>
                   <b>Date:{"\xa0"}</b>
-                  {eventDetails.e_date}
+                  {formatDate(eventDetails.e_date)}
                 </Row>
                 <Row>
                   <b>Description:{"\xa0"}</b>
