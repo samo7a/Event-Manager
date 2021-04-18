@@ -49,7 +49,7 @@ const AdminDashboard = (props) => {
                 res = JSON.parse(await response.text());
                 console.log(res);
                 setSingleEvent(res);
-                //setShowEvent(true);
+                setShowEvent(true);
             }
         } catch (error) {
             console.error("Error:", error);
