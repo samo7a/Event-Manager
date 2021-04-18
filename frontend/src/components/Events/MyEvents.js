@@ -198,8 +198,8 @@ const MyEvents = (props) => {
       <span>Not apart of any groups</span>
     ) : (
       allEvents.map((e) => {
-        console.log(e.rso_id);
-        return e.rso_id != "0" ? <Event e_id={e.e_id} /> : null;
+        console.log(e.e_id);
+        return e.e_id != "0" ? <Event e_id={e.e_id} /> : null;
       })
     );
 
