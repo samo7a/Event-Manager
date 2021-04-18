@@ -77,9 +77,9 @@ const Group = (props) => {
           </Col>
           <Col id="cardInfo" style={{ paddingLeft: ".1rem" }}>
             <Row style={{ marginLeft: "0" }}>
-              <h4>{rsoDetails.rsoName}</h4>
+              <h4>{rsoDetails.rso_name}</h4>
               <Card.Text style={{ marginLeft: "10rem", marginTop: ".25rem" }}>
-                {isActive ? (
+                {rsoDetails.status == "active" ? (
                   <span style={{ color: "green", fontWeight: "bold" }}>
                     Active
                   </span>
@@ -92,10 +92,7 @@ const Group = (props) => {
             </Row>
 
             <Card.Text overflow="hidden">
-              I go to loud places To search for someone To be quiet with Who
-              will take me home You go to loud places To find someone who Will
-              take you higher than I took you Didn't I take you to higher places
-              you can't reach without me?
+              {rsoDetails.rso_description}
             </Card.Text>
             <Row
               style={{
