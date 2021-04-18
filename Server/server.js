@@ -798,7 +798,15 @@ app.post("/api/getEvent", async (req, res) => {
     if (error) {
       return res.status(400).json({ msg: error.sqlMessage });
     }
-    return res.status(200).json(result);
+  
+    let url = `https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${result[0].latitude},${result[0].longitude}&key=${process.env.GOOGLE_STATIC_MAPS_API_KEY}`;
+    let googleResponse = await fetch(url);
+    let googleJson = await googleResponse.json();
+    let obj = {
+      event: result,
+      map: googleJson,
+    }
+    return res.status(200).json(obj);
   });
 });
 

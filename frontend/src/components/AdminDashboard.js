@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import MyCalendar from './MyCalendar';
 import ApproveEvents from './ApproveEvents';
 import FileUpload from './FileUpload';
 import { MdEmail, MdContactPhone } from 'react-icons/md';
+import { AiFillClockCircle, AiFillCalendar } from 'react-icons/ai';
 import RSODiv from './RSODiv';
+import moment from 'moment';
 import './AdminDashboard.css';
 import 'react-calendar/dist/Calendar.css';
 import { getUnequalProps } from '@fullcalendar/react';
@@ -15,6 +19,8 @@ const AdminDashboard = (props) => {
     
     const [eventsByDate, setEventsByDate] = useState([]);
     const [singleEvent, setSingleEvent] = useState( {} );
+    const [showEvent, setShowEvent] = useState(false);
+    const [map, setMap] = useState('');
 
     const handleDateClick = events => {
         setEventsByDate(events);
@@ -22,6 +28,37 @@ const AdminDashboard = (props) => {
 
     const handleEventClick = event => {
         setSingleEvent(event);
+        //setShowEvent(true);
+    }
+
+    const handleEventShow = async (e_id) => {
+        var js = { e_id: e_id };
+        var res;
+
+        try {
+            const response = await fetch("/api/getEvent", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify(js),
+            })
+
+            if (response.status != 200) {
+                throw new Error(response.status);
+            } else {
+                res = JSON.parse(await response.text());
+                console.log("The event with google maps: ", res);
+                setSingleEvent(res);
+                //setShowEvent(true);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+    const handleEventClose = () => {
+        setShowEvent(false);
     }
 
     const eventsDiv = eventsByDate.length > 0 ? (
@@ -32,7 +69,7 @@ const AdminDashboard = (props) => {
             {eventsByDate.map(e => 
                 (
                     <div>
-                        <div className="event-title">
+                        <div onClick={() => handleEventShow(e.id)} className="event-title clickable">
                             {e.title}
                         </div>
                         <span>{e.date} {e.time}</span>
@@ -49,34 +86,6 @@ const AdminDashboard = (props) => {
         </div>
     );
 
-    const singleEventDiv = singleEvent.length > 0 ? (
-        <div className="event-div">
-            <div className="div-title">
-                Event Details
-            </div>
-            <div className="event-title">
-                {singleEvent[0].e_name}
-            </div>
-            <span>{singleEvent[0].e_date.slice(0, 10)} {singleEvent.e_time}</span>
-            <p>
-                {singleEvent[0].e_description}
-            </p>
-            <div>
-                <MdEmail /> {singleEvent[0].e_contactEmail}  
-            </div>
-            <div>
-                <MdContactPhone /> {singleEvent[0].e_contactPhone}
-            </div>
-        </div>
-    ) : (
-        <div className="event-div">
-            <div className="div-title">
-                    Event Details
-            </div>
-            Select an event to see the event details
-        </div>
-    );
-
     const renderFileUpload = (
         <div className="opaque-div">
             <FileUpload value="university" />
@@ -90,7 +99,6 @@ const AdminDashboard = (props) => {
                     {renderFileUpload}
                     <RSODiv />
                     <ApproveEvents />
-                    {singleEventDiv}
                     {eventsDiv}
                 </Col>
                 <Col>
@@ -102,6 +110,53 @@ const AdminDashboard = (props) => {
                     </div>
                 </Col>
             </Row>
+            <Modal show={showEvent} onHide={handleEventClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{singleEvent[0].e_name}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row>
+                        <Col>
+                            <MdContactPhone />
+                            {singleEvent[0].e_contactPhone}
+                        </Col>
+                        <Col>
+                            <MdEmail />
+                            {singleEvent[0].e_contactEmail}
+                        </Col>
+                        <Col>
+                            <AiFillClockCircle />
+                            {moment(singleEvent[0].e_time, 'HH:mm').format('h:mm a')}
+                        </Col>
+                        <Col>
+                            <AiFillCalendar />
+                            {moment(singleEvent[0].e_date.slice(0, 10), "YYYY-MM-DD").format("dddd, MMMM Do YYYY")}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <p>{singleEvent[0].e_description}</p>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Row>
+                                <span>Location:</span>
+                                {singleEvent[0].locationName}
+                            </Row>
+                            <Row>
+                                {singleEvent[0].address}
+                            </Row>
+                        </Col>
+                        <Col>
+                            
+                        </Col>
+                    </Row>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleEventClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     );
 };
