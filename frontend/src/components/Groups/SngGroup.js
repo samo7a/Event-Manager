@@ -34,7 +34,7 @@ const SngGroup = (props) => {
   // Local data
   var user = JSON.parse(localStorage.getItem("user_data"));
   console.log(user);
-  const s_id = user ? user.id : "F";
+  const s_id = user ? user.id : null;
   // Modal fields
   // member/admin list modals
   const [showMem, setMemShow] = useState(false);
@@ -67,13 +67,70 @@ const SngGroup = (props) => {
   // const [rsoDesc, setDesc] = useState("");
   // const [memNum, setMemNum] = useState(1);
   // const [admin, setAdmin] = useState({ s_id: 0, s_name: "Name" });
-  const [rsoDetails, setDetails] = useState({});
+  const [rsoDetails, setDetails] = useState({
+    rso_name: "DebugName",
+    status: "inactive",
+    rso_description: "rso Desc",
+    no_of_members: 11,
+    admin: {
+      s_id: 0,
+      s_name: "s_name",
+      s_email: "email",
+    },
+    members: [
+      {
+        s_id: 1,
+        s_firstName: "sFname",
+        s_lastName: "sLname",
+        s_profilePicture: null,
+      },
+    ],
+    events: [
+      {
+        e_id: 99,
+        e_name: "eName",
+        e_description: "eDesc",
+        e_date: "2012/12/30",
+      },
+    ],
+  });
   // const [members,setMems] = useState({})
   // const [events,setMems] = useState({})
+  const debugGroup = {
+    rso_name: "DebugName",
+    status: "inactive",
+    rso_description: "rso Desc",
+    no_of_members: 11,
+    admin: {
+      s_id: 0,
+      s_name: "s_name",
+      s_email: "email",
+    },
+    members: [
+      {
+        s_id: 1,
+        s_firstName: "sFname",
+        s_lastName: "sLname",
+        s_profilePicture: null,
+      },
+    ],
+    events: [
+      {
+        e_id: 99,
+        e_name: "eName",
+        e_description: "eDesc",
+        e_date: "2012/12/30",
+      },
+    ],
+  };
 
+  useEffect(() => {
+    getRsoDetails();
+  }, []);
   const getRsoDetails = async () => {
     try {
-      setRsoID(props.rso.rsoID);
+      // setRsoID(props.rso_id);
+      setRsoID(12);
       var obj = { rso_id: rsoID };
       var js = JSON.stringify(obj);
       let response = await fetch("/api/getRsoDetails", {
@@ -98,8 +155,8 @@ const SngGroup = (props) => {
   const leaveRSO = async () => {
     try {
       var obj = {
-        rso_id: 11,
-        s_id: 11,
+        rso_id: rsoID,
+        s_id: s_id,
       };
       var js = JSON.stringify(obj);
 
@@ -148,7 +205,7 @@ const SngGroup = (props) => {
   };
 
   return (
-    <div>
+    <div style={{ margin: "auto", minWidth: "40%" }}>
       <Card className="rsoCard">
         <Row id="cardRow" style={{ padding: 0, width: "auto" }}>
           <Col id="thumbnailIMG" xs="5" style={{ maxWidth: "22rem" }}>
@@ -168,14 +225,14 @@ const SngGroup = (props) => {
           <Col xs="7" id="cardInfo" style={{ marginTop: "1rem" }}>
             <Card className="rsoCard2">
               <Card.Title center className="rsoTitle">
-                <h4>{rsoNameDEBUG}</h4>
+                <h4>{rsoDetails.rso_name}</h4>
               </Card.Title>
               <Row style={{ marginLeft: "0" }}>
                 <Card.Subtitle
                   style={{ marginLeft: ".0rem", marginTop: "-1.5rem" }}
                 >
                   This group is{" "}
-                  {isActive ? (
+                  {rsoDetails.status == "active" ? (
                     <span style={{ color: "green", fontWeight: "bold" }}>
                       active
                     </span>
@@ -194,15 +251,7 @@ const SngGroup = (props) => {
                     overflowY: "auto",
                   }}
                 >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                  tincidunt, et lobortis eleifend, mauris urna molestie sem, et
-                  tincidunt mauris arcu non diam. Proin sit amet urna neque. In
-                  velit dolor, eleifend ac auctor et, vehicula ac orci.
-                  Vestibulum sodales, ex in condimentum gravida, est metus
-                  dignissim enim, id tristique enim nulla et neque. Aenean
-                  vulputate aliquam imperdiet. Suspendisse auctor mauris at
-                  tristique ultrices. Donec ultricies accumsan mauris, ut
-                  commodo elit. Fusce blandit velit in nisi elementum semper.
+                  {rsoDetails.rso_description}
                 </Row>
                 <Row>
                   {/* <Col>
@@ -241,7 +290,7 @@ const SngGroup = (props) => {
             </Card>
           </Col>
         </Row>
-        <Row>
+        <Row style={{}}>
           <Col xs="4">
             <Card.Link
               onClick={handleEditOpen}
@@ -258,7 +307,7 @@ const SngGroup = (props) => {
           <Col xs="2">
             <Row>
               <div style={{ fontWeight: "bold" }}>Total Members</div>:{" "}
-              {totalMembers}{" "}
+              {/* {rsoDetails.members.length}{" "} */}
             </Row>
             <Row>
               <Card.Link onClick={handleMOpen} style={{ cursor: "pointer" }}>
@@ -268,7 +317,8 @@ const SngGroup = (props) => {
           </Col>
           <Col xs="4">
             <Row>
-              <div style={{ fontWeight: "bold" }}>Admin</div>: Jonathan Frucht{" "}
+              <div style={{ fontWeight: "bold" }}>Admin</div>:{" "}
+              {rsoDetails.admin.s_name}{" "}
             </Row>
             <Row>
               <Card.Link onClick={handleCIOpen} style={{ cursor: "pointer" }}>
@@ -351,7 +401,9 @@ const SngGroup = (props) => {
                       className="groupThumbnailImage"
                       style={{ maxWidth: "2rem" }}
                     />
-                    Jonathan Frucht
+                    {rsoDetails.members[0].s_firstName +
+                      " " +
+                      rsoDetails.members[0].s_lastName}
                   </td>
                   {/* <td className="tableCol">Email@Email.com</td> */}
                 </tr>
@@ -370,8 +422,12 @@ const SngGroup = (props) => {
             <Modal.Title>Admin Contact Info</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Row className="row justify-content-center">Jonathan Frucht</Row>
-            <Row className="row justify-content-center">Email@Email.com</Row>
+            <Row className="row justify-content-center">
+              {rsoDetails.admin.s_name}{" "}
+            </Row>
+            <Row className="row justify-content-center">
+              {rsoDetails.admin.s_email}
+            </Row>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={handleCIClose}>Close</Button>

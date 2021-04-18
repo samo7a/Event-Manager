@@ -3,6 +3,7 @@
 
     /* max-width: 27.5rem; */
     max-width: 100%;
+    
     padding: 1rem;
     padding-right: 0%;
 
@@ -12,9 +13,9 @@
     zIndex: 1, */
 }
 .rsoCard{
-     margin-left: 5%; 
+     /* margin: 5%;  */
      /* padding-right: 15%; */
-     width: 80%;
+     min-width: 100%;
      
      /* align-self: center; */
 }
