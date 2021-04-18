@@ -40,6 +40,7 @@ const MyGroups = (props) => {
 
   const getJoinedGroups = async () => {
     console.log(s_id);
+    console.log(user);
     let js = JSON.stringify({s_id: s_id});
     try {
       const response = await fetch("/api/getJoinedGroups", {
