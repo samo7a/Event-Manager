@@ -18,13 +18,7 @@ import { getUnequalProps } from '@fullcalendar/react';
 const AdminDashboard = (props) => {
     
     const [eventsByDate, setEventsByDate] = useState([]);
-    const [singleEvent, setSingleEvent] = useState( {
-        e_name: "",
-        e_date: "",
-        e_time: "",
-        e_description: "",
-        
-    } );
+    const [singleEvent, setSingleEvent] = useState( [] );
     const [showEvent, setShowEvent] = useState(false);
 
     const handleDateClick = events => {
@@ -112,42 +106,42 @@ const AdminDashboard = (props) => {
             </Row>
             <Modal show={showEvent} onHide={handleEventClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{singleEvent.e_name}</Modal.Title>
+                    <Modal.Title>{singleEvent[0].e_name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
                         <Col>
                             <MdContactPhone />
-                            {singleEvent.e_contactPhone}
+                            {singleEvent[0].e_contactPhone}
                         </Col>
                         <Col>
                             <MdEmail />
-                            {singleEvent.e_contactEmail}
+                            {singleEvent[0].e_contactEmail}
                         </Col>
                         <Col>
                             <AiFillClockCircle />
-                            {moment(singleEvent.e_time, 'HH:mm').format('h:mm a')}
+                            {moment(singleEvent[0].e_time, 'HH:mm').format('h:mm a')}
                         </Col>
                         <Col>
                             <AiFillCalendar />
-                            {moment(singleEvent.e_date.slice(0, 10), "YYYY-MM-DD").format("dddd, MMMM Do YYYY")}
+                            {moment(singleEvent[0].e_date.slice(0, 10), "YYYY-MM-DD").format("dddd, MMMM Do YYYY")}
                         </Col>
                     </Row>
                     <Row>
-                        <p>{singleEvent.e_description}</p>
+                        <p>{singleEvent[0].e_description}</p>
                     </Row>
                     <Row>
                         <Col>
                             <Row>
                                 <span>Location:</span>
-                                {singleEvent.locationName}
+                                {singleEvent[0].locationName}
                             </Row>
                             <Row>
-                                {singleEvent.address}
+                                {singleEvent[0].address}
                             </Row>
                         </Col>
                         <Col>
-                            <img src={`https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${singleEvent.latitude},${singleEvent.longitude}&key=${process.env.REACT_APP_GOOGLE_STATIC_MAPS_API_KEY}`} />
+                            <img src={`https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${singleEvent[0].latitude},${singleEvent[0].longitude}&key=${process.env.REACT_APP_GOOGLE_STATIC_MAPS_API_KEY}`} />
                         </Col>
                     </Row>
                 </Modal.Body>

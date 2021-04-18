@@ -3,6 +3,7 @@
     padding: 1em;
     margin-top: 5px;
     max-height: 15em;
+    overflow-y: auto;
 }
 
 .div-title {
