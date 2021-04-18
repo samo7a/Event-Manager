@@ -14,9 +14,9 @@ import GroupContainer from "./GroupContainer";
 // import pupFiller from "../pictures/pupFiller.jpeg";
 
 const MyGroups = (props) => {
-  const check = localStorage.getItem("user_data");
+  let check = localStorage.getItem("user_data");
   const user = check ? JSON.parse(check) : null;
-  const student_id = user ? user.id : 0;
+  const s_id = user ? user.id : 0;
   const group = {
     name: "Group Name",
     rso: "rso name",
@@ -39,21 +39,20 @@ const MyGroups = (props) => {
   var newRsoPic;
 
   const getJoinedGroups = async () => {
+    console.log(s_id);
+    let js = JSON.stringify({s_id: s_id});
     try {
-      var sID = { s_id: student_id };
-      var js = JSON.stringify(sID);
       const response = await fetch("/api/getJoinedGroups", {
         method: "POST",
         // credentials: "include",
         body: js,
         headers: { "Content-Type": "application/json" },
       });
-      console.log(sID);
       console.log(js);
       var res = JSON.parse(await response.text());
       if (response.status !== 200) {
         // console.log(response.status);
-        console.error(response.status);
+        throw new Error(response.status);
       } else {
         console.log("GetJoinedGroups success");
         setJoinedGroups(res);
@@ -64,10 +63,11 @@ const MyGroups = (props) => {
       return;
     }
   };
+
   useEffect(() => {
     // setUserID();
     getJoinedGroups();
-  }, []);
+  });
 
   const createNewRso = async (event) => {
     event.preventDefault();
@@ -95,7 +95,7 @@ const MyGroups = (props) => {
         rso_name: newRsoName.value,
         rso_description: newRsoDesc.value,
         rso_profilePicture: newRsoPic.value,
-        s_id: student_id,
+        s_id: s_id,
       };
       var js = JSON.stringify(newRso);
       const response = await fetch("/api/createRso", {
