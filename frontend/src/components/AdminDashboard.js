@@ -109,7 +109,13 @@ const AdminDashboard = (props) => {
                     </div>
                 </Col>
             </Row>
-            <Modal show={showEvent} onHide={handleEventClose}>
+            <Modal 
+                show={showEvent} 
+                onHide={handleEventClose}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>{singleEvent[0].e_name}</Modal.Title>
                 </Modal.Header>
@@ -139,16 +145,11 @@ const AdminDashboard = (props) => {
                     </Row>
                     <Row>
                         <Col>
-                            <Row>
-                                <span><strong>Location:</strong></span>
-                                {singleEvent[0].locationName}
-                            </Row>
-                            <Row>
-                                {singleEvent[0].address}
-                            </Row>
+                            <span><strong>Location: </strong></span>
+                            {singleEvent[0].locationName}
                         </Col>
                         <Col>
-                            <img src={`https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${singleEvent[0].latitude},${singleEvent[0].longitude}&key="AIzaSyAMEVLMbPzwRN-pX7gBwb-jvMw7o_bDyqs"`} />
+                            <img src={`https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${singleEvent[0].latitude},${singleEvent[0].longitude}&key=AIzaSyDzw7H843GHOFrttAxMR2rnBdJh6z-AGfc`} />
                         </Col>
                     </Row>
                 </Modal.Body>
