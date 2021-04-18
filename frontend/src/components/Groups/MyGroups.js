@@ -50,7 +50,7 @@ const MyGroups = (props) => {
       });
       var res = JSON.parse(await response.text());
       if (response.status !== 200) {
-        console.log(res.error);
+        console.log(response.status);
       } else {
         console.log("GetJoinedGroups success");
         setJoinedGroups(res);
