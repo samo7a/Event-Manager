@@ -140,6 +140,8 @@ const SngGroup = (props) => {
         rso_id: 13,
         s_id: s_id,
       };
+      console.log(obj);
+
       var js = JSON.stringify(obj);
 
       let response = await fetch("/api/leaveRso", {
@@ -148,7 +150,7 @@ const SngGroup = (props) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(js),
+        body: js,
       });
       if (response.status != 200) {
         throw new Error(response.status);
@@ -166,6 +168,8 @@ const SngGroup = (props) => {
         rso_id: 13,
         s_id: s_id,
       };
+      console.log(obj);
+
       var js = JSON.stringify(obj);
 
       let response = await fetch("/api/joinRso", {
@@ -174,7 +178,7 @@ const SngGroup = (props) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(js),
+        body: js,
       });
       if (response.status != 200) {
         throw new Error(response.status);
