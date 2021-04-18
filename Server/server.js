@@ -975,7 +975,7 @@ app.post("/api/getEventStudent", async (req, res) => {
     if (error) {
       res.status(401).json({ msg: error.sqlMessage });
     }
-    if (result) {
+    if (result.length !== 0) {
       event = result[0];
     } else {
       event = {};
@@ -1046,14 +1046,20 @@ app.post("/api/getAllRsos", async (req, res) => {
         for (var j = 0; j < result2.length; j++) {
           admins.push(result2[j]);
         }
+
         for (var k = 0; k < rsos.length; k++) {
-          obj = {
-            admin: admins[k],
-            rso: rsos[k],
-          };
-          array.push(obj);
+          let a_id = rsos[k].s_id;
+          for (var l = 0; l < admins.length; l++) {
+            if (admins[l].s_id === a_id) {
+              obj = {
+                admin: admins[l],
+                rso: rsos[k],
+              };
+              array.push(obj);
+              break;
+            }
+          }
         }
-        console.log(array);
         res.status(200).json(array);
       });
     });
