@@ -147,7 +147,7 @@ const AdminDashboard = (props) => {
                             </Row>
                         </Col>
                         <Col>
-                            
+                            <img src={`https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=200x200&markers=color:blue%7C${singleEvent[0].latitude},${singleEvent[0].longitude}&key=${process.env.REACT_APP_GOOGLE_STATIC_MAPS_API_KEY}`} />
                         </Col>
                     </Row>
                 </Modal.Body>
