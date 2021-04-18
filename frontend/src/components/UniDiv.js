@@ -69,7 +69,9 @@ const UniDiv = () => {
 
     const updateUniContent = (e, type) => {
         let val = e.target.value;
+        console.log(val);
         let content = uniContent;
+        console.log(content);
 
         switch (type) {
             case 0:

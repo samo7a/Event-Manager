@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import EventListItem from './EventListItem';
 import './ApproveEvents.css';
 
-const ApproveEvents = () => {
+const ApproveEvents = (props) => {
     const [unapprovedEvents, setUnapprovedEvents] = useState([]);
     const [needsUpdate, setNeedsUpdate] = useState(false);
     const user = localStorage.getItem("user_data");
@@ -74,6 +74,7 @@ const ApproveEvents = () => {
             unapprovedEvents.map((e, i) => {
                 return (
                     <EventListItem
+                        click={(id) => props.click(id)}
                         myStyle={`event-list-item event-color-${i % 2 == 0 ? "lightgray" : "white"}`}
                         name={e.e_name}
                         id={e.e_id}

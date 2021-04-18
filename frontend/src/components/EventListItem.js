@@ -7,7 +7,7 @@ const EventListItem = (props) => {
 
     return (
         <div className={props.myStyle}>
-            <span className="clickable">
+            <span onClick={() => props.click(props.id)} className="clickable">
                 <strong>{props.name}</strong>
             </span>
             <div className="date-div">

@@ -98,7 +98,7 @@ const AdminDashboard = (props) => {
                 <Col xs={3}>
                     <UniDiv />
                     <RSODiv />
-                    <ApproveEvents />
+                    <ApproveEvents click={(id) => handleEventShow(id)}/>
                     {eventsDiv}
                 </Col>
                 <Col>
