@@ -31,22 +31,6 @@ const EventInfoPage = (props) => {
   // const [fName, setFName] = useState("");
   // const [lname, setLName] = useState("");
 
-  useEffect(() => {
-    // setUserId(user.userID);
-    // setFName(user.firstName);
-    // setLName(user.lastName);
-    // setUserId(userDEBUG.id.value);
-    // setFName(userDEBUG.firstName.value);
-    // setLName(userDEBUG.lastName);
-    // setName(props.event.name);
-    // setRso(props.event.rso);
-    // setDesc(props.event.desc);
-    // setDate(props.event.date);
-    console.log(user);
-    // setComment()
-  }, []);
-  // var user = JSON.parse(localStorage.getItem("user_data"));
-
   var newComment;
   // Comment debug
   const event = {
@@ -63,29 +47,34 @@ const EventInfoPage = (props) => {
     time: "11:45pm",
     date: "MM/DD/YYYY",
   };
-  const getEventDetails = async () => {
+  const [eventID, setEventID] = useState("");
+  const [eventDetails, setDetails] = useState({});
+  useEffect(() => {
+    getEventSingle();
+  }, []);
+  const getEventSingle = async () => {
     try {
-      var eventId = {
-        event_id: event.id,
-      };
-      console.log(eventId);
-      var js = JSON.stringify(eventId);
-      const response = await fetch("/api/getEventStudent", {
+      setEventID(props.e_id);
+      // var obj = { e_id: props.e_id };
+      var obj = { e_id: 20 };
+      var js = JSON.stringify(obj);
+      let response = await fetch("/api/getEventStudent", {
         method: "POST",
-        credentials: "include",
+        // credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: js,
-        headers: { "Content-Type": "application/json" },
       });
       var res = JSON.parse(await response.text());
-      if (response.status !== 200) {
-        console.log(res.error);
+      if (response.status != 200) {
+        throw new Error(response.status);
       } else {
-        console.log("Ahh");
+        console.log(res);
         setDetails(res);
       }
-    } catch (e) {
-      console.log(e.toString());
-      return;
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
   const postComment = async (event) => {
@@ -131,6 +120,7 @@ const EventInfoPage = (props) => {
         console.log(res.error);
       } else {
         console.log("Ahh");
+        console.log(res);
       }
     } catch (e) {
       console.log(e.toString());
@@ -142,21 +132,21 @@ const EventInfoPage = (props) => {
     <div>
       <Container>
         <Card className="eventCard">
-          <Card.Title className="eventTitle">{event.name}</Card.Title>
-          <Card.Subtitle className="eventRso">
-            Hosted by {event.rso}
-          </Card.Subtitle>
+          <Card.Title className="eventTitle">{eventDetails.e_name}</Card.Title>
+          {/* <Card.Subtitle className="eventRso">
+            Hosted by {eventDetails.}
+          </Card.Subtitle> */}
           <Card.Img style={{ padding: "1rem" }} src={pupFiller}></Card.Img>
           <Card.Body>
             <Row>
               <Col className="eventInfo">
                 <Row>
                   <b>Date:{"\xa0"}</b>
-                  {event.date}
+                  {eventDetails.e_date}
                 </Row>
                 <Row>
                   <b>Description:{"\xa0"}</b>
-                  {event.desc}
+                  {eventDetails.e_description}
                 </Row>
               </Col>
             </Row>
