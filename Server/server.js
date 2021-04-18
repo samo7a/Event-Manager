@@ -144,7 +144,7 @@ app.post("/api/login", async (req, res, next) => {
       }
     });
   } else {
-    sql = `SELECT s_firstName, s_lastName, s_email, s_profilePicture FROM Students WHERE s_email="${email}" AND s_password="${password}"`;
+    sql = `SELECT s_id, s_firstName, s_lastName, s_email, s_profilePicture FROM Students WHERE s_email="${email}" AND s_password="${password}"`;
     conn.query(sql, (error2, result2) => {
       console.log(result2);
       if (error2) {
