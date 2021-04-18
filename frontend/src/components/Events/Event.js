@@ -59,7 +59,7 @@ const Event = (props) => {
   };
   const formatDate = (param) => {
     if (param != null) {
-      let returnVar = ";";
+      let returnVar = "";
       returnVar +=
         param.substring(8, 10) +
         "/" +
