@@ -150,7 +150,7 @@ const SngGroup = (props) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(js),
+        body: js,
       });
       if (response.status != 200) {
         throw new Error(response.status);
@@ -178,7 +178,7 @@ const SngGroup = (props) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(js),
+        body: js,
       });
       if (response.status != 200) {
         throw new Error(response.status);
