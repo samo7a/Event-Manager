@@ -49,7 +49,7 @@ const AdminDashboard = (props) => {
                 res = JSON.parse(await response.text());
                 console.log(res);
                 setSingleEvent(res);
-                //setShowEvent(true);
+                setShowEvent(true);
             }
         } catch (error) {
             console.error("Error:", error);
@@ -117,28 +117,30 @@ const AdminDashboard = (props) => {
                     <Row>
                         <Col>
                             <MdContactPhone />
-                            {singleEvent[0].e_contactPhone}
+                             {singleEvent[0].e_contactPhone} |
                         </Col>
                         <Col>
                             <MdEmail />
-                            {singleEvent[0].e_contactEmail}
+                             {singleEvent[0].e_contactEmail} |
                         </Col>
                         <Col>
                             <AiFillClockCircle />
-                            {moment(singleEvent[0].e_time, 'HH:mm').format('h:mm a')}
+                             {moment(singleEvent[0].e_time, 'HH:mm').format('h:mm a')} |
                         </Col>
                         <Col>
                             <AiFillCalendar />
-                            {moment(singleEvent[0].e_date.slice(0, 10), "YYYY-MM-DD").format("dddd, MMMM Do YYYY")}
+                             {moment(singleEvent[0].e_date.slice(0, 10), "YYYY-MM-DD").format("dddd, MMMM Do YYYY")}
                         </Col>
                     </Row>
                     <Row>
+                        <hr />
                         <p>{singleEvent[0].e_description}</p>
+                        <hr />
                     </Row>
                     <Row>
                         <Col>
                             <Row>
-                                <span>Location:</span>
+                                <span><strong>Location:</strong></span>
                                 {singleEvent[0].locationName}
                             </Row>
                             <Row>
