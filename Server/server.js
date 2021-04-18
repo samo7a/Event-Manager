@@ -1058,6 +1058,19 @@ app.post("/api/getAllRsos", async (req, res) => {
     });
   });
 });
+app.post("/getStudent", async (req, res) => {
+  const { s_id } = req.body;
+  let sql = `select s_firstName, s_lastName from Students where s_id = ${s_id};`;
+  conn.query(sql, async (error, result) => {
+    if (error) {
+      let response = { msg: error.sqlMessage };
+      res.status(401).json(response);
+    }
+    let name = result.s_firstName + " " + result.s_lastName;
+    let response2 = { name: name };
+    res.status(200).json(response2);
+  });
+});
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`listenning on port ${port}`);

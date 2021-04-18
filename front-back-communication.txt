@@ -404,3 +404,14 @@ b- From Server -> Frontend
         }
     ]
         
+--------------------------------------------------------
+23- /api/getStudent (post)
+a- From Frontend -> Server
+    {
+        s_id: INT
+    }
+
+b- From Server -> Frontend
+    {
+        name : string
+    }
