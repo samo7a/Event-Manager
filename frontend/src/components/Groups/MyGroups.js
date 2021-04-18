@@ -33,7 +33,14 @@ const MyGroups = (props) => {
   // MSG
   const [message, setMessage] = useState("");
   // getJoinedGroups
-  const [joinedGroups, setJoinedGroups] = useState([]);
+  const [joinedGroups, setJoinedGroups] = useState([
+    {
+      rso_id: 0,
+      rso_name: "",
+      status: "",
+      rso_description: "",
+    },
+  ]);
   // New Rso fields
   var newRsoName;
   var newRsoDesc;
@@ -117,6 +124,7 @@ const MyGroups = (props) => {
       return;
     }
   };
+
   const generateJoinedGroups =
     joinedGroups.length == 0 ? (
       <span>Not apart of any groups</span>
