@@ -124,14 +124,22 @@ const MyGroups = (props) => {
       return;
     }
   };
-
+  // const generateAdminGroups =
+  //   joinedGroups.length == 0 ? (
+  //     <span>Not apart of any groups</span>
+  //   ) : (
+  //     joinedGroups.map((e) => {
+  //       console.log(e.rso_id);
+  //       return e.admin.s_id === s_id ? <Group rso_id={e.rso_id} /> : null;
+  //     })
+  //   );
   const generateJoinedGroups =
     joinedGroups.length == 0 ? (
       <span>Not apart of any groups</span>
     ) : (
       joinedGroups.map((e) => {
         console.log(e.rso_id);
-        return <Group rso_id={e.rso_id} />;
+        return e.rso_id != "0" ? <Group rso_id={e.rso_id} /> : null;
       })
     );
 
@@ -150,7 +158,7 @@ const MyGroups = (props) => {
         </Col>
         <Container style={{ backgroundColor: "red" }}>
           ADMIN OF THESE GROUPS
-          <GroupContainer />
+          {/* <GroupContainer /> */}
         </Container>
       </Row>
       <Row>
