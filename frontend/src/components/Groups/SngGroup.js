@@ -140,6 +140,8 @@ const SngGroup = (props) => {
         rso_id: 13,
         s_id: s_id,
       };
+      console.log(obj);
+
       var js = JSON.stringify(obj);
 
       let response = await fetch("/api/leaveRso", {
@@ -166,6 +168,8 @@ const SngGroup = (props) => {
         rso_id: 13,
         s_id: s_id,
       };
+      console.log(obj);
+
       var js = JSON.stringify(obj);
 
       let response = await fetch("/api/joinRso", {
