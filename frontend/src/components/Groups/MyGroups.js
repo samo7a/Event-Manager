@@ -44,7 +44,7 @@ const MyGroups = (props) => {
       var js = JSON.stringify(sID);
       const response = await fetch("/api/getJoinedGroups", {
         method: "POST",
-        // credentials: "include",
+        credentials: "include",
         body: js,
         headers: { "Content-Type": "application/json" },
       });

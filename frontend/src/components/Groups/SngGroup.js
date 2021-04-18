@@ -78,6 +78,8 @@ const SngGroup = (props) => {
       var js = JSON.stringify(obj);
       let response = await fetch("/api/getRsoDetails", {
         method: "POST",
+        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },

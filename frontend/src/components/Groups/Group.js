@@ -15,6 +15,8 @@ import "./Group.css";
 import GroupThumbnail from "../../pictures/GroupThumbnail.jpg";
 
 const Group = (props) => {
+  // Rso Details
+  const [rsoDetails, setDetails] = useState({});
   // Modal fields
   const [show, setShow] = useState(false);
   const modalOpen = () => setShow(true);
@@ -32,9 +34,34 @@ const Group = (props) => {
     toggleActive(props.group.isActive);
     setTotM(props.group.totalMembers);
     setTotA(props.group.totalAdmins);
+    getRsoDetails();
     // setThumbnail(props.group.groupTN);
   }, []);
-
+  const getRsoDetails = async () => {
+    try {
+      var obj = {
+        rso_id: props.group.id,
+      };
+      var js = JSON.stringify(obj);
+      const response = await fetch("/api/getRsoDetails", {
+        method: "POST",
+        credentials: "include",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+      var res = JSON.parse(await response.text());
+      console.log(res);
+      if (response.status !== 200) {
+        console.log(res.error);
+      } else {
+        console.log("RSO created");
+        setDetails(res);
+      }
+    } catch (e) {
+      console.log(e.toString());
+      return;
+    }
+  };
   return (
     <div>
       <Card style={{ maxHeight: "8.12rem" }}>

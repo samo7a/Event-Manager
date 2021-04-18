@@ -39,6 +39,7 @@ const Event = (props) => {
       var js = JSON.stringify(obj);
       let response = await fetch("/api/getEventStudent", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -63,7 +64,11 @@ const Event = (props) => {
 
   return (
     <div>
-      <Container onClick={modalOpen} style={{ backgroundColor: "yellowgreen" }}>
+      <Container
+        className="eventContainer"
+        onClick={modalOpen}
+        style={{ backgroundColor: "yellowgreen" }}
+      >
         <h1>{eventName}</h1>
         <h4>{eventRso}</h4>
         <Image className="previewImage" src={pupFiller} />

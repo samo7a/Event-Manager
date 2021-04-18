@@ -72,7 +72,7 @@ const EventInfoPage = (props) => {
       var js = JSON.stringify(eventId);
       const response = await fetch("/api/getEventStudent", {
         method: "POST",
-        // credentials: "include",
+        credentials: "include",
         body: js,
         headers: { "Content-Type": "application/json" },
       });

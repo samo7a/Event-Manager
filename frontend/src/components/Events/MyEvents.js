@@ -139,7 +139,7 @@ const MyEvents = (props) => {
       var js = JSON.stringify(newEvent);
       const response = await fetch("/api/createEventRso", {
         method: "POST",
-        // credentials: "include",
+        credentials: "include",
         body: js,
         headers: { "Content-Type": "application/json" },
       });
@@ -170,13 +170,19 @@ const MyEvents = (props) => {
         </Col>
         <Container style={{ backgroundColor: "red" }}>
           ADMIN OF THESE GROUPS
-          {/* <EventContainer /> */}
+          <EventContainer />
         </Container>
       </Row>
       <Row>
         <h3>Following these events</h3>
         <Container style={{ backgroundColor: "red" }}>
           Following these Events
+        </Container>
+      </Row>
+      <Row>
+        <h3>Upcoming Events</h3>
+        <Container style={{ backgroundColor: "red" }}>
+          Upcoming Events
         </Container>
       </Row>
       <div>
