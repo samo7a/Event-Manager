@@ -30,17 +30,18 @@ const Group = (props) => {
   //   const [groupTN, setThumbnail] = useState("");
 
   useEffect(() => {
-    setName(props.group.name);
-    toggleActive(props.group.isActive);
-    setTotM(props.group.totalMembers);
-    setTotA(props.group.totalAdmins);
+    // setName(props.group.name);
+    // toggleActive(props.group.isActive);
+    // setTotM(props.group.totalMembers);
+    // setTotA(props.group.totalAdmins);
+
     getRsoDetails();
     // setThumbnail(props.group.groupTN);
   }, []);
   const getRsoDetails = async () => {
     try {
       var obj = {
-        rso_id: props.group.id,
+        rso_id: props.rso_id,
       };
       var js = JSON.stringify(obj);
       const response = await fetch("/api/getRsoDetails", {
@@ -52,7 +53,7 @@ const Group = (props) => {
       var res = JSON.parse(await response.text());
       console.log(res);
       if (response.status !== 200) {
-        console.log(res.error);
+        console.log(response.status);
       } else {
         console.log("RSO created");
         setDetails(res);
@@ -76,7 +77,7 @@ const Group = (props) => {
           </Col>
           <Col id="cardInfo" style={{ paddingLeft: ".1rem" }}>
             <Row style={{ marginLeft: "0" }}>
-              <h4>{rsoName}</h4>
+              <h4>{rsoDetails.rsoName}</h4>
               <Card.Text style={{ marginLeft: "10rem", marginTop: ".25rem" }}>
                 {isActive ? (
                   <span style={{ color: "green", fontWeight: "bold" }}>
