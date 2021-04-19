@@ -43,21 +43,28 @@ const MyEvents = (props) => {
   ]);
   // MSG field
   const [message, setMessage] = useState("");
+  var createEventObj = {
+    rso_id: 0,
+    e_name: "",
+    e_description: "",
+    e_contactEmail: "",
+    e_contactPhone: "",
+    e_type: "",
+    locationName: "",
+    address: "",
+    e_category: "",
+    e_time: "",
+    e_date: "",
+    e_profilePicture: "",
+    s_id: s_id,
+  };
   // newEvent fields
-  var newEventName;
-  var newEventDesc;
-  var newContactEmail;
-  var newPhone;
-  var eventType;
-  var eventLocation = "1";
-  var eventAddr = "1";
-  var eventCat;
   var eventHR;
   var eventMIN;
   var eventDay;
   var eventMonth;
   var eventYear;
-  var eventPic;
+  var rsoEventOwner;
   // const createEvent  = async (event) => {
   //   event.preventDefault();
   //   setMessage("");
@@ -91,36 +98,36 @@ const MyEvents = (props) => {
   const createEvent = async (event) => {
     event.preventDefault();
     setMessage("");
-    if (newEventName.value.length == 0) {
+    if (createEventObj.e_name.value.length == 0) {
       setMessage("Please include event name");
       return;
     }
-    if (newEventName.value.length > 45) {
+    if (createEventObj.e_name.value.length > 45) {
       setMessage("Event Name exceed limit of 45 Characters");
       return;
     }
-    if (newEventDesc == null) {
+    if (createEventObj.e_description == null) {
       setMessage("Please fill all fields");
       return;
     }
-    if (newEventDesc.value.length > 1000) {
+    if (createEventObj.e_description.value.length > 1000) {
       setMessage("Over max");
       return;
     }
-    if (newContactEmail == null) {
+    if (createEventObj.e_contactEmail == null) {
       setMessage("Please enter an email");
       return;
     }
     var expression = /\S+@\S+/;
-    if (!expression.test(newContactEmail.value.toLowerCase())) {
+    if (!expression.test(createEventObj.e_contactEmail.value.toLowerCase())) {
       setMessage("Please enter a valid email address");
       return;
     }
-    if (newPhone == null) {
+    if (createEventObj.e_contactPhone == null) {
       setMessage("Please fill all fields");
       return;
     }
-    if (newPhone.value.length != 12) {
+    if (createEventObj.e_contactPhone.value.length != 12) {
       setMessage("Enter valid phone #");
       return;
     }
@@ -158,34 +165,52 @@ const MyEvents = (props) => {
       "20" + eventYear.value + "/" + eventMonth.value + "/" + eventDay.value;
     try {
       var newEvent = {
-        rso_id: 0,
-        s_id: 1,
-        e_name: newEventName.value,
-        e_description: newEventDesc.value,
-        e_contactEmail: newContactEmail.value,
-        e_contactPhone: newPhone.value,
-        e_type: eventType.value,
-        locationName: eventLocation.value,
-        address: eventAddr.value,
-        e_category: eventCat.value,
+        rso_id: createEventObj.rso_id,
+        s_id: createEventObj.s_id,
+        e_name: createEventObj.e_name,
+        e_description: createEventObj.e_description,
+        e_contactEmail: createEventObj.e_contactEmail,
+        e_contactPhone: createEventObj.e_contactPhone,
+        e_type: createEventObj.e_type,
+        locationName: createEventObj.locationName,
+        address: createEventObj.address,
+        e_category: createEventObj.e_category,
         e_time: formatTime,
         e_date: formatDate,
-        e_profilePicture: eventPic.value,
+        e_profilePicture: createEventObj.e_profilePicture,
         // isApproved: 1,
       };
       console.log(newEvent);
       var js = JSON.stringify(newEvent);
-      const response = await fetch("/api/createEventRso", {
-        method: "POST",
-        // credentials: "include",
-        body: js,
-        headers: { "Content-Type": "application/json" },
-      });
-      var res = JSON.parse(await response.text());
-      if (response.status !== 200) {
-        console.log(res.error);
+
+      if (createEventObj.e_type == "rso") {
+        const response = await fetch("/api/createEventRso", {
+          method: "POST",
+          // credentials: "include",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        });
+        var res = JSON.parse(await response.text());
+        if (response.status !== 200) {
+          console.log(res.error);
+        } else {
+          console.log("Rso Created event");
+          console.log(res);
+        }
       } else {
-        console.log("Ahh");
+        const response = await fetch("/api/createEventStudent", {
+          method: "POST",
+          // credentials: "include",
+          body: js,
+          headers: { "Content-Type": "application/json" },
+        });
+        var res = JSON.parse(await response.text());
+        if (response.status !== 200) {
+          console.log(res.error);
+        } else {
+          console.log("Student created event");
+          console.log(res);
+        }
       }
     } catch (e) {
       console.log(e.toString());
@@ -255,7 +280,7 @@ const MyEvents = (props) => {
                   <Form.Control
                     placeholder="Event Name"
                     type="text"
-                    ref={(c) => (newEventName = c)}
+                    ref={(c) => (createEventObj.e_name = c)}
                   ></Form.Control>
                   <Form.Text>45 characters maximum</Form.Text>
                 </Form.Group>
@@ -265,7 +290,7 @@ const MyEvents = (props) => {
                     placeholder="Please enter a description about the event"
                     style={{ marginRight: "1rem", width: "100%" }}
                     as="textarea"
-                    ref={(c) => (newEventDesc = c)}
+                    ref={(c) => (createEventObj.e_description = c)}
                     rows="7"
                   />
                   <Form.Text>1000 characters maximum</Form.Text>
@@ -275,31 +300,45 @@ const MyEvents = (props) => {
                   <Form.Control
                     type="email"
                     placeholder="Enter email"
-                    ref={(c) => (newContactEmail = c)}
+                    ref={(c) => (createEventObj.e_contactEmail = c)}
                   />
                   <Form.Text className="text-muted"></Form.Text>
                 </Form.Group>
                 <Form.Group controlID="eventName">
                   <Form.Label>Enter contact phone number</Form.Label>
-                  <Form.Control type="text" ref={(c) => (newPhone = c)} />
+                  <Form.Control
+                    type="text"
+                    ref={(c) => (createEventObj.e_contactPhone = c)}
+                  />
                   <Form.Text>Please enter in the form: XXX-XXX-XXXX</Form.Text>
                 </Form.Group>
-                <Form.Group controlId="eventType">
+                <Form.Group controlId="createEventObj.e_type">
                   <Form.Label>Select event type</Form.Label>
-                  <Form.Control as="select" ref={(c) => (eventType = c)}>
+                  <Form.Control as="select" value={createEventObj.e_type}>
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                     <option value="rso">RSO</option>
                   </Form.Control>
+                  <Form.Label>If RSO was chosen, enter it here</Form.Label>
+                  <Form.Control type="text" ref={(c) => (rsoEventOwner = c)} />
                 </Form.Group>
                 <Form.Label>Enter event location</Form.Label>
-                <Form.Control type="text" ref={(c) => (eventLocation = c)} />
+                <Form.Control
+                  type="text"
+                  ref={(c) => (createEventObj.locationName = c)}
+                />
 
                 <Form.Label>Enter event address</Form.Label>
-                <Form.Control type="text" ref={(c) => (eventAddr = c)} />
+                <Form.Control
+                  type="text"
+                  ref={(c) => (createEventObj.address = c)}
+                />
 
                 <Form.Label>Enter event category</Form.Label>
-                <Form.Control type="text" ref={(c) => (eventCat = c)} />
+                <Form.Control
+                  type="text"
+                  ref={(c) => (createEventObj.e_category = c)}
+                />
                 <Form.Label>Enter event time in 24Hr format</Form.Label>
                 <InputGroup className="mb-3">
                   <FormControl placeholder="Hour" ref={(c) => (eventHR = c)} />
@@ -319,7 +358,10 @@ const MyEvents = (props) => {
                 </InputGroup>
                 <Form.Group controlID="rsoPic">
                   <Form.Label>Upload event profile picture</Form.Label>
-                  <Form.File ref={(c) => (eventPic = c)} label="" />
+                  <Form.File
+                    ref={(c) => (createEventObj.e_profilePicture = c)}
+                    label=""
+                  />
                   <Form.Text>5MB maximum</Form.Text>
                 </Form.Group>
               </Form>
