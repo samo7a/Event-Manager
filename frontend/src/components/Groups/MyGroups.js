@@ -213,11 +213,11 @@ const MyGroups = (props) => {
       <span>Not apart of any groups</span>
     ) : (
       adminGroups.map((e) => {
-        console.log(e.rso.rso_id);
-        return e.rso.rso_id != "0" ? (
+        console.log(e.rso_id);
+        return e.rso_id != "0" ? (
           <div style={{ marginTop: ".5rem", marginBottom: ".5rem" }}>
             <Group
-              rso_id={e.rso.rso_id}
+              rso_id={e.rso_id}
               style={{ marginTop: ".5rem", marginBottom: ".5rem" }}
             />
           </div>
