@@ -272,7 +272,7 @@ const MyEvents = (props) => {
   };
   const generateAllMyEvents =
     allMyEvents.length == 0 ? (
-      <span>Not apart of any groups</span>
+      <span> </span>
     ) : (
       allMyEvents.map((e) => {
         // console.log(e.e_id);
@@ -281,7 +281,7 @@ const MyEvents = (props) => {
     );
   const generateAllEvents =
     allEvents.length == 0 ? (
-      <span>Not apart of any groups</span>
+      <span></span>
     ) : (
       allEvents.map((e) => {
         // console.log(e.e_id);
