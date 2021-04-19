@@ -289,15 +289,11 @@ const MyGroups = (props) => {
       </Row>
       <Row>
         <h3>Member of these RSOs</h3>
-        <Container style={{ backgroundColor: "red" }}>
-          {generateJoinedGroups}
-        </Container>
+        <Container>{generateJoinedGroups}</Container>
       </Row>
       <Row>
         <h3>All RSOs at your university</h3>
-        <Container style={{ backgroundColor: "red" }}>
-          {generateAllGroups}
-        </Container>
+        <Container>{generateAllGroups}</Container>
       </Row>
       <div>
         {/* CREATE RSO MODAL */}
@@ -321,11 +317,11 @@ const MyGroups = (props) => {
                   <Form.Control type="text" ref={(c) => (newRsoName = c)} />
                   <Form.Text>45 characters maximum</Form.Text>
                 </Form.Group>
-                <Form.Group controlID="rsoPic">
+                {/* <Form.Group controlID="rsoPic">
                   <Form.Label>Upload RSO profile picture</Form.Label>
                   <Form.File label="" ref={(c) => (newRsoPic = c)} />
                   <Form.Text>5 MB maximum</Form.Text>
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group controlID="rsoName">
                   <Form.Label>Enter RSO description</Form.Label>{" "}
                   <Form.Control
