@@ -91,7 +91,7 @@ const Event = (props) => {
         {/* <h4>{eventDetails.}</h4> */}
         <Image className="previewImage" src={pupFiller} />
         {/* <p style={{ fontSize: "1.3rem" }}>{eventDesc}</p> */}
-        <p style={{ fontSize: "1.3rem" }}> {formatDate(eventDetails.e_date)}</p>
+        <p style={{ fontSize: "1.3rem" }}>{formatDate(eventDetails.e_date)}</p>
       </Container>
       {/* Event Modal */}
       <Modal show={show} onHide={modalClose}>
@@ -100,23 +100,39 @@ const Event = (props) => {
             <Image className="modalImage" src={pupFiller} />
           </Row>
           <Row style={{ margin: ".5rem" }}>
-            <Col>
-              <Row>
-                <b>Event Name:{"\xa0"}</b>
-                {eventDetails.e_name}
-              </Row>
-              <Row>
-                {/* <b>Hosted by:{"\xa0"}</b> */}
-                {/* {eventRso} */}
-              </Row>
-              <Row>
-                <b>Date:{"\xa0"}</b>
-                {formatDate(eventDetails.e_date)}
-              </Row>
-              <Row>
-                <b>Description:{"\xa0"}</b>
-                {eventDetails.e_description}
-              </Row>
+            <Col xs="6">
+              <Col>
+                <Row>
+                  <b>Event Name:{"\xa0"}</b>
+                  {eventDetails.e_name}
+                </Row>
+                <Row>
+                  {/* <b>Hosted by:{"\xa0"}</b> */}
+                  {/* {eventRso} */}
+                </Row>
+                <Row>
+                  <b>Date:{"\xa0"}</b>
+                  {formatDate(eventDetails.e_date)}
+                </Row>
+                <Row>
+                  <b>Description:{"\xa0"}</b>
+                  {eventDetails.e_description}
+                </Row>
+              </Col>
+            </Col>
+            <Col xs="6">
+              <a
+                href={
+                  "https://www.google.com/maps/search/?api=1&query=${eventDetails[0].latitude},${eventDetails[0].longitude}"
+                }
+                target="_blank"
+              >
+                <img
+                  src={
+                    "https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=400x400&markers=color:blue%7C${eventDetails[0].latitude},${eventDetails[0].longitude}&key=AIzaSyDzw7H843GHOFrttAxMR2rnBdJh6z-AGfc"
+                  }
+                />
+              </a>{" "}
             </Col>
           </Row>
           <Modal.Footer>
@@ -139,9 +155,9 @@ const Event = (props) => {
         </Container>
       </Modal>
       <Modal show={showEventModal} onHide={modalEventClose}>
-        {/* <ModalHeader>S</ModalHeader> */}
+        <ModalHeader></ModalHeader>
         {/* CANT CLOSE MODAL, NEED TO FIND ALT way to size it */}
-        {/* <Modal.Body
+        <Modal.Body
           style={{
             position: "fixed",
             overflowX: "hidden",
@@ -150,11 +166,11 @@ const Event = (props) => {
             bottom: 0,
             left: 0,
           }}
-        > */}
-        {/* UNCOMMENT THIS ONE TO TEST */}
-        {/* <EventInfoPage eID={props.e_id} /> */}
-        {/* <EventInfoPage eID={eventID} />
-        </Modal.Body> */}
+        >
+          {/* UNCOMMENT THIS ONE TO TEST */}
+          <EventInfoPage eID={props.e_id} />
+          {/* <EventInfoPage eID={eventID} /> */}
+        </Modal.Body>
       </Modal>
     </div>
   );
