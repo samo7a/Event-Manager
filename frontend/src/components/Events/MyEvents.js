@@ -256,7 +256,7 @@ const MyEvents = (props) => {
         </Col>
         <Container style={{ backgroundColor: "red" }}>
           ADMIN OF THESE GROUPS
-          <EventContainer />
+          <Event />
         </Container>
       </Row>
       <Row>

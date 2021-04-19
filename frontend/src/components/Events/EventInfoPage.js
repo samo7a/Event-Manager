@@ -8,7 +8,6 @@ import pupFiller from "../../pictures/pupFiller.jpeg";
 import "./EventInfoPage.css";
 const EventInfoPage = (props) => {
   // Event fields
-  // const [eventDetails, setDetails] = useState({});
   const [eventName, setName] = useState("");
   const [eventRso, setRso] = useState("");
   const [eventDesc, setDesc] = useState("S");
@@ -20,16 +19,10 @@ const EventInfoPage = (props) => {
     firstName: "Jon",
     lastName: "Frucht",
   };
-  // const [commentPost, setComment] = useState("empty");
-  // Add comment field
   var user = JSON.parse(localStorage.getItem("user_data"));
   const s_id = user ? user.id : 0;
   const fName = user ? user.firstName : "F";
   const lName = user ? user.lastName : "L";
-
-  // const [userID, setUserId] = useState("");
-  // const [fName, setFName] = useState("");
-  // const [lname, setLName] = useState("");
 
   var newComment;
   // Comment debug
@@ -49,15 +42,19 @@ const EventInfoPage = (props) => {
   };
   const [eventID, setEventID] = useState("");
   const [eventDetails, setDetails] = useState({});
-  const [eventComments, setEventComments] = useState( [
+  const [eventComments, setEventComments] = useState([
     {
       comment: {},
       author: "",
     },
-  ] );
+  ]);
 
   const getEventSingle = async () => {
     try {
+      console.log("Testing eID");
+      // console.log(eventID);
+      console.log(props.eID);
+
       // var obj = { e_id: props.e_id };
       let obj = { e_id: 20 };
       let js = JSON.stringify(obj);
@@ -77,7 +74,7 @@ const EventInfoPage = (props) => {
         let theComments = res.comments;
         let val = await theComments.forEach(async (c) => {
           try {
-            let obj = { s_id: c.s_id};
+            let obj = { s_id: c.s_id };
             let js = JSON.stringify(obj);
             let response = await fetch("/api/getStudent", {
               method: "POST",
@@ -91,18 +88,16 @@ const EventInfoPage = (props) => {
             if (response.status != 200) {
               throw new Error(response.status);
             } else {
-              return (
-                {
-                  comment: c,
-                  author: res1.name,
-                }
-              )
+              return {
+                comment: c,
+                author: res1.name,
+              };
             }
           } catch (error) {
             console.error("Error:", error);
             return;
           }
-        })
+        });
         console.log("theCommens outside the loop: ", val);
         setEventComments(val);
         setDetails(res);
@@ -112,6 +107,9 @@ const EventInfoPage = (props) => {
     }
   };
   useEffect(() => {
+    // setEventID(props.eID);
+    console.log("Hello");
+    console.log(props.eID);
     getEventSingle();
   }, []);
 
@@ -123,7 +121,7 @@ const EventInfoPage = (props) => {
       setMessage(" Can not post empty comment.");
       return;
     }
-  
+
     if (newComment.value.length == null) {
       setMessage("Please enter a comment");
       return;
@@ -164,25 +162,26 @@ const EventInfoPage = (props) => {
     }
   };
 
-  const renderComments = eventComments.length == 0 ? (
-    <span>No comments yet, be the first!</span>
-  ) : (
-    <div>
-      {eventComments.map(c => {
-        return (
-          <Card className="cardComment">
-            <Card.Title className="cardCommentTitle">
-              {c.author}
-            </Card.Title>
-            <Card.Body className="cardCommentBody">{c.comment.comment}</Card.Body>
-            <Card.Footer className="cardCommentFooter">
-              Posted a long time ago in a galaxy far, far away
-            </Card.Footer>
-          </Card>
-        )
-      })}
-    </div>
-  )
+  const renderComments =
+    eventComments.length == 0 ? (
+      <span>No comments yet, be the first!</span>
+    ) : (
+      <div>
+        {eventComments.map((c) => {
+          return (
+            <Card className="cardComment">
+              <Card.Title className="cardCommentTitle">{c.author}</Card.Title>
+              <Card.Body className="cardCommentBody">
+                {c.comment.comment}
+              </Card.Body>
+              <Card.Footer className="cardCommentFooter">
+                Posted a long time ago in a galaxy far, far away
+              </Card.Footer>
+            </Card>
+          );
+        })}
+      </div>
+    );
 
   const formatDate = (param) => {
     if (param != null) {

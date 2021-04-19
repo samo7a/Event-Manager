@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import "./Event.css";
 import pupFiller from "../../pictures/pupFiller.jpeg";
-
+import EventInfoPage from "./EventInfoPage";
 const Event = (props) => {
   // Modal fields
   const [show, setShow] = useState(false);
@@ -23,7 +23,7 @@ const Event = (props) => {
   const [eventRso, setRso] = useState("");
   const [eventDesc, setDesc] = useState("S");
   const [eventDate, setDate] = useState("MM/DD/YYYY");
-  const [eventID, setEventID] = useState("");
+  const [eventID, setEventID] = useState("s");
   const [eventDetails, setDetails] = useState({});
 
   useEffect(() => {
@@ -31,11 +31,12 @@ const Event = (props) => {
     // setRso(props.event.rso);
     // setDesc(props.event.desc);
     // setDate(props.event.date);
+    setEventID("notS");
     getEventSingle();
   }, []);
   const getEventSingle = async () => {
     try {
-      setEventID(props.e_id);
+      // setEventID(props.e_id);
       var obj = { e_id: props.e_id };
       var js = JSON.stringify(obj);
       let response = await fetch("/api/getEventStudent", {
@@ -125,13 +126,29 @@ const Event = (props) => {
                   <Button>View Event</Button>
                 </ButtonGroup>
                 <ButtonGroup className="ml-5" aria-label="Second group">
-                  <Button>Add to Calendar</Button>{" "}
+                  {/* <Button>Add to Calendar</Button>{" "} */}
                   <Button onClick={modalClose}> Close </Button>
                 </ButtonGroup>
               </ButtonToolbar>
             </Row>
           </Modal.Footer>
         </Container>
+      </Modal>
+      <Modal className="EModal" show={true}>
+        <Modal.Body
+          style={{
+            position: "fixed",
+            overflowX: "hidden",
+            top: "0",
+            right: "0",
+            bottom: 0,
+            left: 0,
+          }}
+        >
+          {/* UNCOMMENT THIS ONE TO TEST */}
+          {/* <EventInfoPage eID={props.e_id} /> */}
+          <EventInfoPage eID={eventID} />
+        </Modal.Body>
       </Modal>
     </div>
   );
