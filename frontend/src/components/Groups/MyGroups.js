@@ -139,7 +139,14 @@ const MyGroups = (props) => {
     ) : (
       joinedGroups.map((e) => {
         console.log(e.rso_id);
-        return e.rso_id != "0" ? <Group rso_id={e.rso_id} /> : null;
+        return e.rso_id != "0" ? (
+          <div style={{ marginTop: ".5rem", marginBottom: ".5rem" }}>
+            <Group
+              rso_id={e.rso_id}
+              style={{ marginTop: ".5rem", marginBottom: ".5rem" }}
+            />
+          </div>
+        ) : null;
       })
     );
 
@@ -160,7 +167,14 @@ const MyGroups = (props) => {
           ADMIN OF THESE GROUPS
           {/* <GroupContainer /> */}
           {window.location.href == "http://localhost:3000/my-groups" ? (
-            <GroupContainer />
+            <div>
+              <div style={{ marginTop: ".5rem", marginBottom: ".5rem" }}>
+                <Group />
+              </div>
+              <div style={{ marginTop: ".5rem", marginBottom: ".5rem" }}>
+                <Group />
+              </div>
+            </div>
           ) : null}
         </Container>
       </Row>
