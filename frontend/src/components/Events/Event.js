@@ -85,7 +85,7 @@ const Event = (props) => {
       <Container
         className="eventContainer"
         onClick={modalOpen}
-        style={{ backgroundColor: "yellowgreen" }}
+        style={{ backgroundColor: "#DADADA", paddingTop: ".5rem" }}
       >
         <h1>{eventDetails.e_name}</h1>
         {/* <h4>{eventDetails.}</h4> */}
