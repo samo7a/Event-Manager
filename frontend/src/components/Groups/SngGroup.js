@@ -544,43 +544,46 @@ const SngGroup = (props) => {
             <div className="upComingETitle">Upcoming Events</div>
           </Card.Title>
           <Card.Body>
-            {rsoDetails.events.map((e) => {
-              return (
-                <Container
-                  style={{
-                    // marginLeft: "0",
-                    marginBottom: ".5rem",
-                    border: "1px solid black",
-                  }}
-                >
-                  <Event e_id={e.e_id} />
-                </Container>
-                //  <Card.Text
-                //     style={{
-                //       margin: "0",
-                //     }}
-                //   >
-                //     <span>
-                //       <span
-                //         style={{
-                //           margin: "0",
-                //           fontWeight: "bold",
-                //           fontSize: "2rem",
-                //         }}
-                //       >
-                //         {e.e_name}
-                //       </span>
-                //     </span>
-                //   </Card.Text>
-                //   <Card.Text style={{ margin: "0" }}>
-                //     {e.e_description}
-                //   </Card.Text>
-                //   <Card.Text style={{ margin: "0" }}>
-                //     {formatDate(e.e_date)}
-                //   </Card.Text>
-                // </Container>
-              );
-            })}
+            {rsoDetails.events == null
+              ? rsoDetails.events.map((e) => {
+                  return (
+                    <Container
+                      style={{
+                        // marginLeft: "0",
+                        marginBottom: ".5rem",
+                        border: "1px solid black",
+                      }}
+                    >
+                      <Event e_id={e.e_id} />
+                    </Container>
+
+                    //  <Card.Text
+                    //     style={{
+                    //       margin: "0",
+                    //     }}
+                    //   >
+                    //     <span>
+                    //       <span
+                    //         style={{
+                    //           margin: "0",
+                    //           fontWeight: "bold",
+                    //           fontSize: "2rem",
+                    //         }}
+                    //       >
+                    //         {e.e_name}
+                    //       </span>
+                    //     </span>
+                    //   </Card.Text>
+                    //   <Card.Text style={{ margin: "0" }}>
+                    //     {e.e_description}
+                    //   </Card.Text>
+                    //   <Card.Text style={{ margin: "0" }}>
+                    //     {formatDate(e.e_date)}
+                    //   </Card.Text>
+                    // </Container>
+                  );
+                })
+              : null}
           </Card.Body>
         </Card>
       </Card>
