@@ -382,6 +382,7 @@ const SngGroup = (props) => {
         throw new Error(response.status);
       } else {
         setMessage("Updated Successfully!");
+        handleEditClose();
       }
     } catch (error) {
       console.error("Error:", error);
