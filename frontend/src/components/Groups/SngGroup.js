@@ -544,7 +544,7 @@ const SngGroup = (props) => {
             <div className="upComingETitle">Upcoming Events</div>
           </Card.Title>
           <Card.Body>
-            {rsoDetails.events == null
+            {rsoDetails.events.e_id == null
               ? rsoDetails.events.map((e) => {
                   return (
                     <Container
