@@ -25,6 +25,7 @@ import "./SngGroup.css";
 import EventContainer from "../Events/EventContainer";
 // import pupFiller from "../pictures/pupFiller.jpeg";
 import GroupThumbnail from "../../pictures/GroupThumbnail.jpg";
+import Event from "../Events/Event";
 
 const SngGroup = (props) => {
   const group = {
@@ -552,30 +553,32 @@ const SngGroup = (props) => {
                     border: "1px solid black",
                   }}
                 >
-                  <Card.Text
-                    style={{
-                      margin: "0",
-                    }}
-                  >
-                    <span>
-                      <span
-                        style={{
-                          margin: "0",
-                          fontWeight: "bold",
-                          fontSize: "2rem",
-                        }}
-                      >
-                        {e.e_name}
-                      </span>
-                    </span>
-                  </Card.Text>
-                  <Card.Text style={{ margin: "0" }}>
-                    {e.e_description}
-                  </Card.Text>
-                  <Card.Text style={{ margin: "0" }}>
-                    {formatDate(e.e_date)}
-                  </Card.Text>
+                  <Event e_id={e.e_id} />
                 </Container>
+                //  <Card.Text
+                //     style={{
+                //       margin: "0",
+                //     }}
+                //   >
+                //     <span>
+                //       <span
+                //         style={{
+                //           margin: "0",
+                //           fontWeight: "bold",
+                //           fontSize: "2rem",
+                //         }}
+                //       >
+                //         {e.e_name}
+                //       </span>
+                //     </span>
+                //   </Card.Text>
+                //   <Card.Text style={{ margin: "0" }}>
+                //     {e.e_description}
+                //   </Card.Text>
+                //   <Card.Text style={{ margin: "0" }}>
+                //     {formatDate(e.e_date)}
+                //   </Card.Text>
+                // </Container>
               );
             })}
           </Card.Body>
