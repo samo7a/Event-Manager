@@ -41,6 +41,14 @@ const MyEvents = (props) => {
       e_type: "private",
     },
   ]);
+  const [allMyEvents, setAllMyEvents] = useState([
+    {
+      e_id: 0,
+      e_name: "e_name",
+      e_date: "e_date",
+      e_type: "private",
+    },
+  ]);
   // MSG field
   const [message, setMessage] = useState("");
   var createEventObj = {
@@ -71,6 +79,7 @@ const MyEvents = (props) => {
   // getAllevents
   useEffect(() => {
     getAllEvents();
+    getAllMyEvents(); //getAllMyEventsStudent
   }, []);
   const [fromVal, incrementF] = useState(0);
   const [toVal, incrementT] = useState(10);
@@ -83,7 +92,7 @@ const MyEvents = (props) => {
     try {
       let js = JSON.stringify({ s_id: s_id, from: fromVal, to: toVal });
       console.log(js);
-      const response = await fetch("/api/getAllMyEventsStudent", {
+      const response = await fetch("/api/getAllEventsStudent", {
         method: "POST",
         // credentials: "include",
         body: js,
@@ -96,6 +105,29 @@ const MyEvents = (props) => {
         console.log(res);
         setAllEvents(res);
         increment();
+      }
+    } catch (e) {
+      console.log(e.toString());
+      return;
+    }
+  };
+  // all my events
+  const getAllMyEvents = async () => {
+    try {
+      let js = JSON.stringify({ s_id: s_id });
+      console.log(js);
+      const response = await fetch("/api/getAllMyEventsStudent", {
+        method: "POST",
+        // credentials: "include",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+      var res = JSON.parse(await response.text());
+      if (response.status !== 200) {
+        console.log(res.error);
+      } else {
+        console.log(res);
+        setAllMyEvents(res);
       }
     } catch (e) {
       console.log(e.toString());
@@ -238,7 +270,15 @@ const MyEvents = (props) => {
       return;
     }
   };
-
+  const generateAllMyEvents =
+    allMyEvents.length == 0 ? (
+      <span>Not apart of any groups</span>
+    ) : (
+      allMyEvents.map((e) => {
+        // console.log(e.e_id);
+        return e.e_id != null && e.e_id != "0" ? <Event e_id={e.e_id} /> : null;
+      })
+    );
   const generateAllEvents =
     allEvents.length == 0 ? (
       <span>Not apart of any groups</span>
@@ -263,6 +303,7 @@ const MyEvents = (props) => {
           </Button>
         </Col>
         <Container style={{ backgroundColor: "" }}>
+          {generateAllMyEvents}
           {/* ADMIN OF THESE GROUPS */}
           {window.location.href == "http://localhost:3000/my-events" ? (
             <Event />
