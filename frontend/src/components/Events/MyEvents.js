@@ -98,7 +98,8 @@ const MyEvents = (props) => {
   const createEvent = async (event) => {
     event.preventDefault();
     setMessage("");
-    console.log("Check before Validif. :: " + createEventObj);
+    console.log("Check before Validif. :: ");
+    console.log(createEventObj);
     if (createEventObj.e_name.value.length == 0) {
       setMessage("Please include event name");
       return;
@@ -189,7 +190,7 @@ const MyEvents = (props) => {
         e_category: e_category,
         e_time: formatTime,
         e_date: formatDate,
-        e_profilePicture: null,
+        // e_profilePicture: null,
         // isApproved: 1,
       };
       console.log(newEvent);
