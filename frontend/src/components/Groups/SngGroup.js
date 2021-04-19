@@ -36,6 +36,10 @@ const SngGroup = (props) => {
   console.log(user);
   const s_id = user ? user.id : null;
   // Modal fields
+  var rnameEdit;
+  var descEdit;
+  var cnameEdit;
+  var emailEdit;
   // member/admin list modals
   const [showMem, setMemShow] = useState(false);
   const [showContactInfo, setAdmShow] = useState(false);
@@ -58,22 +62,16 @@ const SngGroup = (props) => {
   const totalAdmins = 5;
   // Message
   const [message, setMessage] = useState("");
-  // var user = JSON.parse(localStorage.getItem("user_data"));
-  // const fName = user ? JSON.parse(user).firstName : "F";
+
   // Rso Details
   const [rsoID, setRsoID] = useState("");
-  // const [rsoName, setRsoName] = useState("");
-  // const [rsoStat, setStatus] = useState("");
-  // const [rsoDesc, setDesc] = useState("");
-  // const [memNum, setMemNum] = useState(1);
-  // const [admin, setAdmin] = useState({ s_id: 0, s_name: "Name" });
+
   const [rsoDetails, setDetails] = useState({
     admin: {},
     members: [{}],
     events: [{}],
   });
-  // const [members,setMems] = useState({})
-  // const [events,setMems] = useState({})
+
   const debugGroup = {
     rso_name: "DebugName",
     status: "inactive",
@@ -260,40 +258,7 @@ const SngGroup = (props) => {
                 >
                   {rsoDetails.rso_description}
                 </Row>
-                <Row>
-                  {/* <Col>
-                    <div>Total Members: {totalMembers} </div>
-                  </Col> */}
-                  {/* <Col>
-                    <span style={{ marginLeft: "1.5rem" }}>
-                      Total Admins: {totalAdmins}
-                    </span>
-                  </Col> */}
-                </Row>
-                <Row>
-                  {/* <Col>
-                    <Card.Link
-                      onClick={handleMOpen}
-                      style={{ cursor: "pointer" }}
-                    >
-                      View Members
-                    </Card.Link>
-                  </Col> */}
-                  <Col>
-                    {/* <span style={{ marginLeft: "1.5rem" }}>
-                      <Card.Link
-                        onClick={handleCIOpen}
-                        style={{ cursor: "pointer" }}
-                      >
-                        View Admins
-                      </Card.Link>
-                    </span> */}
-                  </Col>
-                </Row>
               </Card.Text>
-              {/* <Row style={{ marginLeft: 0 }}>
-                <Card.Link>IF ADMIN Click here to view options</Card.Link>
-              </Row> */}
             </Card>
           </Col>
         </Row>
@@ -441,28 +406,29 @@ const SngGroup = (props) => {
           // contentClassName="modal1"
           // flex
         >
-          <Modal.Header>
+          <Modal.Header style={{ textAlign: "center", margin: "auto" }}>
             <Modal.Title>Edit RSO Page</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form style={{ width: "100%" }}>
-              <Row className="center" style={{ textAlign: "center" }}>
+            <Form style={{ textAlign: "center" }}>
+              {/* <Row className="center" style={{ textAlign: "center" }}>
                 <Col sm="4">Confirm Edit(s)</Col>
-              </Row>
+              </Row> */}
               <Row>
-                <Col sm="4" className="">
+                {/* <Col sm="4" className="">
                   <Form.Check
                     type="checkbox"
                     className="editCol"
                     label="Edit Name"
                   />
-                </Col>
-                <Col sm="8">
-                  <Form.Group style={{ marginLeft: "0rem", textAlign: "none" }}>
+                </Col> */}
+                <Col>
+                  <Form.Group style={{ textAlign: "center" }}>
                     <Form.Label>
                       RSO Name
                       <Form.Control
-                        style={{ marginRight: "1rem", width: "130%" }}
+                        ref={(c) => (rnameEdit = c)}
+                        style={{ width: "100%" }}
                         type="text"
                         // rows="10"
                       />
@@ -472,44 +438,46 @@ const SngGroup = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col sm="4" className="">
+                {/* <Col sm="4" className="">
                   <Form.Check
                     type="checkbox"
                     className="editCol"
                     label="Edit Description"
                   />
-                </Col>
-                <Col sm="8">
+                </Col> */}
+                <Col>
                   <Form.Group style={{ marginLeft: "0rem", textAlign: "none" }}>
                     <Form.Label>
                       RSO description
                       <Form.Control
-                        style={{ marginRight: "1rem", width: "140%" }}
+                        style={{ margin: "auto", width: "140%" }}
                         as="textarea"
                         rows="5"
+                        ref={(c) => (descEdit = c)}
                       />
                       <Form.Text>256 character maximum</Form.Text>
                     </Form.Label>
                   </Form.Group>
                 </Col>
               </Row>
-              <Row className="centerText">
-                <h5 style={{ marginLeft: "1rem" }}> Contatct Information</h5>
+              <Row className="centerText" style={{ textAlign: "center" }}>
+                <h5 style={{ margin: "auto" }}> Contatct Information</h5>
               </Row>
               <Row>
-                <Col sm="4" className="">
+                {/* <Col sm="4" className="">
                   <Form.Check
                     type="checkbox"
                     className="editCol"
                     label="Edit Name"
                   />
-                </Col>
-                <Col sm="8">
-                  <Form.Group style={{ marginLeft: "0rem", textAlign: "none" }}>
+                </Col> */}
+                <Col>
+                  <Form.Group style={{ margin: "auto", textAlign: "none" }}>
                     <Form.Label>
                       Name
                       <Form.Control
-                        style={{ marginRight: "1rem", width: "140%" }}
+                        ref={(c) => (cnameEdit = c)}
+                        style={{ margin: "auto", width: "100%" }}
                         type="text"
                       />
                     </Form.Label>
@@ -517,19 +485,30 @@ const SngGroup = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col sm="4" className="">
+                {/* <Col sm="4" className="">
                   <Form.Check
                     type="checkbox"
                     className="editCol"
                     label="Edit Email"
                   />
-                </Col>
-                <Col sm="8">
-                  <Form.Group style={{ marginLeft: "0rem", textAlign: "none" }}>
+                </Col> */}
+                <Col>
+                  <Form.Group
+                    style={{
+                      margin: "auto",
+                      alignItems: "center",
+                      // textAlign: "none",
+                    }}
+                  >
                     <Form.Label>
                       Email
                       <Form.Control
-                        style={{ marginRight: "1rem", width: "140%" }}
+                        ref={(c) => (emailEdit = c)}
+                        style={{
+                          alignItems: "center",
+                          margin: "auto",
+                          width: "140%",
+                        }}
                         type="email"
                       />
                     </Form.Label>

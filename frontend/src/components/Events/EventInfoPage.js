@@ -106,6 +106,7 @@ const EventInfoPage = (props) => {
         // e_id: props.e_id,
         e_id: 20,
         s_id: s_id,
+        fName: fName,
         comment: newComment.value,
       };
       console.log(newCommentObj);
@@ -131,7 +132,9 @@ const EventInfoPage = (props) => {
   const Comment = (param) => {
     return (
       <Card className="cardComment">
-        <Card.Title className="cardCommentTitle">{param.info.s_id}</Card.Title>
+        <Card.Title className="cardCommentTitle">
+          {getCommenterName(param.info)}
+        </Card.Title>
         <Card.Body className="cardCommentBody">{param.info.comment}</Card.Body>
         <Card.Footer className="cardCommentFooter">
           Posted at time on date
@@ -164,6 +167,33 @@ const EventInfoPage = (props) => {
     } else return "No date";
   };
 
+  const getCommenterName = async (p) => {
+    try {
+      var commenter = {
+        // e_id: props.e_id,
+        s_id: p.s_id,
+      };
+      console.log(commenter);
+      var js = JSON.stringify(commenter);
+      const response = await fetch("/api/getStudent", {
+        method: "POST",
+        // credentials: "include",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+      var res = JSON.parse(await response.text());
+      if (response.status !== 200) {
+        console.log(res.error);
+      } else {
+        console.log("Ahh");
+        console.log(res);
+        return res.name;
+      }
+    } catch (e) {
+      console.log(e.toString());
+      return "No S found";
+    }
+  };
   return (
     <div>
       <Container>
