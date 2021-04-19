@@ -627,7 +627,7 @@ app.post("/api/updateAccount", async (req, res) => {
     }
   });
 });
-app.post("/api/updateRso", (res, req) => {
+app.post("/api/updateRso", (req, res) => {
   let rso_name = req.body.rso_name;
   let rso_description = req.body.rso_description;
   let rso_id = req.body.rso_id;
