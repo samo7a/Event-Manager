@@ -366,7 +366,7 @@ const SngGroup = (props) => {
             <div className="upComingETitle">Upcoming Events</div>
           </Card.Title>
           <Card.Body>
-            {rsoDetails.events.forEach((e) => {
+            {rsoDetails.events.map((e) => {
               <Container
               // className="eventContainer"
               // onClick={modalOpen}
