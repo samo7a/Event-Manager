@@ -209,8 +209,10 @@ const MyGroups = (props) => {
   //     })
   //   );
   const generateAdminGroups =
-    adminGroups.length == 0 ? (
-      <span>Not apart of any groups</span>
+    adminGroups.length < 0 ? (
+      <div>
+        <span>You are not an admin of any groups yet</span>
+      </div>
     ) : (
       adminGroups.map((e) => {
         console.log(e.rso_id);
@@ -225,8 +227,8 @@ const MyGroups = (props) => {
       })
     );
   const generateAllGroups =
-    allGroups.length == 0 ? (
-      <span>Not apart of any groups</span>
+    allGroups.length < 0 ? (
+      <span>No groups found</span>
     ) : (
       allGroups.map((e) => {
         console.log(e.rso.rso_id);
@@ -241,7 +243,7 @@ const MyGroups = (props) => {
       })
     );
   const generateJoinedGroups =
-    joinedGroups.length == 0 ? (
+    joinedGroups.length < 0 ? (
       <span>Not apart of any groups</span>
     ) : (
       joinedGroups.map((e) => {
