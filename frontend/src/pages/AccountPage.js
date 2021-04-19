@@ -24,13 +24,11 @@ const AccountPage = () => {
             sm={1}
             fluid
             style={{
-              padding: "0px",
+              // padding: "0px",
               margin: "0 px",
             }}
           >
-            <div>
-              <SideMenu />
-            </div>
+            <SideMenu />
           </Col>
           <Col
             sm={11}
