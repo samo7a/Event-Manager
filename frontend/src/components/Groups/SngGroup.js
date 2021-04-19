@@ -548,7 +548,7 @@ const SngGroup = (props) => {
               return (
                 <Container
                   style={{
-                    marginLeft: "0",
+                    // marginLeft: "0",
                     marginBottom: ".5rem",
                     border: "1px solid black",
                   }}
