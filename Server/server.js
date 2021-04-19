@@ -1149,38 +1149,49 @@ app.post("/api/getAllMyRsosStudent", async (req, res) => {
   let rsos = [];
   let admins = [];
   let array = [];
-  let sql = `select rso_id, s_id, rso_name, status, rso_description from Rso where s_id=${s_id};`;
-  conn.query(sql, async (error1, result1) => {
-    if (error1) {
-      res.status(401).json({ msg: error1.sqlMessage });
+  let sql = `select u_id from Students where s_id = ${s_id};`;
+  conn.query(sql, async (error, result) => {
+    if (error) {
+      res.status(401).json({ msg: error.sqlMessage });
     }
-    for (var i = 0; i < result1.length; i++) {
-      rsos.push(result1[i]);
-    }
-    sql = `select s_id, s_firstName, s_lastName from Students where s_id in (select s_id from Rso where s_id in (select s_id from Students where u_id = ${u_id}));`;
-
-    conn.query(sql, async (error2, result2) => {
-      if (error2) {
-        res.status(401).json({ msg: error2.sqlMessage });
+    u_id = result[0].u_id;
+    sql = `select rso_id, s_id, rso_name, status, rso_description from Rso where s_id=${s_id};`;
+    conn.query(sql, async (error1, result1) => {
+      if (error1) {
+        res.status(401).json({ msg: error1.sqlMessage });
       }
-      for (var j = 0; j < result2.length; j++) {
-        admins.push(result2[j]);
+      for (var i = 0; i < result1.length; i++) {
+        rsos.push(result1[i]);
       }
+      sql = `select s_id, s_firstName, s_lastName from Students where s_id=${s_id};`;
 
-      for (var k = 0; k < rsos.length; k++) {
-        let a_id = rsos[k].s_id;
-        for (var l = 0; l < admins.length; l++) {
-          if (admins[l].s_id === a_id) {
-            obj = {
-              admin: admins[l],
-              rso: rsos[k],
-            };
-            array.push(obj);
-            break;
+      conn.query(sql, async (error2, result2) => {
+        if (error2) {
+          res.status(401).json({ msg: error2.sqlMessage });
+        }
+        for (var j = 0; j < result1.length; j++) {
+          admins.push({
+            s_id: s_id,
+            s_firstName: result2[0].s_firstName,
+            s_lastName: result2[0].s_lastName,
+          });
+        }
+
+        for (var k = 0; k < rsos.length; k++) {
+          let a_id = rsos[k].s_id;
+          for (var l = 0; l < admins.length; l++) {
+            if (admins[l].s_id === a_id) {
+              obj = {
+                admin: admins[l],
+                rso: rsos[k],
+              };
+              array.push(obj);
+              break;
+            }
           }
         }
-      }
-      res.status(200).json(array);
+        res.status(200).json(array);
+      });
     });
   });
 });
