@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import "./Group.css";
 import GroupThumbnail from "../../pictures/GroupThumbnail.jpg";
-
+import SingleGroup from "./SngGroup";
 const Group = (props) => {
   // Rso Details
   const [rsoDetails, setDetails] = useState({});
@@ -21,20 +21,8 @@ const Group = (props) => {
   const [show, setShow] = useState(false);
   const modalOpen = () => setShow(true);
   const modalClose = () => setShow(false);
-  // Group fields
-  const [rsoName, setName] = useState("");
-  const [isActive, toggleActive] = useState(false);
-  //   const [eventDesc, setDesc] = useState("S");
-  const [totalMembers, setTotM] = useState("NaN");
-  const [totalAdmins, setTotA] = useState("NaN");
-  //   const [groupTN, setThumbnail] = useState("");
 
   useEffect(() => {
-    // setName(props.group.name);
-    // toggleActive(props.group.isActive);
-    // setTotM(props.group.totalMembers);
-    // setTotA(props.group.totalAdmins);
-
     getRsoDetails();
     // setThumbnail(props.group.groupTN);
   }, []);
@@ -94,7 +82,7 @@ const Group = (props) => {
               }}
             >
               <Col>
-                <Card.Link style={{}} href="/single-group">
+                <Card.Link style={{}} onClick={modalOpen}>
                   View Group Page
                 </Card.Link>
               </Col>
@@ -115,6 +103,38 @@ const Group = (props) => {
           </Col>
         </Row>
       </Card>
+      <div>
+        <Modal show={show} onHide={modalClose}>
+          <Container className="modalContainer">
+            <Modal.Header>
+              <Button
+                type="primary"
+                style={{ position: "fixed", zIndex: "4", right: "10%" }}
+                onClick={() => {
+                  modalClose();
+                }}
+              >
+                Close Event
+              </Button>
+            </Modal.Header>
+            {/* CANT CLOSE MODAL, NEED TO FIND ALT way to size it */}
+            <Modal.Body
+              style={{
+                position: "fixed",
+                overflowX: "hidden",
+                top: "0",
+                right: "0",
+                bottom: 0,
+                left: 0,
+              }}
+            >
+              {/* UNCOMMENT THIS ONE TO TEST */}
+              <SingleGroup rso_id={props.rso_id} />
+              {/* <EventInfoPage eID={eventID} /> */}
+            </Modal.Body>
+          </Container>
+        </Modal>
+      </div>
     </div>
   );
 };

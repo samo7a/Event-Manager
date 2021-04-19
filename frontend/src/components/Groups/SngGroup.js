@@ -168,7 +168,7 @@ const SngGroup = (props) => {
     try {
       var newEvent = {
         // rso_id: props.rso_id,
-        rso_id: 13,
+        rso_id: props.rso_id,
         s_id: s_id,
         e_name: e_name,
         e_description: e_description,
@@ -260,7 +260,7 @@ const SngGroup = (props) => {
 
       // setRsoID(13);
 
-      var obj = { rso_id: 13 };
+      var obj = { rso_id: props.rso_id };
       var js = JSON.stringify(obj);
       let response = await fetch("/api/getRsoDetails", {
         method: "POST",
@@ -292,7 +292,7 @@ const SngGroup = (props) => {
       setRsoID(props.rso_id);
       // setRsoID(13);
       var obj = {
-        rso_id: 13,
+        rso_id: props.rso_id,
         s_id: s_id,
       };
       console.log(obj);
@@ -321,7 +321,7 @@ const SngGroup = (props) => {
     // preventDefault();
     try {
       var obj = {
-        rso_id: 13,
+        rso_id: props.rso_id,
         s_id: s_id,
       };
       console.log(obj);
@@ -359,7 +359,7 @@ const SngGroup = (props) => {
       var objN = rnameEdit.value == "" ? rsoName : rnameEdit.value;
       var objD = descEdit.value == "" ? rsoDesc : descEdit.value;
       var obj = {
-        rso_id: 13,
+        rso_id: props.rso_id,
         rso_name: objN,
         rso_description: objD,
       };
