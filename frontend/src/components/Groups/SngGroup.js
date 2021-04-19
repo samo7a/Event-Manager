@@ -256,7 +256,18 @@ const SngGroup = (props) => {
         })
       )
     ) : null;
-
+  const formatDate = (param) => {
+    if (param != null) {
+      let returnVar = "";
+      returnVar +=
+        param.substring(8, 10) +
+        "/" +
+        param.substring(5, 7) +
+        "/" +
+        param.substring(0, 4);
+      return returnVar;
+    } else return "No date";
+  };
   return (
     <div style={{ margin: "auto", minWidth: "40%" }}>
       <Card className="rsoCard">
@@ -407,6 +418,9 @@ const SngGroup = (props) => {
                   </Card.Text>
                   <Card.Text style={{ margin: "0" }}>
                     {e.e_description}
+                  </Card.Text>
+                  <Card.Text style={{ margin: "0" }}>
+                    {formatDate(e.e_date)}
                   </Card.Text>
                 </Container>
               );
