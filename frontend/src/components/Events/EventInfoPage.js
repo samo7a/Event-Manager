@@ -130,10 +130,11 @@ const EventInfoPage = (props) => {
     }
   };
   const Comment = (param) => {
+    var s_idC = param.info.s_id;
     return (
       <Card className="cardComment">
         <Card.Title className="cardCommentTitle">
-          {getCommenterName(param.info.s_id.value)}
+          {getCommenterName(s_idC)}
         </Card.Title>
         <Card.Body className="cardCommentBody">{param.info.comment}</Card.Body>
         <Card.Footer className="cardCommentFooter">
