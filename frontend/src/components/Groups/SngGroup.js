@@ -198,6 +198,8 @@ const SngGroup = (props) => {
       } else {
         console.log("Rso Created event");
         console.log(res);
+        setMessage("Event created!");
+        createEventClose();
       }
     } catch (e) {
       console.log(e.toString());
