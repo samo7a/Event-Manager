@@ -188,6 +188,36 @@ const SngGroup = (props) => {
       console.error("Error:", error);
     }
   };
+  // edit rso
+  const editRSO = async () => {
+    // preventDefault();
+    try {
+      var obj = {
+        rso_id: 13,
+        rso_name: rnameEdit,
+        rso_description: descEdit,
+      };
+      console.log(obj);
+
+      var js = JSON.stringify(obj);
+
+      let response = await fetch("/api/updateRso", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: js,
+      });
+      if (response.status != 200) {
+        throw new Error(response.status);
+      } else {
+        setMessage("Updated Successfully!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   const generateMembers =
     rsoDetails.members != null ? (
       rsoDetails.members.length == 0 ? (
@@ -522,10 +552,10 @@ const SngGroup = (props) => {
             className="modalFooter"
             style={{ marginBottom: "1rem", marginRight: "1rem" }}
           >
-            <Button variant="primary" type="submit">
+            <Button variant="primary" onClick={editRSO}>
               Make changes
             </Button>
-            <Button variant="primary" type="submit" onClick={handleEditClose}>
+            <Button variant="primary" onClick={handleEditClose}>
               Close
             </Button>
           </Modal.Footer>
