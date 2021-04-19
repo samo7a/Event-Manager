@@ -58,7 +58,7 @@ const EventInfoPage = (props) => {
       },
       author: "",
     },
-  ] )
+  ] );
 
   const getEventSingle = async () => {
     try {
@@ -109,7 +109,7 @@ const EventInfoPage = (props) => {
             return;
           }
         })
-        let val = await theComments;
+        let val = theComments;
         setEventComments(val);
         setDetails(res);
       }
