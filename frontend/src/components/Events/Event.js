@@ -89,7 +89,7 @@ const Event = (props) => {
       >
         <h1>{eventDetails.e_name}</h1>
         {/* <h4>{eventDetails.}</h4> */}
-        <Image className="previewImage" src={pupFiller} />
+        {/* <Image className="previewImage" src={pupFiller} /> */}
         {/* <p style={{ fontSize: "1.3rem" }}>{eventDesc}</p> */}
         <p style={{ fontSize: "1.3rem" }}>{formatDate(eventDetails.e_date)}</p>
       </Container>
