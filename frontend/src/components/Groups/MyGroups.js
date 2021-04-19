@@ -43,10 +43,8 @@ const MyGroups = (props) => {
   ]);
   const [adminGroups, setAdminGroups] = useState([
     {
-      rso_id: 0,
-      rso_name: "",
-      status: "",
-      rso_description: "",
+      admin: {},
+      rso: {},
     },
   ]);
   const [allGroups, setAllGroups] = useState([
@@ -260,7 +258,7 @@ const MyGroups = (props) => {
     );
 
   return (
-    <Container style={{ backgroundColor: "rgba(255,255,255,.3)" }}>
+    <Container style={{ backgroundColor: "rgba(255,255,255,.6)" }}>
       <h1 style={{ marginLeft: "-1rem" }}> RSOs </h1>
 
       <Row>
