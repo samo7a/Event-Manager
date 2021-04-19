@@ -138,7 +138,7 @@ const RegisterBox = (props) => {
           results.push(
             {
               name: d.u_name,
-              value: d.u_id
+              value: d.u_name
             }
           )
         });
@@ -262,23 +262,10 @@ const RegisterBox = (props) => {
   const registerHandler = async (event) => {
     event.preventDefault();
 
-    // let check = email.value === checkEmail.value;
-    // if (!check) {
-    //   setMessage("The emails do not match!");
-    //   return;
-    // }
-    // TO-DO :
-    // Add regex for email
-
     if (fName === "" || lName === "") {
       setMessage("Please enter your first and last name");
       return;
     }
-
-    // if (loginName.value === "") {
-    //   setMessage("A username is required");
-    //   return;
-    // }
 
     if (password === "") {
       setMessage("A password is required");
@@ -326,9 +313,7 @@ const RegisterBox = (props) => {
       setMessage("The passwords do not match!");
       return;
     }
-    // Test uniAddr1
-    // Test City
-    // Test zip code
+    
     if (regstrType && zipCode.length != 5) {
       setMessage("Your zip code is not valid!");
       return;
