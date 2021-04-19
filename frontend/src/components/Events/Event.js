@@ -123,13 +123,13 @@ const Event = (props) => {
             <Col xs="6">
               <a
                 href={
-                  "https://www.google.com/maps/search/?api=1&query=${eventDetails[0].latitude},${eventDetails[0].longitude}"
+                  "https://www.google.com/maps/search/?api=1&query=${eventDetails.latitude},${eventDetails.longitude}"
                 }
                 target="_blank"
               >
                 <img
                   src={
-                    "https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=400x400&markers=color:blue%7C${eventDetails[0].latitude},${eventDetails[0].longitude}&key=AIzaSyDzw7H843GHOFrttAxMR2rnBdJh6z-AGfc"
+                    "https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=400x400&markers=color:blue%7C${eventDetails.latitude},${eventDetails.longitude}&key=AIzaSyDzw7H843GHOFrttAxMR2rnBdJh6z-AGfc"
                   }
                 />
               </a>{" "}
