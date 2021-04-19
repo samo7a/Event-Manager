@@ -41,14 +41,7 @@ const MyEvents = (props) => {
       e_type: "private",
     },
   ]);
-  const [allMyEvents, setAllMyEvents] = useState([
-    {
-      e_id: 0,
-      e_name: "e_name",
-      e_date: "e_date",
-      e_type: "private",
-    },
-  ]);
+  const [allMyEvents, setAllMyEvents] = useState([]);
   // MSG field
   const [message, setMessage] = useState("");
   var createEventObj = {
@@ -270,15 +263,21 @@ const MyEvents = (props) => {
       return;
     }
   };
-  const generateAllMyEvents =
-    allMyEvents.length == 0 ? (
-      <span> </span>
-    ) : (
-      allMyEvents.map((e) => {
-        // console.log(e.e_id);
-        return e.e_id != null && e.e_id != "0" ? <Event e_id={e.e_id} /> : null;
-      })
-    );
+  const generateAllMyEvents = allMyEvents.length > 0 ? (
+      <div>
+        {allMyEvents.map(e => 
+            (
+              <Event e_id={e.e_id} />
+            )
+          )}
+      </div>
+  ) : (
+      <div>
+        <span>You have not created any events yet</span>
+      </div>
+  );
+
+    
   const generateAllEvents =
     allEvents.length == 0 ? (
       <span></span>
