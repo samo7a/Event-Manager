@@ -98,6 +98,7 @@ const MyEvents = (props) => {
   const createEvent = async (event) => {
     event.preventDefault();
     setMessage("");
+    console.log("Check before Validif. :: " + createEventObj);
     if (createEventObj.e_name.value.length == 0) {
       setMessage("Please include event name");
       return;
@@ -163,21 +164,32 @@ const MyEvents = (props) => {
     console.log("event time : " + formatTime);
     var formatDate =
       "20" + eventYear.value + "/" + eventMonth.value + "/" + eventDay.value;
+    var rso_id = createEventObj.rso_id;
+    var s_id = createEventObj.s_id;
+    var e_name = createEventObj.e_name.value;
+    var e_description = createEventObj.e_description.value;
+    var e_contactEmail = createEventObj.e_contactEmail.value;
+    var e_contactPhone = createEventObj.e_contactPhone.value;
+    var e_type = createEventObj.e_type.value;
+    var locationName = createEventObj.locationName.value;
+    var address = createEventObj.address.value;
+    var e_category = createEventObj.e_category.value;
+
     try {
       var newEvent = {
-        rso_id: createEventObj.rso_id,
-        s_id: createEventObj.s_id,
-        e_name: createEventObj.e_name.value,
-        e_description: createEventObj.e_description.value,
-        e_contactEmail: createEventObj.e_contactEmail.value,
-        e_contactPhone: createEventObj.e_contactPhone.value,
-        e_type: createEventObj.e_type.value,
-        locationName: createEventObj.locationName.value,
-        address: createEventObj.address.value,
-        e_category: createEventObj.e_category.value,
+        rso_id: rso_id,
+        s_id: s_id,
+        e_name: e_name,
+        e_description: e_description,
+        e_contactEmail: e_contactEmail,
+        e_contactPhone: e_contactPhone,
+        e_type: e_type,
+        locationName: locationName,
+        address: address,
+        e_category: e_category,
         e_time: formatTime,
         e_date: formatDate,
-        e_profilePicture: createEventObj.e_profilePicture,
+        e_profilePicture: null,
         // isApproved: 1,
       };
       console.log(newEvent);
