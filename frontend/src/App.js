@@ -21,7 +21,7 @@ function App() {
           <LoginPage />
         </Route>
         <Route exact path="/home">
-          <PageTemplate page="events" />
+          <PageTemplate page="/my-events" />
         </Route>
         <Route exact path="/admin-profile" component={UniProfilePage} />
         <Route exact path="/events">
