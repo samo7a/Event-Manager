@@ -249,6 +249,7 @@ const MyEvents = (props) => {
         } else {
           console.log("Student created event");
           console.log(res);
+          createEventClose();
         }
       }
     } catch (e) {
@@ -256,36 +257,29 @@ const MyEvents = (props) => {
       return;
     }
   };
-  const generateAllMyEvents = allMyEvents.length > 0 ? (
+  const generateAllMyEvents =
+    allMyEvents.length > 0 ? (
       <div>
-        {allMyEvents.map(e => 
-            (
-              <Event e_id={e.e_id} isApproved={e.isApproved} />
-            )
-          )}
+        {allMyEvents.map((e) => (
+          <Event e_id={e.e_id} isApproved={e.isApproved} />
+        ))}
       </div>
-  ) : (
+    ) : (
       <div>
         <span>You have not created any events yet</span>
       </div>
-  );
+    );
 
-    
-  const generateAllEvents = allEvents.length > 0 ? (
+  const generateAllEvents =
+    allEvents.length > 0 ? (
       <div>
-        {
-          allEvents.map(e => {
-            if (e) {
-              return (
-                <Event e_id={e.e_id} isApproved={1} />
-              )
-            } else {
-              return (
-                <span> </span>
-              )
-            }
+        {allEvents.map((e) => {
+          if (e) {
+            return <Event e_id={e.e_id} isApproved={1} />;
+          } else {
+            return <span> </span>;
           }
-        )}
+        })}
       </div>
     ) : (
       <div>
