@@ -136,11 +136,13 @@ const EventInfoPage = (props) => {
         body: js,
         headers: { "Content-Type": "application/json" },
       });
+      let update;
       var res = JSON.parse(await response.text());
       if (response.status !== 200) {
         console.log(res.error);
       } else {
-        setNeedsUpdate(true);
+        update = needsUpdate;
+        setNeedsUpdate(!update);
         setNewComment("");
         setCommentLength(1000);
       }
@@ -231,6 +233,7 @@ const EventInfoPage = (props) => {
                   <Form.Control
                     as="textArea"
                     rows="3"
+                    value={newComment}
                     onChange={newCommentHandler}
                   />
                 </Form.Row>
