@@ -363,7 +363,6 @@ app.post("/api/createEventRso", async (req, res) => {
     e_category,
     e_time,
     e_date,
-    e_profilePicture,
   } = req.body;
   conn.beginTransaction(async function (err) {
     if (err) {
@@ -376,10 +375,9 @@ app.post("/api/createEventRso", async (req, res) => {
     let lat = googleJson.results[0].geometry.location.lat;
     let lng = googleJson.results[0].geometry.location.lng;
     let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, 
-            e_type, locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, 
+            e_type, locationName, latitude, longitude, e_category, e_time, e_date, 
             isApproved) VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", 
-            "${e_type}", "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", 
-            ${e_profilePicture}, 1);`;
+            "${e_type}", "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", 1);`;
     conn.query(sql, async function (error, results) {
       if (error) {
         return conn.rollback(function () {
