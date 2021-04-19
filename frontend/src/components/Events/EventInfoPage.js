@@ -141,6 +141,8 @@ const EventInfoPage = (props) => {
         console.log(res.error);
       } else {
         setNeedsUpdate(true);
+        setNewComment("");
+        setCommentLength(1000);
       }
     } catch (e) {
       console.log(e.toString());
