@@ -235,18 +235,20 @@ const SngGroup = (props) => {
         <span>No members!</span>
       ) : (
         rsoDetails.members.map((e, i) => {
-          <tr>
-            <td className="tableNumCol">{i}</td>
-            <td className="tableCol">
-              <Image
-                src={GroupThumbnail}
-                roundedCircle
-                className="groupThumbnailImage"
-                style={{ maxWidth: "2rem" }}
-              />
-              {e.s_firstName + " " + e.s_lastName}
-            </td>
-          </tr>;
+          return (
+            <tr>
+              <td className="tableNumCol">{i}</td>
+              <td className="tableCol">
+                <Image
+                  src={GroupThumbnail}
+                  roundedCircle
+                  className="groupThumbnailImage"
+                  style={{ maxWidth: "2rem" }}
+                />
+                {e.s_firstName + " " + e.s_lastName}
+              </td>
+            </tr>
+          );
         })
       )
     ) : null;
@@ -373,7 +375,7 @@ const SngGroup = (props) => {
                 // onClick={modalOpen}
                 // style={{ backgroundColor: "yellowgreen" }}
                 >
-                  <Card.Text>s{e.e_name}</Card.Text>
+                  <Card.Text>{e.e_name}</Card.Text>
 
                   <h1>{e.e_name}</h1>
                   {/* <h4>{eventDetails.}</h4> */}
