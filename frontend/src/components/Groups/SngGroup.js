@@ -365,7 +365,23 @@ const SngGroup = (props) => {
           <Card.Title className="upComingETitle">
             <div className="upComingETitle">Upcoming Events</div>
           </Card.Title>
-          <Card.Body>{/* <EventContainer /> */}</Card.Body>
+          <Card.Body>
+            {rsoDetails.events.forEach((e) => {
+              <Container
+              // className="eventContainer"
+              // onClick={modalOpen}
+              // style={{ backgroundColor: "yellowgreen" }}
+              >
+                <Card.Text>{e.e_name}</Card.Text>
+
+                <h1>{e.e_name}</h1>
+                {/* <h4>{eventDetails.}</h4> */}
+                {/* <Image className="previewImage" src={pupFiller} /> */}
+                {/* <p style={{ fontSize: "1.3rem" }}>{eventDesc}</p> */}
+                {/* <p style={{ fontSize: "1.3rem" }}> {formatDate(e.e_date)}</p> */}
+              </Container>;
+            })}
+          </Card.Body>
         </Card>
       </Card>
       {/* LEAVE RSO MODAL */}
