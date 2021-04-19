@@ -281,7 +281,7 @@ const EventInfoPage = (props) => {
     var res;
     try {
       let js = JSON.stringify(obj);
-      let response = await fetch("/api/getStudent", {
+      let response = await fetch("/api/updateRating", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
