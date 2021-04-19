@@ -13,7 +13,6 @@ const EventInfoPage = (props) => {
   const [eventDesc, setDesc] = useState("S");
   const [eventDate, setDate] = useState("MM/DD/YYYY");
   const [eventRating, setRating] = useState(0);
-  const [message, setMessage] = useState("");
   const userDEBUG = {
     id: 12,
     firstName: "Jon",
@@ -24,7 +23,6 @@ const EventInfoPage = (props) => {
   const fName = user ? user.firstName : "F";
   const lName = user ? user.lastName : "L";
 
-  var newComment;
   // Comment debug
   const event = {
     id: 12,
@@ -43,6 +41,10 @@ const EventInfoPage = (props) => {
   const [eventID, setEventID] = useState("");
   const [eventDetails, setEventDetails] = useState({});
   const [eventComments, setEventComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [commentLength, setCommentLength] = useState(1000);
+  const [needsUpdate, setNeedsUpdate] = useState(false);
+  const [message, setMessage] = useState("");
 
   const getEventSingle = async () => {
     const theComments = [];
@@ -110,40 +112,25 @@ const EventInfoPage = (props) => {
     }
   };
   useEffect(() => {
-    // setEventID(props.eID);
-    console.log("Hello");
-    console.log(props.eID);
     getEventSingle();
-  }, []);
+  }, [needsUpdate]);
 
   const postComment = async (event) => {
     event.preventDefault();
-    setMessage("");
-    if (newComment == null) {
+    if (newComment.length == 0) {
       setMessage(" Can not post empty comment.");
       return;
     }
 
-    if (newComment.value.length == null) {
-      setMessage("Please enter a comment");
-      return;
-    }
-    if (newComment.value.length > 1000) {
-      setMessage(
-        "Length of comment exceeded: " + (newComment.value.length - 1000)
-      );
-      return;
-    }
-
     try {
-      var newCommentObj = {
+      let obj = {
         e_id: 20,
         s_id: s_id,
         fName: fName,
-        comment: newComment.value,
+        comment: newComment,
       };
-      console.log(newCommentObj);
-      var js = JSON.stringify(newCommentObj);
+      console.log(obj);
+      var js = JSON.stringify(obj);
       const response = await fetch("/api/addComment", {
         method: "POST",
         body: js,
@@ -153,8 +140,7 @@ const EventInfoPage = (props) => {
       if (response.status !== 200) {
         console.log(res.error);
       } else {
-        console.log("Ahh");
-        console.log(res);
+        setNeedsUpdate(true);
       }
     } catch (e) {
       console.log(e.toString());
@@ -162,9 +148,17 @@ const EventInfoPage = (props) => {
     }
   };
 
+  const newCommentHandler = event => {
+    let i;
+    if (commentLength > 0)
+      i = commentLength - 1;
+      setCommentLength(i);
+      setNewComment(event.target.value);
+  }
+
   const renderComments =
     eventComments.length == 0 ? (
-      <span>No comments yet, be the first!</span>
+      <span className="no-comments">No comments yet, be the first!</span>
     ) : (
       <div>
         {eventComments.map((c) => {
@@ -217,14 +211,11 @@ const EventInfoPage = (props) => {
             </Row>
           </Card.Body>
           <Card.Footer>
-            <h3 style={{ textDecoration: "underline" }}>Comments</h3>
+            <h3 style={{ textAlign: "center", textDecoration: "underline" }}>Comments</h3>
             <Card className="cardComment" style={{ marginBottom: "1rem" }}>
               <Form>
                 <Form.Group
-                  style={{
-                    fontSize: "1.3rem",
-                    marginTop: ".5rem",
-                  }}
+                  className="post-a-comment"
                 >
                   Post a Comment
                 </Form.Group>
@@ -238,18 +229,22 @@ const EventInfoPage = (props) => {
                   <Form.Control
                     as="textArea"
                     rows="3"
-                    ref={(c) => (newComment = c)}
+                    onChange={newCommentHandler}
                   />
                 </Form.Row>
-                <Form.Row style={{ alignItems: "end" }}>
-                  <Button
-                    variant="primary"
-                    // type="submit"
-                    onClick={postComment}
-                    style={{ marginLeft: "70%", marginBottom: "1rem" }}
-                  >
-                    Post comment
-                  </Button>
+                <Form.Row>
+                  <Form.Group as={Col}>  </Form.Group>
+                  <Form.Group as={Col}>
+                    <span style={{marginRight: "0.5em"}}>
+                      {commentLength} characters remaining
+                    </span>
+                    <Button
+                      variant="primary"
+                      onClick={postComment}
+                    >
+                      Post comment
+                    </Button>
+                  </Form.Group>
                 </Form.Row>
               </Form>
             </Card>

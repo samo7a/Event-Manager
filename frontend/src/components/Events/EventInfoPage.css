@@ -1,3 +1,13 @@
+.post-a-comment {
+    font-size: 1.3rem;
+    margin-top: .5rem;
+    margin-left: .5rem;
+}
+
+.comment-length {
+    margin-right: 0.5rem;
+}
+
 .eventCard {
     width: 100%;
     margin-left: 10%;
@@ -16,7 +26,7 @@
 }
 .cardComment {
     width: 80%;
-    text-align: start;
+    text-align: center;
     margin-left: 10%;
     margin-bottom: 10%;
     /* max-width: 50%; */
@@ -34,7 +44,7 @@
     /* background-color: rgba(160,160,160, .1); */
 }
 .cardCommentFooter {
-    text-align: end;
+    text-align: right;
     font-size: .8rem;
     padding-top: .2rem;
     padding-bottom: .2rem;
@@ -43,4 +53,8 @@
     width: 80%;
     margin-left: 10%;
     margin-bottom: 5%;
+}
+
+.no-comments {
+    text-align: center;
 }
