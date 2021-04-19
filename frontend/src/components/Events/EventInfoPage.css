@@ -18,7 +18,7 @@
 }
 .cardComment {
     width: 80%;
-    /* align-self: center; */
+    text-align: start;
     margin-left: 10%;
     margin-bottom: 10%;
     /* max-width: 50%; */
@@ -27,9 +27,11 @@
     margin-left: 1rem;
     margin-top: .5rem;
     font-size: 1rem;
+    text-align: start;
 }
 .cardCommentBody {
     padding-top: 0rem;
+    text-align: start;
     /* background-color: rgba(160,160,160, .1); */
 }
 .cardCommentFooter {

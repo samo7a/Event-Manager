@@ -41,7 +41,7 @@ const EventInfoPage = (props) => {
     date: "MM/DD/YYYY",
   };
   const [eventID, setEventID] = useState("");
-  const [eventDetails, setDetails] = useState({});
+  const [eventDetails, setEventDetails] = useState({});
   const [eventComments, setEventComments] = useState([]);
 
   const getEventSingle = async () => {
@@ -102,6 +102,7 @@ const EventInfoPage = (props) => {
           if (theComments.length > 0) {
             setEventComments(theComments);
           } 
+          setEventDetails(res);
         }
       }
     } catch (error) {
