@@ -169,31 +169,26 @@ const EventInfoPage = (props) => {
       return;
     }
   };
-  const Comment = (param) => {
-    var s_idC = param.info.s_id;
-    return (
-      <Card className="cardComment">
-        <Card.Title className="cardCommentTitle">
-          {getCommenterName(s_idC)}
-        </Card.Title>
-        <Card.Body className="cardCommentBody">{param.info.comment}</Card.Body>
-        <Card.Footer className="cardCommentFooter">
-          Posted at time on date
-        </Card.Footer>
-      </Card>
-    );
-  };
-  const generateComments =
-    eventDetails.comments != null ? (
-      eventDetails.comments.length == 0 ? (
-        <span>No comments yet, be the first!</span>
-      ) : (
-        eventDetails.comments.map((e) => {
-          console.log(e);
-          return <Comment info={e} />;
-        })
-      )
-    ) : null;
+
+  const renderComments = eventComments.length == 0 ? (
+    <span>No comments yet, be the first!</span>
+  ) : (
+    <div>
+      {eventComments.map(c => {
+        return (
+          <Card className="cardComment">
+            <Card.Title className="cardCommentTitle">
+              {c.author}
+            </Card.Title>
+            <Card.Body className="cardCommentBody">{c.comment.comment}</Card.Body>
+            <Card.Footer className="cardCommentFooter">
+              Posted a long time ago in a galaxy far, far away
+            </Card.Footer>
+          </Card>
+        )
+      })}
+    </div>
+  )
 
   const formatDate = (param) => {
     if (param != null) {
@@ -208,33 +203,6 @@ const EventInfoPage = (props) => {
     } else return "No date";
   };
 
-  const getCommenterName = async (p) => {
-    try {
-      var commenter = {
-        // e_id: props.e_id,
-        s_id: p,
-      };
-      console.log(commenter);
-      var js = JSON.stringify(commenter);
-      const response = await fetch("/api/getStudent", {
-        method: "POST",
-        // credentials: "include",
-        body: js,
-        headers: { "Content-Type": "application/json" },
-      });
-      var res = JSON.parse(await response.text());
-      if (response.status !== 200) {
-        console.log(res.error);
-      } else {
-        console.log("Ahh");
-        console.log(res);
-        return res.name.value;
-      }
-    } catch (e) {
-      console.log(e.toString());
-      return "No S found";
-    }
-  };
   return (
     <div>
       <Container>
@@ -321,7 +289,7 @@ const EventInfoPage = (props) => {
                 Posted at {comment.time} on {comment.date}
               </Card.Footer>
             </Card>
-            {generateComments}
+            {renderComments}
           </Card.Footer>
         </Card>
       </Container>
