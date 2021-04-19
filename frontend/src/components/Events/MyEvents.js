@@ -83,7 +83,7 @@ const MyEvents = (props) => {
     try {
       let js = JSON.stringify({ s_id: s_id, from: fromVal, to: toVal });
       console.log(js);
-      const response = await fetch("/api/getAllEventsStudent", {
+      const response = await fetch("/api/getAllMyEventsStudent", {
         method: "POST",
         // credentials: "include",
         body: js,
