@@ -3,8 +3,9 @@
 // Find out why message is displayed
 // Find out why await throws an error in the try block
 import React, { useState, useEffect } from "react";
-import { Card, Container, Button, Col, Row, Form } from "react-bootstrap";
+import { ButtonGroup, Modal, Card, Container, Button, Col, Row, Form } from "react-bootstrap";
 import pupFiller from "../../pictures/pupFiller.jpeg";
+import {BsStarFill, BsStarHalf, BsStar} from 'react-icons/bs';
 import "./EventInfoPage.css";
 const EventInfoPage = (props) => {
   // Event fields
@@ -45,6 +46,8 @@ const EventInfoPage = (props) => {
   const [commentLength, setCommentLength] = useState(1000);
   const [needsUpdate, setNeedsUpdate] = useState(false);
   const [message, setMessage] = useState("");
+  const [myRating, setMyRating] = useState(0);
+  const [showRate, setShowRate] = useState(false);
 
   const getEventSingle = async () => {
     const theComments = [];
@@ -152,13 +155,84 @@ const EventInfoPage = (props) => {
     }
   };
 
+  const avgRating = () => {
+    let rating = eventDetails.avgRating;
+    if (rating == 5.0) {
+      return (
+        <div>
+          <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarFill />
+        </div>
+      )
+    } else if (rating > 4 && rating < 5) {
+      return (
+        <div>
+          <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarHalf />
+        </div>
+      )
+    } else if (rating == 4.0) {
+      return (
+        <div>
+          <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStar />
+        </div>
+      )
+    } else if (rating > 3 && rating < 4) {
+      return (
+        <div>
+          <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarHalf /> <BsStar />
+        </div>
+      )
+    } else if (rating == 3.0) {
+      return (
+        <div>
+          <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStar /> <BsStar />
+        </div>
+      )
+    } else if (rating > 2 && rating < 3) {
+      return (
+        <div>
+          <BsStarFill /> <BsStarFill /> <BsStarHalf /> <BsStar /> <BsStar />
+        </div>
+      )
+    } else if (rating == 2.0) {
+      return (
+        <div>
+          <BsStarFill /> <BsStarFill /> <BsStar /> <BsStar /> <BsStar />
+        </div>
+      )
+    } else if (rating > 1 && rating < 2) {
+      return (
+        <div>
+          <BsStarFill /> <BsStarHalf /> <BsStar /> <BsStar /> <BsStar />
+        </div>
+      )
+    } else if (rating == 1.0) {
+      return (
+        <div>
+          <BsStarFill /> <BsStar /> <BsStar /> <BsStar /> <BsStar />
+        </div>
+      )
+    } else if (rating > 0 && rating < 1) {
+      return (
+        <div>
+          <BsStarHalf /> <BsStar /> <BsStar /> <BsStar /> <BsStar />
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <BsStar /> <BsStar /> <BsStar /> <BsStar /> <BsStar />
+        </div>
+      )
+    } 
+  };
+
   const newCommentHandler = event => {
     let i;
     if (commentLength > 0)
       i = commentLength - 1;
       setCommentLength(i);
       setNewComment(event.target.value);
-  }
+  };
 
   const renderComments =
     eventComments.length == 0 ? (
@@ -194,6 +268,81 @@ const EventInfoPage = (props) => {
     } else return "No date";
   };
 
+  const showRateHandler = () => {
+    setShowRate(true);
+  }
+
+  const handleRateClose = () => {
+    setShowRate(false);
+  }
+
+  const rateEventHandler = async () => {
+    let obj = { e_id: eventDetails.e_id, rating: myRating, s_id: s_id};
+    var res;
+    try {
+      let js = JSON.stringify(obj);
+      let response = await fetch("/api/getStudent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: js,
+      });
+      res = JSON.parse(await response.text());
+      let update;
+      if (response.status != 200) {
+        throw new Error(response.status);
+      } else {
+        update = needsUpdate;
+        setNeedsUpdate(!update);
+        setShowRate(false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      return "";
+    }
+  };
+
+  const printMyRating = () => {
+    if (myRating == 0) {
+      return (
+        <div>
+          <BsStar onClick={() => setMyRating(1)} /> <BsStar onClick={() => setMyRating(2)} /> <BsStar onClick={() => setMyRating(3)} /> <BsStar onClick={() => setMyRating(4)} /> <BsStar onClick={() => setMyRating(5)} />
+        </div>
+      )
+    } else if (myRating == 1) {
+      return (
+        <div>
+          <BsStarFill onClick={() => setMyRating(1)} /> <BsStar onClick={() => setMyRating(2)} /> <BsStar onClick={() => setMyRating(3)} /> <BsStar onClick={() => setMyRating(4)} /> <BsStar onClick={() => setMyRating(5)} />
+        </div>
+      )
+    } else if (myRating == 2) {
+      return (
+        <div>
+          <BsStarFill onClick={() => setMyRating(1)} /> <BsStarFill onClick={() => setMyRating(2)} /> <BsStar onClick={() => setMyRating(3)} /> <BsStar onClick={() => setMyRating(4)} /> <BsStar onClick={() => setMyRating(5)} />
+        </div>
+      )
+    } else if (myRating == 3) {
+      return (
+        <div>
+          <BsStarFill onClick={() => setMyRating(1)} /> <BsStarFill onClick={() => setMyRating(2)} /> <BsStarFill onClick={() => setMyRating(3)} /> <BsStar onClick={() => setMyRating(4)} /> <BsStar onClick={() => setMyRating(5)} />
+        </div>
+      )
+    } else if (myRating == 4) {
+      return (
+        <div>
+          <BsStarFill onClick={() => setMyRating(1)} /> <BsStarFill onClick={() => setMyRating(2)} /> <BsStarFill onClick={() => setMyRating(3)} /> <BsStarFill onClick={() => setMyRating(4)} /> <BsStar onClick={() => setMyRating(5)} />
+        </div>
+      )
+    } else if (myRating == 5) {
+      return (
+        <div>
+          <BsStarFill onClick={() => setMyRating(1)} /> <BsStarFill onClick={() => setMyRating(2)} /> <BsStarFill onClick={() => setMyRating(3)} /> <BsStarFill onClick={() => setMyRating(4)} /> <BsStarFill onClick={() => setMyRating(5)} />
+        </div>
+      )
+    }
+  }
+
   return (
     <div>
       <Container>
@@ -211,6 +360,12 @@ const EventInfoPage = (props) => {
                   <b>Description:{"\xa0"}</b>
                   {eventDetails.e_description}
                 </Row>
+              </Col>
+              <Col>
+                Rating: {avgRating()}
+              </Col>
+              <Col>
+                <Button onClick={showRateHandler}>Rate</Button>
               </Col>
             </Row>
           </Card.Body>
@@ -268,6 +423,29 @@ const EventInfoPage = (props) => {
           </Card.Footer>
         </Card>
       </Container>
+      <Modal 
+          show={showRate} 
+          onHide={handleRateClose}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+      >
+          <Modal.Header closeButton>
+              <Modal.Title>Rate the event {myRating} <BsStarFill /></Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+              {printMyRating()}
+          </Modal.Body>
+          <Modal.Footer>
+              <ButtonGroup>
+                <Button variant="secondary" onClick={handleRateClose}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={rateEventHandler}>
+                  Rate
+                </Button>
+              </ButtonGroup>
+          </Modal.Footer>
+      </Modal>
     </div>
   );
 };
