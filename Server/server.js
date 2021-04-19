@@ -364,7 +364,6 @@ app.post("/api/createEventRso", async (req, res) => {
     e_time,
     e_date,
     e_profilePicture,
-    isApproved,
   } = req.body;
   conn.beginTransaction(async function (err) {
     if (err) {
@@ -380,7 +379,7 @@ app.post("/api/createEventRso", async (req, res) => {
             e_type, locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, 
             isApproved) VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", 
             "${e_type}", "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", 
-            ${e_profilePicture}, ${isApproved});`;
+            ${e_profilePicture}, 1);`;
     conn.query(sql, async function (error, results) {
       if (error) {
         return conn.rollback(function () {
@@ -716,20 +715,14 @@ app.post("/api/getUniversity", async (req, res) => {
   });
 });
 app.post("/api/updateUniversity", async (req, res) => {
-  const {
-    u_id,
-    universityName,
-    address,
-    u_description,
-    u_profilePicture,
-  } = req.body;
+  const { u_id, universityName, address, u_description } = req.body;
   let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GOOGLE_GEOCODE_API_KEY}`;
   let googleResponse = await fetch(url);
   let googleJson = await googleResponse.json();
   let lat = googleJson.results[0].geometry.location.lat;
   let lng = googleJson.results[0].geometry.location.lng;
   let sql = `UPDATE Universities SET u_name = "${universityName}", u_description = "${u_description}", locationName = "${universityName}",
-                latitude = ${lat}, longitude = ${lng}, u_profilePicture = ${u_profilePicture} WHERE u_id = ${u_id};`;
+                latitude = ${lat}, longitude = ${lng} WHERE u_id = ${u_id};`;
   conn.query(sql, (error, result) => {
     if (error) {
       let response = { msg: error.sqlMessage };

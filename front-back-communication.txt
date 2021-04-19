@@ -108,8 +108,6 @@
         e_time : string (xx:xx  24hr system)  e.g "16:35"
         e_date : string (YYYY/MM/DD), e.g "2012/12/30",
         e_profilePicture : could be null or a picture,
-        isApproved : bit (0: not approved, 1: approved) (rso events are automatically approved so send 1)
-                                                        (students created events need to be approved by super admin so send 0)
     }
     b- From Server -> Frontend
     {
