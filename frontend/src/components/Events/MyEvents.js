@@ -274,10 +274,17 @@ const MyEvents = (props) => {
   const generateAllEvents = allEvents.length > 0 ? (
       <div>
         {
-          allEvents.map(e => 
-          (
-            <Event e_id={e.e_id} isApproved={1} />
-          )
+          allEvents.map(e => {
+            if (e) {
+              return (
+                <Event e_id={e.e_id} isApproved={1} />
+              )
+            } else {
+              return (
+                <span> </span>
+              )
+            }
+          }
         )}
       </div>
     ) : (
