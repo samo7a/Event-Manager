@@ -503,61 +503,6 @@ const SngGroup = (props) => {
                   </Form.Group>
                 </Col>
               </Row>
-              <Row className="centerText" style={{ textAlign: "center" }}>
-                <h5 style={{ margin: "auto" }}> Contatct Information</h5>
-              </Row>
-              <Row>
-                {/* <Col sm="4" className="">
-                  <Form.Check
-                    type="checkbox"
-                    className="editCol"
-                    label="Edit Name"
-                  />
-                </Col> */}
-                <Col>
-                  <Form.Group style={{ margin: "auto", textAlign: "none" }}>
-                    <Form.Label>
-                      Name
-                      <Form.Control
-                        ref={(c) => (cnameEdit = c)}
-                        style={{ margin: "auto", width: "100%" }}
-                        type="text"
-                      />
-                    </Form.Label>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                {/* <Col sm="4" className="">
-                  <Form.Check
-                    type="checkbox"
-                    className="editCol"
-                    label="Edit Email"
-                  />
-                </Col> */}
-                <Col>
-                  <Form.Group
-                    style={{
-                      margin: "auto",
-                      alignItems: "center",
-                      // textAlign: "none",
-                    }}
-                  >
-                    <Form.Label>
-                      Email
-                      <Form.Control
-                        ref={(c) => (emailEdit = c)}
-                        style={{
-                          alignItems: "center",
-                          margin: "auto",
-                          width: "140%",
-                        }}
-                        type="email"
-                      />
-                    </Form.Label>
-                  </Form.Group>
-                </Col>
-              </Row>
             </Form>
           </Modal.Body>
           <Modal.Footer
