@@ -65,7 +65,8 @@ const SngGroup = (props) => {
 
   // Rso Details
   const [rsoID, setRsoID] = useState("");
-
+  const [rsoName, setRsoName] = useState("");
+  const [rsoDesc, setRsoDesc] = useState("");
   const [rsoDetails, setDetails] = useState({
     admin: {},
     members: [{}],
@@ -125,6 +126,8 @@ const SngGroup = (props) => {
       } else {
         setDetails(res);
         console.log(res);
+        setRsoDesc(res.rso_description);
+        setRsoID(res.rso_id);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -191,13 +194,13 @@ const SngGroup = (props) => {
   // edit rso
   const editRSO = async () => {
     // preventDefault();
-    var newName = rnameEdit == "" ? rsoDetails.rso_name : rnameEdit;
-    var newRsoDesc = descEdit == "" ? rsoDetails.rso_description : descEdit;
+    rnameEdit == "" ? setRsoName(rsoName) : setRsoName(rnameEdit);
+    descEdit == "" ? setRsoDesc(rsoDesc) : setRsoDesc(descEdit);
     try {
       var obj = {
         rso_id: 13,
-        rso_name: newName,
-        rso_description: newRsoDesc,
+        rso_name: rsoName,
+        rso_description: rsoDesc,
       };
       console.log(obj);
 
