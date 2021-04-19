@@ -194,6 +194,8 @@ const SngGroup = (props) => {
   // edit rso
   const editRSO = async () => {
     // preventDefault();
+    console.log(rsoName);
+    console.log(rsoDesc);
     rnameEdit == "" ? setRsoName(rsoName) : setRsoName(rnameEdit);
     descEdit == "" ? setRsoDesc(rsoDesc) : setRsoDesc(descEdit);
     try {
