@@ -33,6 +33,10 @@ const UniDiv = () => {
             } else {
                 console.log(res);
                 setUniContent(res);
+                setUName(res.u_name);
+                setUDescription(res.u_description);
+                setUAddress(res.address);
+                setULocationName(res.locationName);
             }
         } catch (error) {
             console.log("Error: ", error);
@@ -117,7 +121,13 @@ const UniDiv = () => {
     return (
         <div>
             {renderUniDiv}
-            <Modal show={showUniModal} onHide={handleUniClose}>
+            <Modal 
+                show={showUniModal} 
+                onHide={handleUniClose}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Update {uniContent.u_name} Profile</Modal.Title>
                 </Modal.Header>
