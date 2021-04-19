@@ -367,19 +367,21 @@ const SngGroup = (props) => {
           </Card.Title>
           <Card.Body>
             {rsoDetails.events.map((e) => {
-              <Container
-              // className="eventContainer"
-              // onClick={modalOpen}
-              // style={{ backgroundColor: "yellowgreen" }}
-              >
-                <Card.Text>s{e.e_name}</Card.Text>
+              return (
+                <Container
+                // className="eventContainer"
+                // onClick={modalOpen}
+                // style={{ backgroundColor: "yellowgreen" }}
+                >
+                  <Card.Text>s{e.e_name}</Card.Text>
 
-                <h1>{e.e_name}</h1>
-                {/* <h4>{eventDetails.}</h4> */}
-                {/* <Image className="previewImage" src={pupFiller} /> */}
-                {/* <p style={{ fontSize: "1.3rem" }}>{eventDesc}</p> */}
-                {/* <p style={{ fontSize: "1.3rem" }}> {formatDate(e.e_date)}</p> */}
-              </Container>;
+                  <h1>{e.e_name}</h1>
+                  {/* <h4>{eventDetails.}</h4> */}
+                  {/* <Image className="previewImage" src={pupFiller} /> */}
+                  {/* <p style={{ fontSize: "1.3rem" }}>{eventDesc}</p> */}
+                  {/* <p style={{ fontSize: "1.3rem" }}> {formatDate(e.e_date)}</p> */}
+                </Container>
+              );
             })}
           </Card.Body>
         </Card>
