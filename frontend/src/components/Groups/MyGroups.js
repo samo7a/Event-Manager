@@ -71,8 +71,8 @@ const MyGroups = (props) => {
   };
 
   const updateNewRsoDesc = (e) => {
-    let length = newRsoDescLen + 1;
-    if (length > 1000) {
+    let length = newRsoDescLen - 1;
+    if (length < 0) {
       return;
     }
     setNewRsoDesc(e.target.value);
@@ -319,11 +319,6 @@ const MyGroups = (props) => {
                   <input value={newRsoName} onChange={updateNewRsoName} />
                   <Form.Text>45 characters maximum</Form.Text>
                 </Form.Group>
-                {/* <Form.Group controlID="rsoPic">
-                  <Form.Label>Upload RSO profile picture</Form.Label>
-                  <Form.File label="" ref={(c) => (newRsoPic = c)} />
-                  <Form.Text>5 MB maximum</Form.Text>
-                </Form.Group> */}
                 <Form.Group controlID="rsoName">
                   <Form.Label>Enter RSO description</Form.Label>{" "}
                   <textarea
