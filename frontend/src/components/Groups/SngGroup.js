@@ -86,68 +86,68 @@ const SngGroup = (props) => {
   // Create event
   const createEvent = async (event) => {
     event.preventDefault();
-    setMessage("");
+    setError("");
     console.log("Check before Validif. :: ");
     console.log(createEventObj);
     if (createEventObj.e_name.value.length == 0) {
-      setMessage("Please include event name");
+      setError("Please include event name");
       return;
     }
     if (createEventObj.e_name.value.length > 45) {
-      setMessage("Event Name exceed limit of 45 Characters");
+      setError("Event Name exceed limit of 45 Characters");
       return;
     }
     if (createEventObj.e_description == null) {
-      setMessage("Please fill all fields");
+      setError("Please fill all fields");
       return;
     }
     if (createEventObj.e_description.value.length > 1000) {
-      setMessage("Over max");
+      setError("Over max");
       return;
     }
     if (createEventObj.e_contactEmail == null) {
-      setMessage("Please enter an email");
+      setError("Please enter an email");
       return;
     }
     var expression = /\S+@\S+/;
     if (!expression.test(createEventObj.e_contactEmail.value.toLowerCase())) {
-      setMessage("Please enter a valid email address");
+      setError("Please enter a valid email address");
       return;
     }
     if (createEventObj.e_contactPhone == null) {
-      setMessage("Please fill all fields");
+      setError("Please fill all fields");
       return;
     }
     // if (createEventObj.e_contactPhone.value.length != 12) {
-    //   setMessage("Enter valid phone #");
+    //   setError("Enter valid phone #");
     //   return;
     // }
     if (eventHR == null) {
-      setMessage("Please fill all fields");
+      setError("Please fill all fields");
       return;
     }
     if (eventMIN == null) {
-      setMessage("Please fill all fields");
+      setError("Please fill all fields");
       return;
     }
     if (eventHR >= 24) {
-      setMessage("Please enter a valid hour (0 - 23)");
+      setError("Please enter a valid hour (0 - 23)");
       return;
     }
     if (eventMIN >= 60) {
-      setMessage("Please enter a valid minute (0 - 59)");
+      setError("Please enter a valid minute (0 - 59)");
       return;
     }
     if (eventDay == null) {
-      setMessage("Please fill all fields");
+      setError("Please fill all fields");
       return;
     }
     if (eventMonth == null) {
-      setMessage("Please fill all fields");
+      setError("Please fill all fields");
       return;
     }
     if (eventYear == null) {
-      setMessage("Please fill all fields");
+      setError("Please fill all fields");
       return;
     }
     var formatTime = eventHR.value + ":" + eventMIN.value;
@@ -167,13 +167,13 @@ const SngGroup = (props) => {
 
     try {
       var newEvent = {
-        rso_id: rsoID,
+        rso_id: props.rso_id,
         s_id: s_id,
         e_name: e_name,
         e_description: e_description,
         e_contactEmail: e_contactEmail,
         e_contactPhone: e_contactPhone,
-        e_type: e_type,
+        e_type: "rso",
         locationName: locationName,
         address: address,
         e_category: e_category,
@@ -210,6 +210,7 @@ const SngGroup = (props) => {
   const totalAdmins = 5;
   // Message
   const [message, setMessage] = useState("");
+  const [errorMessage, setError] = useState("");
 
   // Rso Details
   const [rsoID, setRsoID] = useState("");
@@ -821,10 +822,10 @@ const SngGroup = (props) => {
                 {/* </Form.Group> */}
               </Form>
             </Modal.Body>
-            {message != "" ? (
+            {errorMessage != "" ? (
               <span id="errorMSG">
                 <span style={{ color: "red" }}>Error : </span>
-                {message}
+                {errorMessage}
               </span>
             ) : null}
             <Modal.Footer
