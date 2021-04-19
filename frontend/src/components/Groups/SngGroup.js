@@ -315,7 +315,7 @@ const SngGroup = (props) => {
               </Card.Link>
             ) : null}
           </Col>
-          <Col xs="2">
+          <Col xs="4">
             <Row>
               <div style={{ fontWeight: "bold", marginRight: "1rem" }}>
                 Total Members
