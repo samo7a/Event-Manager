@@ -84,6 +84,7 @@ const MyNavBar = (props) => {
 
     setUName("");
     setPwd("");
+    !adminLogin ? history.push("/home") : history.push("/dashboard");
   };
 
   const changePwdHandler = (event) => {
@@ -100,10 +101,6 @@ const MyNavBar = (props) => {
     localStorage.clear();
     history.push("/");
   };
-
-  const finishLogin = () => {
-    !adminLogin ? history.push("/home") : history.push("/dashboard");
-  }
 
   const messageSpan = message ? <span>{message}</span> : null;
   return (
@@ -135,10 +132,7 @@ const MyNavBar = (props) => {
                 className="mr-sm-2"
                 onChange={changePwdHandler}
               />
-              <button type="submit" onClick={async (event) => {
-                await doLogin(event);
-                finishLogin()
-                }}>
+              <button type="submit" onClick={doLogin}>
                 Login
               </button>
             </Form>
