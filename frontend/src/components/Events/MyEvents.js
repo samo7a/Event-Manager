@@ -72,9 +72,16 @@ const MyEvents = (props) => {
   useEffect(() => {
     getAllEvents();
   }, []);
+  const [fromVal, incrementF] = useState(0);
+  const [toVal, incrementT] = useState(5);
+
+  const increment = () => {
+    incrementF(fromVal + 5);
+    incrementT(fromVal + 5);
+  };
   const getAllEvents = async () => {
     try {
-      let js = JSON.stringify({ s_id: s_id, from: 0, to: 2 });
+      let js = JSON.stringify({ s_id: s_id, from: fromVal, to: toVal });
       console.log(js);
       const response = await fetch("/api/getAllEventsStudent", {
         method: "POST",
@@ -88,6 +95,7 @@ const MyEvents = (props) => {
       } else {
         console.log(res);
         setAllEvents(res);
+        increment();
       }
     } catch (e) {
       console.log(e.toString());
@@ -242,7 +250,7 @@ const MyEvents = (props) => {
     );
 
   return (
-    <Container>
+    <Container style={{ backgroundColor: "rgba(22,22,22,.3)" }}>
       <h1 style={{ marginLeft: "-1rem" }}> My Events </h1>
 
       <Row>
@@ -254,8 +262,8 @@ const MyEvents = (props) => {
             Create Event
           </Button>
         </Col>
-        <Container style={{ backgroundColor: "red" }}>
-          ADMIN OF THESE GROUPS
+        <Container style={{ backgroundColor: "" }}>
+          {/* ADMIN OF THESE GROUPS */}
           {window.location.href == "http://localhost:3000/my-events" ? (
             <Event />
           ) : null}
@@ -263,16 +271,15 @@ const MyEvents = (props) => {
       </Row>
       <Row>
         <h3>Following these events</h3>
-        <Container style={{ backgroundColor: "red" }}>
+        <Container style={{ backgroundColor: "" }}>
           Following these Events
           {generateAllEvents}
         </Container>
       </Row>
       <Row>
         <h3>Upcoming Events</h3>
-        <Container style={{ backgroundColor: "red" }}>
-          Upcoming Events
-        </Container>
+        <Container style={{ backgroundColor: "" }}>Upcoming Events</Container>
+        {getAllEvents}
       </Row>
       <div>
         {/* CREATE Event MODAL */}
@@ -386,7 +393,7 @@ const MyEvents = (props) => {
             </Modal.Body>
             {message != "" ? (
               <span id="errorMSG">
-                <span style={{ color: "red" }}>Error : </span>
+                <span style={{ color: "" }}>Error : </span>
                 {message}
               </span>
             ) : null}
