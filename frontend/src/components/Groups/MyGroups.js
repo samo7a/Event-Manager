@@ -276,7 +276,7 @@ const MyGroups = (props) => {
           </Button>
         </Col>
         <Container style={{}}>
-          ADMIN OF THESE GROUPS
+          {/* ADMIN OF THESE GROUPS */}
           {generateAdminGroups}{" "}
           {window.location.href == "http://localhost:3000/my-groups" ? (
             <div>
