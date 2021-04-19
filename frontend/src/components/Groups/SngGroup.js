@@ -260,40 +260,7 @@ const SngGroup = (props) => {
                 >
                   {rsoDetails.rso_description}
                 </Row>
-                <Row>
-                  {/* <Col>
-                    <div>Total Members: {totalMembers} </div>
-                  </Col> */}
-                  {/* <Col>
-                    <span style={{ marginLeft: "1.5rem" }}>
-                      Total Admins: {totalAdmins}
-                    </span>
-                  </Col> */}
-                </Row>
-                <Row>
-                  {/* <Col>
-                    <Card.Link
-                      onClick={handleMOpen}
-                      style={{ cursor: "pointer" }}
-                    >
-                      View Members
-                    </Card.Link>
-                  </Col> */}
-                  <Col>
-                    {/* <span style={{ marginLeft: "1.5rem" }}>
-                      <Card.Link
-                        onClick={handleCIOpen}
-                        style={{ cursor: "pointer" }}
-                      >
-                        View Admins
-                      </Card.Link>
-                    </span> */}
-                  </Col>
-                </Row>
               </Card.Text>
-              {/* <Row style={{ marginLeft: 0 }}>
-                <Card.Link>IF ADMIN Click here to view options</Card.Link>
-              </Row> */}
             </Card>
           </Col>
         </Row>
