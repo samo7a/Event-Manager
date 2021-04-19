@@ -68,7 +68,7 @@ const EventInfoPage = (props) => {
         console.error("Error:", error);
         return "";
       }
-    }
+    };
     try {
       let obj = { e_id: 20 };
       let js = JSON.stringify(obj);
@@ -91,7 +91,7 @@ const EventInfoPage = (props) => {
         if (authors.length !== res.comments.length) {
           throw new Error("There was a comment/author mismatch");
         } else {
-          for (let k = 0; k < theAuthors.length; k++) {
+          for (let k = 0; k < authors.length; k++) {
             theComments.push(
               {
                 comment: res.comments[k],
