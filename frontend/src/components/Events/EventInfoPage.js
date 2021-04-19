@@ -75,7 +75,7 @@ const EventInfoPage = (props) => {
       } else {
         console.log("The first response: ", res);
         let theComments = [];
-        res.comments.forEach(async (c) => {
+        await res.comments.forEach(async (c) => {
           try {
             let obj = { s_id: c.s_id};
             let js = JSON.stringify(obj);
@@ -126,11 +126,7 @@ const EventInfoPage = (props) => {
       setMessage(" Can not post empty comment.");
       return;
     }
-    // return;
-    // alert(newComment);
-    // alert(newComment.value);
-    // setMessage("");
-    // return;
+  
     if (newComment.value.length == null) {
       setMessage("Please enter a comment");
       return;
@@ -265,20 +261,6 @@ const EventInfoPage = (props) => {
                 </Form.Row>
               </Form>
             </Card>
-            {/* MAP ALL COMMENTS BELOW */}
-            {/* {eventDetails.comments.forEach((comments) => {
-              <Card className="cardComment">
-                <Card.Title className="cardCommentTitle">
-                  {comment.commenter}
-                </Card.Title>
-                <Card.Body className="cardCommentBody">
-                  {comment.comment}
-                </Card.Body>
-                <Card.Footer className="cardCommentFooter">
-                  Posted at {comment.time} on {comment.date}
-                </Card.Footer>
-              </Card>;
-            })} */}
             <Card className="cardComment">
               <Card.Title className="cardCommentTitle">
                 {comment.commenter}
