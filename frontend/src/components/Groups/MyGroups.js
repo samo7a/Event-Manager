@@ -43,10 +43,8 @@ const MyGroups = (props) => {
   ]);
   const [adminGroups, setAdminGroups] = useState([
     {
-      rso_id: 0,
-      rso_name: "",
-      status: "",
-      rso_description: "",
+      admin: {},
+      rso: {},
     },
   ]);
   const [allGroups, setAllGroups] = useState([
@@ -93,6 +91,7 @@ const MyGroups = (props) => {
       return;
     }
   };
+
   const getJoinedGroups = async () => {
     console.log(s_id);
     console.log(user);
@@ -138,7 +137,7 @@ const MyGroups = (props) => {
       } else {
         console.log("GetADMIN GROUPS success");
         setAdminGroups(res);
-        console.log(joinedGroups);
+        console.log(res);
       }
     } catch (e) {
       console.log(e.toString());
@@ -209,17 +208,17 @@ const MyGroups = (props) => {
   //     })
   //   );
   const generateAdminGroups =
-    adminGroups.length < 0 ? (
+    adminGroups.length == 0 || !adminGroups[0].rso.rso_name ? (
       <div>
         <span>You are not an admin of any groups yet</span>
       </div>
     ) : (
       adminGroups.map((e) => {
-        console.log(e.rso_id);
-        return e.rso_id != "0" ? (
+        console.log(e.rso.rso_id);
+        return e.rso.rso_id != "0" ? (
           <div style={{ marginTop: ".5rem", marginBottom: ".5rem" }}>
             <Group
-              rso_id={e.rso_id}
+              rso_id={e.rso.rso_id}
               style={{ marginTop: ".5rem", marginBottom: ".5rem" }}
             />
           </div>
@@ -260,7 +259,7 @@ const MyGroups = (props) => {
     );
 
   return (
-    <Container style={{ backgroundColor: "rgba(255,255,255,.3)" }}>
+    <Container style={{ backgroundColor: "rgba(255,255,255,.6)" }}>
       <h1 style={{ marginLeft: "-1rem" }}> RSOs </h1>
 
       <Row>
