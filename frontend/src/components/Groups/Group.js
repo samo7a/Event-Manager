@@ -78,17 +78,6 @@ const Group = (props) => {
           <Col id="cardInfo" style={{ paddingLeft: ".1rem" }}>
             <Row style={{ marginLeft: "0" }}>
               <h4>{rsoDetails.rso_name}</h4>
-              <Card.Text style={{ marginLeft: "10rem", marginTop: ".25rem" }}>
-                {rsoDetails.status == "active" ? (
-                  <span style={{ color: "green", fontWeight: "bold" }}>
-                    Active
-                  </span>
-                ) : (
-                  <span style={{ color: "red", fontWeight: "bold" }}>
-                    Not active
-                  </span>
-                )}
-              </Card.Text>
             </Row>
 
             <Card.Text overflow="hidden">
@@ -97,17 +86,31 @@ const Group = (props) => {
             <Row
               style={{
                 width: "100%",
-                marginLeft: 0,
+                display: "flex",
+                // alignItems:""
+                // marginLeft: 0,
+                position: "absolute",
+                bottom: "0",
               }}
             >
-              <Card.Link
-                style={{
-                  marginRight: "-1rem",
-                }}
-                href="/single-group"
-              >
-                View Group Page
-              </Card.Link>
+              <Col>
+                <Card.Link style={{}} href="/single-group">
+                  View Group Page
+                </Card.Link>
+              </Col>
+              <Col>
+                <Card.Text style={{ right: "0" }}>
+                  {rsoDetails.status == "active" ? (
+                    <span style={{ color: "green", fontWeight: "bold" }}>
+                      Active
+                    </span>
+                  ) : (
+                    <span style={{ color: "red", fontWeight: "bold" }}>
+                      Not active
+                    </span>
+                  )}
+                </Card.Text>
+              </Col>
             </Row>
           </Col>
         </Row>
