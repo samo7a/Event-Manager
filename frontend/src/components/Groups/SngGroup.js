@@ -372,7 +372,7 @@ const SngGroup = (props) => {
               // onClick={modalOpen}
               // style={{ backgroundColor: "yellowgreen" }}
               >
-                <Card.Text>{e.e_name}</Card.Text>
+                <Card.Text>s{e.e_name}</Card.Text>
 
                 <h1>{e.e_name}</h1>
                 {/* <h4>{eventDetails.}</h4> */}
