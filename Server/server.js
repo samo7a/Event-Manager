@@ -417,8 +417,6 @@ app.post("/api/createEventStudent", async (req, res) => {
     e_category,
     e_time,
     e_date,
-    e_profilePicture,
-    isApproved,
   } = req.body;
   conn.beginTransaction(async function (err) {
     if (err) {
@@ -433,7 +431,7 @@ app.post("/api/createEventStudent", async (req, res) => {
     let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, 
             locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) 
             VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "public", 
-            "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", ${e_profilePicture}, ${isApproved});`;
+            "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", 1);`;
     conn.query(sql, async function (error, results) {
       if (error) {
         return conn.rollback(function () {
