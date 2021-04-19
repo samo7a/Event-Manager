@@ -150,15 +150,16 @@ const EventInfoPage = (props) => {
       var res = JSON.parse(await response.text());
       if (response.status !== 200) {
         console.log(res.error);
-      } else {
-        update = needsUpdate;
-        setNeedsUpdate(!update);
-        setNewComment("");
-        setCommentLength(1000);
-      }
+      } 
     } catch (e) {
       console.log(e.toString());
       return;
+    } finally {
+      let update;
+      update = needsUpdate;
+      setNeedsUpdate(!update);
+      setNewComment("");
+      setCommentLength(1000);
     }
   };
 
@@ -297,18 +298,18 @@ const EventInfoPage = (props) => {
         body: js,
       });
       res = JSON.parse(await response.text());
-      let update;
       if (response.status != 200) {
         throw new Error(response.status);
       } else {
-        update = needsUpdate;
-        setNeedsUpdate(!update);
-        setShowRate(false);
+        console.log("Sucessfully updated rate");
       }
     } catch (error) {
       console.error("Error:", error);
-      return "";
     }
+    let update;
+    update = needsUpdate;
+    setNeedsUpdate(!update);
+    setShowRate(false);
   };
 
   const printMyRating = () => {
@@ -415,9 +416,9 @@ const EventInfoPage = (props) => {
                   </span>
                 ) : null}
                 <Form.Row className="makeCommentInput">
-                  <Form.Control
-                    as="textArea"
+                  <textarea
                     rows="3"
+                    cols="60"
                     value={newComment}
                     onChange={newCommentHandler}
                   />
