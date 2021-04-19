@@ -42,65 +42,67 @@ const EventInfoPage = (props) => {
   };
   const [eventID, setEventID] = useState("");
   const [eventDetails, setDetails] = useState({});
-  const [eventComments, setEventComments] = useState([
-    {
-      comment: {},
-      author: "",
-    },
-  ]);
+  const [eventComments, setEventComments] = useState([]);
 
   const getEventSingle = async () => {
+    const theComments = [];
+    const theAuthors = [];
+    const getAuthors = async id => {
+      try {
+        let obj = { s_id: id};
+        let js = JSON.stringify(obj);
+        let response = await fetch("/api/getStudent", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: js,
+        });
+        var res1 = JSON.parse(await response.text());
+        if (response.status != 200) {
+          throw new Error(response.status);
+        } else {
+          return res1.name;
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        return "";
+      }
+    }
     try {
-      console.log("Testing eID");
-      // console.log(eventID);
-      console.log(props.eID);
-
-      // var obj = { e_id: props.e_id };
       let obj = { e_id: 20 };
       let js = JSON.stringify(obj);
       let response = await fetch("/api/getEventStudent", {
         method: "POST",
-        // credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
         body: js,
       });
       var res = JSON.parse(await response.text());
-      if (response.status != 200) {
+      if (response.status !== 200) {
         throw new Error(response.status);
       } else {
-        console.log("The first response: ", res);
-        let theComments = res.comments;
-        let val = await theComments.forEach(async (c) => {
-          try {
-            let obj = { s_id: c.s_id };
-            let js = JSON.stringify(obj);
-            let response = await fetch("/api/getStudent", {
-              method: "POST",
-              // credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: js,
-            });
-            var res1 = JSON.parse(await response.text());
-            if (response.status != 200) {
-              throw new Error(response.status);
-            } else {
-              return {
-                comment: c,
-                author: res1.name,
-              };
-            }
-          } catch (error) {
-            console.error("Error:", error);
-            return;
+        res.comments.forEach(comment => {
+          theAuthors.push(getAuthors(comment.s_id));
+        })
+        await Promise.all(theAuthors);
+
+        if (theAuthors.length !== res.comments.length) {
+          throw new Error("There was a comment/author mismatch");
+        } else {
+          for (let k = 0; k < theAuthors.length; k++) {
+            theComments.push(
+              {
+                comment: res.comments[k],
+                author: theAuthors[k],
+              }
+            );
           }
-        });
-        console.log("theCommens outside the loop: ", val);
-        setEventComments(val);
-        setDetails(res);
+          if (theComments.length > 0) {
+            setEventComments(theComments);
+          } 
+        }
       }
     } catch (error) {
       console.error("Error:", error);
@@ -116,7 +118,6 @@ const EventInfoPage = (props) => {
   const postComment = async (event) => {
     event.preventDefault();
     setMessage("");
-    // alert("This doesnt work yet");
     if (newComment == null) {
       setMessage(" Can not post empty comment.");
       return;
@@ -135,7 +136,6 @@ const EventInfoPage = (props) => {
 
     try {
       var newCommentObj = {
-        // e_id: props.e_id,
         e_id: 20,
         s_id: s_id,
         fName: fName,
@@ -145,7 +145,6 @@ const EventInfoPage = (props) => {
       var js = JSON.stringify(newCommentObj);
       const response = await fetch("/api/addComment", {
         method: "POST",
-        // credentials: "include",
         body: js,
         headers: { "Content-Type": "application/json" },
       });
@@ -201,9 +200,6 @@ const EventInfoPage = (props) => {
       <Container>
         <Card className="eventCard">
           <Card.Title className="eventTitle">{eventDetails.e_name}</Card.Title>
-          {/* <Card.Subtitle className="eventRso">
-            Hosted by {eventDetails.}
-          </Card.Subtitle> */}
           <Card.Img style={{ padding: "1rem" }} src={pupFiller}></Card.Img>
           <Card.Body>
             <Row>
@@ -226,7 +222,6 @@ const EventInfoPage = (props) => {
                 <Form.Group
                   style={{
                     fontSize: "1.3rem",
-                    // marginLeft: "1rem",
                     marginTop: ".5rem",
                   }}
                 >
