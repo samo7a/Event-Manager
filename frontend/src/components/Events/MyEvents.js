@@ -83,7 +83,7 @@ const MyEvents = (props) => {
     try {
       let js = JSON.stringify({ s_id: s_id, from: fromVal, to: toVal });
       console.log(js);
-      const response = await fetch("/api/getAllEventsStudent", {
+      const response = await fetch("/api/getAllMyEventsStudent", {
         method: "POST",
         // credentials: "include",
         body: js,
@@ -270,17 +270,16 @@ const MyEvents = (props) => {
         </Container>
       </Row>
       <Row>
-        <h3>Following these events</h3>
+        <h3>All these events</h3>
         <Container style={{ backgroundColor: "" }}>
-          Following these Events
+          Following All Events
           {generateAllEvents}
         </Container>
       </Row>
-      <Row>
+      {/* <Row>
         <h3>Upcoming Events</h3>
         <Container style={{ backgroundColor: "" }}>Upcoming Events</Container>
-        {/* {getAllEvents} */}
-      </Row>
+      </Row> */}
       <div>
         {/* CREATE Event MODAL */}
         <div>

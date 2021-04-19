@@ -241,7 +241,7 @@ const MyGroups = (props) => {
         </Container>
       </Row>
       <Row>
-        <h3>Other RSOs at your university</h3>
+        <h3>All RSOs at your university</h3>
         <Container style={{ backgroundColor: "red" }}>
           {generateAllGroups}
         </Container>

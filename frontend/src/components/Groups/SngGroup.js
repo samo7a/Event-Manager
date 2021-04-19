@@ -582,7 +582,7 @@ const SngGroup = (props) => {
       {/* LEAVE RSO MODAL */}
       <div>
         <Modal
-          style={{ textAlign: "center" }}
+          style={{ textAlign: "center", border: "1px solid black" }}
           show={showLeave}
           onHide={handleLeaveClose}
         >
@@ -603,7 +603,11 @@ const SngGroup = (props) => {
       </div>
       {/* MEMBER LIST MODAL*/}
       <div>
-        <Modal show={showMem} onHide={handleMClose}>
+        <Modal
+          style={{ border: "1px solid black" }}
+          show={showMem}
+          onHide={handleMClose}
+        >
           <Modal.Header>
             <Modal.Title>Member List</Modal.Title>
           </Modal.Header>
@@ -626,7 +630,11 @@ const SngGroup = (props) => {
       </div>
       {/* Contact info MODAL */}
       <div>
-        <Modal show={showContactInfo} onHide={handleCIClose}>
+        <Modal
+          style={{ border: "1px solid black" }}
+          show={showContactInfo}
+          onHide={handleCIClose}
+        >
           <Modal.Header style={{ justifyContent: "center" }}>
             <Modal.Title>Admin Contact Info</Modal.Title>
           </Modal.Header>
@@ -646,6 +654,7 @@ const SngGroup = (props) => {
       {/* Edit page Modal */}
       <div>
         <Modal
+          style={{ border: "1px solid black" }}
           class="modal-lg"
           style={{
             // marginLeft: "30%",
@@ -673,7 +682,7 @@ const SngGroup = (props) => {
                     type="checkbox"
                     className="editCol"
                     label="Edit Name"
-                  />
+                  /> 
                 </Col> */}
                 <Col>
                   <Form.Group style={{ textAlign: "center" }}>
@@ -731,6 +740,7 @@ const SngGroup = (props) => {
         {/* CREATE Event MODAL */}
         <div>
           <Modal
+            style={{ border: "1px solid black" }}
             class="modal-lg"
             style={{
               marginTop: "1.75rem",
