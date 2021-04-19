@@ -74,8 +74,8 @@ const EventInfoPage = (props) => {
         throw new Error(response.status);
       } else {
         console.log("The first response: ", res);
-        let theComments = [];
-        await res.comments.forEach(async (c) => {
+        let theComments = res.comments;
+        await theComments.map(async (c) => {
           try {
             let obj = { s_id: c.s_id};
             let js = JSON.stringify(obj);
@@ -91,14 +91,12 @@ const EventInfoPage = (props) => {
             if (response.status != 200) {
               throw new Error(response.status);
             } else {
-              console.log("The second response: ", res1);
-              let item = {
-                comment: c,
-                author: res1.name,
-              };
-              console.log("the item: ", item);
-              theComments.push(item);
-              console.log("theComments in loop: ", theComments);
+              return (
+                {
+                  comment: c,
+                  author: res1.name,
+                }
+              )
             }
           } catch (error) {
             console.error("Error:", error);
