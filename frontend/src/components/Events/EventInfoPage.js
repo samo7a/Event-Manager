@@ -49,15 +49,22 @@ const EventInfoPage = (props) => {
   };
   const [eventID, setEventID] = useState("");
   const [eventDetails, setDetails] = useState({});
-  useEffect(() => {
-    getEventSingle();
-  }, []);
+  const [eventComments, setEventComments] = useState( [
+    {
+      comment: {
+        commentId: 0,
+        s_id: 0,
+        comment: "",
+      },
+      author: "",
+    },
+  ] )
+
   const getEventSingle = async () => {
     try {
-      setEventID(props.e_id);
       // var obj = { e_id: props.e_id };
-      var obj = { e_id: 20 };
-      var js = JSON.stringify(obj);
+      let obj = { e_id: 20 };
+      let js = JSON.stringify(obj);
       let response = await fetch("/api/getEventStudent", {
         method: "POST",
         // credentials: "include",
@@ -71,12 +78,45 @@ const EventInfoPage = (props) => {
         throw new Error(response.status);
       } else {
         console.log(res);
+        let theComments = [];
+        res.comments.forEach(async (c) => {
+          try {
+            let obj = { s_id: c.s_id};
+            let js = JSON.stringify(obj);
+            let response = await fetch("/api/getStudent", {
+              method: "POST",
+              // credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: js,
+            });
+            var res1 = JSON.parse(await response.text());
+            if (response.status != 200) {
+              throw new Error(response.status);
+            } else {
+                let item = {
+                  comment: c,
+                  author: res1.name,
+                };
+                theComments.push(item);
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            return;
+          }
+        })
+        setEventComments(theComments);
         setDetails(res);
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+  useEffect(() => {
+    getEventSingle();
+  }, []);
+
   const postComment = async (event) => {
     event.preventDefault();
     setMessage("");

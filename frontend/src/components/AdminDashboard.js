@@ -72,7 +72,7 @@ const AdminDashboard = (props) => {
                         <div onClick={() => handleEventShow(e.id)} className="event-title clickable">
                             {e.title}
                         </div>
-                        <span>{e.date} {e.time}</span>
+                        <span>{moment(e.date, "YYYY-MM-DD").format("dddd, MMMM Do YYYY")} {moment(e.time, 'HH:mm').format('h:mm a')}</span>
                     </div>
                 )
             )}
