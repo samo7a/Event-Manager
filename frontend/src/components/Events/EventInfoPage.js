@@ -3,9 +3,18 @@
 // Find out why message is displayed
 // Find out why await throws an error in the try block
 import React, { useState, useEffect } from "react";
-import { ButtonGroup, Modal, Card, Container, Button, Col, Row, Form } from "react-bootstrap";
+import {
+  ButtonGroup,
+  Modal,
+  Card,
+  Container,
+  Button,
+  Col,
+  Row,
+  Form,
+} from "react-bootstrap";
 import pupFiller from "../../pictures/pupFiller.jpeg";
-import {BsStarFill, BsStarHalf, BsStar} from 'react-icons/bs';
+import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import "./EventInfoPage.css";
 const EventInfoPage = (props) => {
   // Event fields
@@ -52,9 +61,9 @@ const EventInfoPage = (props) => {
   const getEventSingle = async () => {
     const theComments = [];
     const theAuthors = [];
-    const getAuthors = async id => {
+    const getAuthors = async (id) => {
       try {
-        let obj = { s_id: id};
+        let obj = { s_id: id };
         let js = JSON.stringify(obj);
         let response = await fetch("/api/getStudent", {
           method: "POST",
@@ -75,7 +84,7 @@ const EventInfoPage = (props) => {
       }
     };
     try {
-      let obj = { e_id: 20 };
+      let obj = { e_id: props.e_id };
       let js = JSON.stringify(obj);
       let response = await fetch("/api/getEventStudent", {
         method: "POST",
@@ -88,25 +97,23 @@ const EventInfoPage = (props) => {
       if (response.status !== 200) {
         throw new Error(response.status);
       } else {
-        res.comments.forEach(comment => {
+        res.comments.forEach((comment) => {
           theAuthors.push(getAuthors(comment.s_id));
-        })
+        });
         let authors = await Promise.all(theAuthors);
 
         if (authors.length !== res.comments.length) {
           throw new Error("There was a comment/author mismatch");
         } else {
           for (let k = 0; k < authors.length; k++) {
-            theComments.push(
-              {
-                comment: res.comments[k],
-                author: authors[k],
-              }
-            );
+            theComments.push({
+              comment: res.comments[k],
+              author: authors[k],
+            });
           }
           if (theComments.length > 0) {
             setEventComments(theComments);
-          } 
+          }
           setEventDetails(res);
         }
       }
@@ -127,7 +134,7 @@ const EventInfoPage = (props) => {
 
     try {
       let obj = {
-        e_id: 20,
+        e_id: props.e_id,
         s_id: s_id,
         fName: fName,
         comment: newComment,
@@ -160,78 +167,79 @@ const EventInfoPage = (props) => {
     if (rating == 5.0) {
       return (
         <div>
-          <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarFill />
+          <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarFill />{" "}
+          <BsStarFill />
         </div>
-      )
+      );
     } else if (rating > 4 && rating < 5) {
       return (
         <div>
-          <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarHalf />
+          <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarFill />{" "}
+          <BsStarHalf />
         </div>
-      )
+      );
     } else if (rating == 4.0) {
       return (
         <div>
           <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStar />
         </div>
-      )
+      );
     } else if (rating > 3 && rating < 4) {
       return (
         <div>
           <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStarHalf /> <BsStar />
         </div>
-      )
+      );
     } else if (rating == 3.0) {
       return (
         <div>
           <BsStarFill /> <BsStarFill /> <BsStarFill /> <BsStar /> <BsStar />
         </div>
-      )
+      );
     } else if (rating > 2 && rating < 3) {
       return (
         <div>
           <BsStarFill /> <BsStarFill /> <BsStarHalf /> <BsStar /> <BsStar />
         </div>
-      )
+      );
     } else if (rating == 2.0) {
       return (
         <div>
           <BsStarFill /> <BsStarFill /> <BsStar /> <BsStar /> <BsStar />
         </div>
-      )
+      );
     } else if (rating > 1 && rating < 2) {
       return (
         <div>
           <BsStarFill /> <BsStarHalf /> <BsStar /> <BsStar /> <BsStar />
         </div>
-      )
+      );
     } else if (rating == 1.0) {
       return (
         <div>
           <BsStarFill /> <BsStar /> <BsStar /> <BsStar /> <BsStar />
         </div>
-      )
+      );
     } else if (rating > 0 && rating < 1) {
       return (
         <div>
           <BsStarHalf /> <BsStar /> <BsStar /> <BsStar /> <BsStar />
         </div>
-      )
+      );
     } else {
       return (
         <div>
           <BsStar /> <BsStar /> <BsStar /> <BsStar /> <BsStar />
         </div>
-      )
-    } 
+      );
+    }
   };
 
-  const newCommentHandler = event => {
+  const newCommentHandler = (event) => {
     let i;
-    if (commentLength > 0)
-      i = commentLength - 1;
-      setCommentLength(i);
-      setNewComment(event.target.value);
+    if (commentLength > 0) i = commentLength - 1;
+    setCommentLength(i);
+    setNewComment(event.target.value);
   };
 
   const renderComments =
@@ -270,14 +278,14 @@ const EventInfoPage = (props) => {
 
   const showRateHandler = () => {
     setShowRate(true);
-  }
+  };
 
   const handleRateClose = () => {
     setShowRate(false);
-  }
+  };
 
   const rateEventHandler = async () => {
-    let obj = { e_id: 20, rating: myRating, s_id: s_id};
+    let obj = { e_id: props.e_id, rating: myRating, s_id: s_id };
     var res;
     try {
       let js = JSON.stringify(obj);
@@ -307,41 +315,65 @@ const EventInfoPage = (props) => {
     if (myRating == 0) {
       return (
         <div>
-          <BsStar onClick={() => setMyRating(1)} /> <BsStar onClick={() => setMyRating(2)} /> <BsStar onClick={() => setMyRating(3)} /> <BsStar onClick={() => setMyRating(4)} /> <BsStar onClick={() => setMyRating(5)} />
+          <BsStar onClick={() => setMyRating(1)} />{" "}
+          <BsStar onClick={() => setMyRating(2)} />{" "}
+          <BsStar onClick={() => setMyRating(3)} />{" "}
+          <BsStar onClick={() => setMyRating(4)} />{" "}
+          <BsStar onClick={() => setMyRating(5)} />
         </div>
-      )
+      );
     } else if (myRating == 1) {
       return (
         <div>
-          <BsStarFill onClick={() => setMyRating(1)} /> <BsStar onClick={() => setMyRating(2)} /> <BsStar onClick={() => setMyRating(3)} /> <BsStar onClick={() => setMyRating(4)} /> <BsStar onClick={() => setMyRating(5)} />
+          <BsStarFill onClick={() => setMyRating(1)} />{" "}
+          <BsStar onClick={() => setMyRating(2)} />{" "}
+          <BsStar onClick={() => setMyRating(3)} />{" "}
+          <BsStar onClick={() => setMyRating(4)} />{" "}
+          <BsStar onClick={() => setMyRating(5)} />
         </div>
-      )
+      );
     } else if (myRating == 2) {
       return (
         <div>
-          <BsStarFill onClick={() => setMyRating(1)} /> <BsStarFill onClick={() => setMyRating(2)} /> <BsStar onClick={() => setMyRating(3)} /> <BsStar onClick={() => setMyRating(4)} /> <BsStar onClick={() => setMyRating(5)} />
+          <BsStarFill onClick={() => setMyRating(1)} />{" "}
+          <BsStarFill onClick={() => setMyRating(2)} />{" "}
+          <BsStar onClick={() => setMyRating(3)} />{" "}
+          <BsStar onClick={() => setMyRating(4)} />{" "}
+          <BsStar onClick={() => setMyRating(5)} />
         </div>
-      )
+      );
     } else if (myRating == 3) {
       return (
         <div>
-          <BsStarFill onClick={() => setMyRating(1)} /> <BsStarFill onClick={() => setMyRating(2)} /> <BsStarFill onClick={() => setMyRating(3)} /> <BsStar onClick={() => setMyRating(4)} /> <BsStar onClick={() => setMyRating(5)} />
+          <BsStarFill onClick={() => setMyRating(1)} />{" "}
+          <BsStarFill onClick={() => setMyRating(2)} />{" "}
+          <BsStarFill onClick={() => setMyRating(3)} />{" "}
+          <BsStar onClick={() => setMyRating(4)} />{" "}
+          <BsStar onClick={() => setMyRating(5)} />
         </div>
-      )
+      );
     } else if (myRating == 4) {
       return (
         <div>
-          <BsStarFill onClick={() => setMyRating(1)} /> <BsStarFill onClick={() => setMyRating(2)} /> <BsStarFill onClick={() => setMyRating(3)} /> <BsStarFill onClick={() => setMyRating(4)} /> <BsStar onClick={() => setMyRating(5)} />
+          <BsStarFill onClick={() => setMyRating(1)} />{" "}
+          <BsStarFill onClick={() => setMyRating(2)} />{" "}
+          <BsStarFill onClick={() => setMyRating(3)} />{" "}
+          <BsStarFill onClick={() => setMyRating(4)} />{" "}
+          <BsStar onClick={() => setMyRating(5)} />
         </div>
-      )
+      );
     } else if (myRating == 5) {
       return (
         <div>
-          <BsStarFill onClick={() => setMyRating(1)} /> <BsStarFill onClick={() => setMyRating(2)} /> <BsStarFill onClick={() => setMyRating(3)} /> <BsStarFill onClick={() => setMyRating(4)} /> <BsStarFill onClick={() => setMyRating(5)} />
+          <BsStarFill onClick={() => setMyRating(1)} />{" "}
+          <BsStarFill onClick={() => setMyRating(2)} />{" "}
+          <BsStarFill onClick={() => setMyRating(3)} />{" "}
+          <BsStarFill onClick={() => setMyRating(4)} />{" "}
+          <BsStarFill onClick={() => setMyRating(5)} />
         </div>
-      )
+      );
     }
-  }
+  };
 
   return (
     <div>
@@ -361,21 +393,19 @@ const EventInfoPage = (props) => {
                   {eventDetails.e_description}
                 </Row>
               </Col>
-              <Col>
-                Rating: {avgRating()}
-              </Col>
+              <Col>Rating: {avgRating()}</Col>
               <Col>
                 <Button onClick={showRateHandler}>Rate</Button>
               </Col>
             </Row>
           </Card.Body>
           <Card.Footer>
-            <h3 style={{ textAlign: "center", textDecoration: "underline" }}>Comments</h3>
+            <h3 style={{ textAlign: "center", textDecoration: "underline" }}>
+              Comments
+            </h3>
             <Card className="cardComment" style={{ marginBottom: "1rem" }}>
               <Form>
-                <Form.Group
-                  className="post-a-comment"
-                >
+                <Form.Group className="post-a-comment">
                   Post a Comment
                 </Form.Group>
                 {message != "" ? (
@@ -393,15 +423,12 @@ const EventInfoPage = (props) => {
                   />
                 </Form.Row>
                 <Form.Row>
-                  <Form.Group as={Col}>  </Form.Group>
+                  <Form.Group as={Col}> </Form.Group>
                   <Form.Group as={Col}>
-                    <span style={{marginRight: "0.5em"}}>
+                    <span style={{ marginRight: "0.5em" }}>
                       {commentLength} characters remaining
                     </span>
-                    <Button
-                      variant="primary"
-                      onClick={postComment}
-                    >
+                    <Button variant="primary" onClick={postComment}>
                       Post comment
                     </Button>
                   </Form.Group>
@@ -423,28 +450,28 @@ const EventInfoPage = (props) => {
           </Card.Footer>
         </Card>
       </Container>
-      <Modal 
-          show={showRate} 
-          onHide={handleRateClose}
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
+      <Modal
+        show={showRate}
+        onHide={handleRateClose}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
-          <Modal.Header closeButton>
-              <Modal.Title>Rate the event {myRating} <BsStarFill /></Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-              {printMyRating()}
-          </Modal.Body>
-          <Modal.Footer>
-              <ButtonGroup>
-                <Button variant="secondary" onClick={handleRateClose}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={rateEventHandler}>
-                  Rate
-                </Button>
-              </ButtonGroup>
-          </Modal.Footer>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            Rate the event {myRating} <BsStarFill />
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{printMyRating()}</Modal.Body>
+        <Modal.Footer>
+          <ButtonGroup>
+            <Button variant="secondary" onClick={handleRateClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={rateEventHandler}>
+              Rate
+            </Button>
+          </ButtonGroup>
+        </Modal.Footer>
       </Modal>
     </div>
   );

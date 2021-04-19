@@ -179,7 +179,7 @@ const Event = (props) => {
           }}
         >
           {/* UNCOMMENT THIS ONE TO TEST */}
-          <EventInfoPage eID={props.e_id} />
+          <EventInfoPage e_id={props.e_id} />
           {/* <EventInfoPage eID={eventID} /> */}
         </Modal.Body>
       </Modal>
