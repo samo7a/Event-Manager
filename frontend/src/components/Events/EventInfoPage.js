@@ -51,11 +51,7 @@ const EventInfoPage = (props) => {
   const [eventDetails, setDetails] = useState({});
   const [eventComments, setEventComments] = useState( [
     {
-      comment: {
-        commentId: 0,
-        s_id: 0,
-        comment: "",
-      },
+      comment: {},
       author: "",
     },
   ] );
@@ -110,6 +106,7 @@ const EventInfoPage = (props) => {
           }
         })
         let val = theComments;
+        console.log("theCommens outside the loop: ", val);
         setEventComments(val);
         setDetails(res);
       }
