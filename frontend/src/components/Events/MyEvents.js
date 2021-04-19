@@ -418,14 +418,14 @@ const MyEvents = (props) => {
                   <FormControl ref={(c) => (eventMonth = c)} />
                   <FormControl ref={(c) => (eventYear = c)} />
                 </InputGroup>
-                <Form.Group controlID="rsoPic">
+                {/* <Form.Group controlID="rsoPic">
                   <Form.Label>Upload event profile picture</Form.Label>
                   <Form.File
                     ref={(c) => (createEventObj.e_profilePicture = c)}
                     label=""
                   />
                   <Form.Text>5MB maximum</Form.Text>
-                </Form.Group>
+                </Form.Group> */}
               </Form>
             </Modal.Body>
             {message != "" ? (
