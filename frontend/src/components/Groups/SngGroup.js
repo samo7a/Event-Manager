@@ -194,17 +194,19 @@ const SngGroup = (props) => {
   // edit rso
   const editRSO = async () => {
     // preventDefault();
-    console.log(rsoName.value);
-    console.log(rsoDesc.value);
+    console.log(rsoName);
+    console.log(rsoDesc);
     console.log(rnameEdit.value);
     console.log(descEdit.value);
-    rnameEdit.value == "" ? setRsoName(rsoName) : setRsoName(rnameEdit.value);
-    descEdit.value == "" ? setRsoDesc(rsoDesc) : setRsoDesc(descEdit.value);
+    // rnameEdit.value == "" ? setRsoName(rsoName) : setRsoName(rnameEdit.value);
+    // descEdit.value == "" ? setRsoDesc(rsoDesc) : setRsoDesc(descEdit.value);
     try {
+      var objN = rnameEdit.value == "" ? rsoName : rnameEdit.value;
+      var objD = descEdit.value == "" ? setRsoDesc(rsoDesc) : descEdit.value;
       var obj = {
         rso_id: 13,
-        rso_name: rsoName,
-        rso_description: rsoDesc,
+        rso_name: objN,
+        rso_description: objD,
       };
       console.log(obj);
 
