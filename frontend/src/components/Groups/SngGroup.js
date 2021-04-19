@@ -127,7 +127,7 @@ const SngGroup = (props) => {
         setDetails(res);
         console.log(res);
         setRsoDesc(res.rso_description);
-        setRsoID(res.rso_id);
+        setRsoName(res.rso_name);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -196,10 +196,10 @@ const SngGroup = (props) => {
     // preventDefault();
     console.log(rsoName);
     console.log(rsoDesc);
-    console.log(rnameEdit);
-    console.log(descEdit);
-    rnameEdit == "" ? setRsoName(rsoName) : setRsoName(rnameEdit);
-    descEdit == "" ? setRsoDesc(rsoDesc) : setRsoDesc(descEdit);
+    console.log(rnameEdit.value);
+    console.log(descEdit.value);
+    rnameEdit == "" ? setRsoName(rsoName) : setRsoName(rnameEdit.value);
+    descEdit == "" ? setRsoDesc(rsoDesc) : setRsoDesc(descEdit.value);
     try {
       var obj = {
         rso_id: 13,
@@ -493,6 +493,7 @@ const SngGroup = (props) => {
                         style={{ margin: "auto", width: "140%" }}
                         as="textarea"
                         rows="5"
+                        // onSubmit={setRsoDesc(descEdit)}
                         ref={(c) => (descEdit = c)}
                       />
                       <Form.Text>256 character maximum</Form.Text>
