@@ -129,10 +129,10 @@ const MyEvents = (props) => {
       setMessage("Please fill all fields");
       return;
     }
-    if (createEventObj.e_contactPhone.value.length != 12) {
-      setMessage("Enter valid phone #");
-      return;
-    }
+    // if (createEventObj.e_contactPhone.value.length != 12) {
+    //   setMessage("Enter valid phone #");
+    //   return;
+    // }
     if (eventHR == null) {
       setMessage("Please fill all fields");
       return;
