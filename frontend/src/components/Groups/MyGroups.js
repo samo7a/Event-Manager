@@ -62,9 +62,23 @@ const MyGroups = (props) => {
       },
     },
   ]);
+  const [newRsoName,setNewRsoName] = useState("");
+  const [newRsoDesc, setNewRsoDesc] = useState("");
+  const [newRsoDescLen, setNewRsoDescLen] = useState(1000);
+
+  const updateNewRsoName = (e) => {
+    setNewRsoName(e.target.value);
+  }
+
+  const updateNewRsoDesc = (e) => {
+    let length = newRsoDescLen + 1;
+    if (length > 1000){
+      return
+    };
+    setNewRsoDesc(e.target.value);
+    setNewRsoDescLen(length);
+  }
   // New Rso fields
-  var newRsoName;
-  var newRsoDesc;
   var newRsoPic;
   const getAllGroups = async () => {
     console.log(s_id);
@@ -154,33 +168,27 @@ const MyGroups = (props) => {
 
   const createNewRso = async (event) => {
     event.preventDefault();
-    setMessage("");
-    // Check if form is valid
-    // Check if Rso name is taken?
-    // Check length of desc
-    // console.log(newRsoDesc.value.length);
-    // console.log(newRsoDesc.value);
-    if (newRsoName.value.length > 45) {
+    if (newRsoName.length > 45) {
       console.error("nameErr");
       setMessage("The RSO name is over the maximum limit");
       return;
     }
-    if (newRsoDesc.value.length > 1000) {
+    if (newRsoDesc.length > 1000) {
       console.error("Size to big");
       setMessage(
-        "Description is " + (newRsoDesc.value.length - 1000) + "over the max"
+        "Description is " + (newRsoDesc.length - 1000) + "over the max"
       );
       return;
     }
 
     try {
-      var newRso = {
-        rso_name: newRsoName.value,
-        rso_description: newRsoDesc.value,
-        rso_profilePicture: newRsoPic.value,
+      let obj = {
+        rso_name: newRsoName,
+        rso_description: newRsoDesc,
+        rso_profilePicture: null,
         s_id: s_id,
       };
-      var js = JSON.stringify(newRso);
+      let js = JSON.stringify(obj);
       const response = await fetch("/api/createRso", {
         method: "POST",
         // credentials: "include",
@@ -192,21 +200,17 @@ const MyGroups = (props) => {
         console.log(res.error);
       } else {
         console.log("RSO created");
+        setNewRsoDesc("");
+        setNewRsoName("");
+        setNewRsoDescLen(1000);
+        setCreateShow(false);
       }
     } catch (e) {
       console.log(e.toString());
       return;
     }
   };
-  // const generateAdminGroups =
-  //   joinedGroups.length == 0 ? (
-  //     <span>Not apart of any groups</span>
-  //   ) : (
-  //     joinedGroups.map((e) => {
-  //       console.log(e.rso_id);
-  //       return e.admin.s_id === s_id ? <Group rso_id={e.rso_id} /> : null;
-  //     })
-  //   );
+
   const generateAdminGroups =
     adminGroups.length == 0 || !adminGroups[0].rso.rso_name ? (
       <div>
@@ -312,8 +316,7 @@ const MyGroups = (props) => {
               <Form>
                 <Form.Group controlID="rsoName">
                   <Form.Label>Enter RSO name</Form.Label>
-
-                  <Form.Control type="text" ref={(c) => (newRsoName = c)} />
+                  <input value={newRsoName} onChange={updateNewRsoName} />
                   <Form.Text>45 characters maximum</Form.Text>
                 </Form.Group>
                 {/* <Form.Group controlID="rsoPic">
@@ -323,15 +326,14 @@ const MyGroups = (props) => {
                 </Form.Group> */}
                 <Form.Group controlID="rsoName">
                   <Form.Label>Enter RSO description</Form.Label>{" "}
-                  <Form.Control
+                  <textarea 
+                    value={newRsoDesc} 
+                    onChange={updateNewRsoDesc} 
                     style={{ marginRight: "1rem", width: "100%" }}
-                    as="textarea"
-                    ref={(c) => (newRsoDesc = c)}
                     rows="7"
                   />
-                  <Form.Text>1000 characters maximum</Form.Text>
+                  <Form.Text>{newRsoDescLen}</Form.Text>
                   <Form.Text>
-                    {" "}
                     {message != "" ? (
                       <span id="errorMSG">
                         <span style={{ color: "red" }}>Error : </span>
