@@ -91,6 +91,7 @@ const MyGroups = (props) => {
       return;
     }
   };
+
   const getJoinedGroups = async () => {
     console.log(s_id);
     console.log(user);
@@ -136,7 +137,7 @@ const MyGroups = (props) => {
       } else {
         console.log("GetADMIN GROUPS success");
         setAdminGroups(res);
-        console.log(joinedGroups);
+        console.log(res);
       }
     } catch (e) {
       console.log(e.toString());
@@ -207,7 +208,7 @@ const MyGroups = (props) => {
   //     })
   //   );
   const generateAdminGroups =
-    adminGroups.length < 0 ? (
+    adminGroups.length == 0 || !adminGroups[0].rso.rso_name ? (
       <div>
         <span>You are not an admin of any groups yet</span>
       </div>
