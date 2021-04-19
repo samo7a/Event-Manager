@@ -969,6 +969,25 @@ app.post("/api/getAllEventsStudent", async (req, res) => {
     });
   });
 });
+app.post("/api/getAllMyEventsStudent", async (req, res) => {
+  const { s_id } = req.body;
+  let u_id;
+  let events;
+  let sql = `select u_id from Students where s_id = ${s_id}`;
+  conn.query(sql, async (error, result) => {
+    if (error) {
+      res.status(401).json({ msg: error.sqlMessage });
+    }
+    u_id = result[0].u_id;
+    sql = `select e_id, isApproved, e_name, e_type, e_time, e_date from Events where e_id in (Select e_id from CreatesEvents where s_id=${s_id});`;
+    conn.query(sql, async (error1, result1) => {
+      if (error1) {
+        res.status(401).json({ msg: error1.sqlMessage });
+      }
+      res.status(200).json(result1);
+    });
+  });
+});
 app.post("/api/getEventStudent", async (req, res) => {
   const { e_id } = req.body;
   let avgRating;
