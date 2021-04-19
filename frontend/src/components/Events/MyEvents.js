@@ -33,14 +33,7 @@ const MyEvents = (props) => {
   const [createShow, setCreateShow] = useState(false);
   const createEventClose = () => setCreateShow(false);
   const createEventOpen = () => setCreateShow(true);
-  const [allEvents, setAllEvents] = useState([
-    {
-      e_id: 0,
-      e_name: "e_name",
-      e_date: "e_date",
-      e_type: "private",
-    },
-  ]);
+  const [allEvents, setAllEvents] = useState([]);
   const [allMyEvents, setAllMyEvents] = useState([]);
   // MSG field
   const [message, setMessage] = useState("");
@@ -267,7 +260,7 @@ const MyEvents = (props) => {
       <div>
         {allMyEvents.map(e => 
             (
-              <Event e_id={e.e_id} />
+              <Event e_id={e.e_id} isApproved={e.isApproved} />
             )
           )}
       </div>
@@ -278,14 +271,19 @@ const MyEvents = (props) => {
   );
 
     
-  const generateAllEvents =
-    allEvents.length == 0 ? (
-      <span></span>
+  const generateAllEvents = allEvents.length > 0 ? (
+      <div>
+        {
+          allEvents.map(e => 
+          (
+            <Event e_id={e.e_id} isApproved={1} />
+          )
+        )}
+      </div>
     ) : (
-      allEvents.map((e) => {
-        // console.log(e.e_id);
-        return e.e_id != null && e.e_id != "0" ? <Event e_id={e.e_id} /> : null;
-      })
+      <div>
+        <span>There are no upcoming events</span>
+      </div>
     );
 
   return (
