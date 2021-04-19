@@ -250,7 +250,7 @@ const MyEvents = (props) => {
     );
 
   return (
-    <Container style={{ backgroundColor: "rgba(22,22,22,.3)" }}>
+    <Container style={{ backgroundColor: "rgba(255,255,255,.3)" }}>
       <h1 style={{ marginLeft: "-1rem" }}> My Events </h1>
 
       <Row>
