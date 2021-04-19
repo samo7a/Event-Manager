@@ -86,16 +86,16 @@ const EventInfoPage = (props) => {
         res.comments.forEach(comment => {
           theAuthors.push(getAuthors(comment.s_id));
         })
-        await Promise.all(theAuthors);
+        let authors = await Promise.all(theAuthors);
 
-        if (theAuthors.length !== res.comments.length) {
+        if (authors.length !== res.comments.length) {
           throw new Error("There was a comment/author mismatch");
         } else {
           for (let k = 0; k < theAuthors.length; k++) {
             theComments.push(
               {
                 comment: res.comments[k],
-                author: theAuthors[k],
+                author: authors[k],
               }
             );
           }
