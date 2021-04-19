@@ -62,22 +62,22 @@ const MyGroups = (props) => {
       },
     },
   ]);
-  const [newRsoName,setNewRsoName] = useState("");
+  const [newRsoName, setNewRsoName] = useState("");
   const [newRsoDesc, setNewRsoDesc] = useState("");
   const [newRsoDescLen, setNewRsoDescLen] = useState(1000);
 
   const updateNewRsoName = (e) => {
     setNewRsoName(e.target.value);
-  }
+  };
 
   const updateNewRsoDesc = (e) => {
     let length = newRsoDescLen + 1;
-    if (length > 1000){
-      return
-    };
+    if (length > 1000) {
+      return;
+    }
     setNewRsoDesc(e.target.value);
     setNewRsoDescLen(length);
-  }
+  };
   // New Rso fields
   var newRsoPic;
   const getAllGroups = async () => {
@@ -268,7 +268,7 @@ const MyGroups = (props) => {
 
       <Row>
         <Col xs="9" style={{ padding: 0 }}>
-          <h3> Admin of these RSOs </h3>
+          {/* <h3> Admin of these RSOs </h3> */}
         </Col>
         <Col xs="3">
           <Button variant="primary" onClick={createRSOOpen}>
@@ -326,9 +326,9 @@ const MyGroups = (props) => {
                 </Form.Group> */}
                 <Form.Group controlID="rsoName">
                   <Form.Label>Enter RSO description</Form.Label>{" "}
-                  <textarea 
-                    value={newRsoDesc} 
-                    onChange={updateNewRsoDesc} 
+                  <textarea
+                    value={newRsoDesc}
+                    onChange={updateNewRsoDesc}
                     style={{ marginRight: "1rem", width: "100%" }}
                     rows="7"
                   />
