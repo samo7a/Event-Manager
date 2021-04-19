@@ -69,6 +69,17 @@ const MyEvents = (props) => {
   }, []);
   const [fromVal, incrementF] = useState(0);
   const [toVal, incrementT] = useState(10);
+  const [newEventDesc, setNewEventDesc] = useState("");
+  const [newEventLen, setNewEventLen] = useState(1000);
+
+  const updateNewEventDesc = e => {
+    let i = newEventLen + 1;
+    if (i > 1000) {
+      return;
+    }
+    setNewEventDesc(e.target.valeu);
+    setNewEventLen(i);
+  }
 
   const increment = () => {
     incrementF(fromVal + 11);
@@ -134,12 +145,8 @@ const MyEvents = (props) => {
       setMessage("Event Name exceed limit of 45 Characters");
       return;
     }
-    if (createEventObj.e_description == null) {
+    if (newEventDesc === "") {
       setMessage("Please fill all fields");
-      return;
-    }
-    if (createEventObj.e_description.value.length > 1000) {
-      setMessage("Over max");
       return;
     }
     if (createEventObj.e_contactEmail == null) {
@@ -194,7 +201,7 @@ const MyEvents = (props) => {
     var rso_id = createEventObj.rso_id;
     var s_id = createEventObj.s_id;
     var e_name = createEventObj.e_name.value;
-    var e_description = createEventObj.e_description.value;
+    var e_description = newEventDesc;
     var e_contactEmail = createEventObj.e_contactEmail.value;
     var e_contactPhone = createEventObj.e_contactPhone.value;
     var e_type = createEventObj.e_type.value;
@@ -235,6 +242,7 @@ const MyEvents = (props) => {
         } else {
           console.log("Rso Created event");
           console.log(res);
+          createEventClose();
         }
       } else {
         const response = await fetch("/api/createEventStudent", {
@@ -345,14 +353,14 @@ const MyEvents = (props) => {
                 </Form.Group>
                 <Form.Group controlID="eventDesc">
                   <Form.Label>Enter event description</Form.Label>{" "}
-                  <Form.Control
+                  <textarea 
                     placeholder="Please enter a description about the event"
                     style={{ marginRight: "1rem", width: "100%" }}
-                    as="textarea"
-                    ref={(c) => (createEventObj.e_description = c)}
                     rows="7"
+                    value={newEventDesc}
+                    onChange={updateNewEventDesc}
                   />
-                  <Form.Text>1000 characters maximum</Form.Text>
+                  <Form.Text>{newEventLen} characters remaining</Form.Text>
                 </Form.Group>
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label> Contact email address</Form.Label>
