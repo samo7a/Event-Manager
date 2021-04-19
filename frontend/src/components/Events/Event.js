@@ -13,11 +13,15 @@ import {
 import "./Event.css";
 import pupFiller from "../../pictures/pupFiller.jpeg";
 import EventInfoPage from "./EventInfoPage";
+import ModalHeader from "react-bootstrap/esm/ModalHeader";
 const Event = (props) => {
   // Modal fields
   const [show, setShow] = useState(false);
   const modalOpen = () => setShow(true);
   const modalClose = () => setShow(false);
+  const [showEventModal, setShowEvent] = useState(false);
+  const modalEventOpen = () => setShowEvent(true);
+  const modalEventClose = () => setShowEvent(false);
   // Event fields
   const [eventName, setName] = useState("");
   const [eventRso, setRso] = useState("");
@@ -121,7 +125,7 @@ const Event = (props) => {
                 <ButtonGroup
                   className="ml-0"
                   aria-label="View Event"
-                  // onClick={goToPage}
+                  onClick={modalEventOpen}
                 >
                   <Button>View Event</Button>
                 </ButtonGroup>
@@ -134,8 +138,10 @@ const Event = (props) => {
           </Modal.Footer>
         </Container>
       </Modal>
-      <Modal className="EModal" show={true}>
-        <Modal.Body
+      <Modal show={showEventModal} onHide={modalEventClose}>
+        {/* <ModalHeader>S</ModalHeader> */}
+        {/* CANT CLOSE MODAL, NEED TO FIND ALT way to size it */}
+        {/* <Modal.Body
           style={{
             position: "fixed",
             overflowX: "hidden",
@@ -144,11 +150,11 @@ const Event = (props) => {
             bottom: 0,
             left: 0,
           }}
-        >
-          {/* UNCOMMENT THIS ONE TO TEST */}
-          {/* <EventInfoPage eID={props.e_id} /> */}
-          <EventInfoPage eID={eventID} />
-        </Modal.Body>
+        > */}
+        {/* UNCOMMENT THIS ONE TO TEST */}
+        {/* <EventInfoPage eID={props.e_id} /> */}
+        {/* <EventInfoPage eID={eventID} />
+        </Modal.Body> */}
       </Modal>
     </div>
   );
