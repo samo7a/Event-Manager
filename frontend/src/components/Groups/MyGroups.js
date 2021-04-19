@@ -65,7 +65,7 @@ const MyGroups = (props) => {
     console.log(user);
     let js = JSON.stringify({ s_id: s_id });
     try {
-      const response = await fetch("/api/getAllRsos", {
+      const response = await fetch("/api/getAllRsosStudent", {
         method: "POST",
         // credentials: "include",
         body: js,

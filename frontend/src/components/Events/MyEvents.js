@@ -73,11 +73,11 @@ const MyEvents = (props) => {
     getAllEvents();
   }, []);
   const [fromVal, incrementF] = useState(0);
-  const [toVal, incrementT] = useState(5);
+  const [toVal, incrementT] = useState(10);
 
   const increment = () => {
-    incrementF(fromVal + 5);
-    incrementT(fromVal + 5);
+    incrementF(fromVal + 11);
+    incrementT(fromVal + 11);
   };
   const getAllEvents = async () => {
     try {
@@ -279,7 +279,7 @@ const MyEvents = (props) => {
       <Row>
         <h3>Upcoming Events</h3>
         <Container style={{ backgroundColor: "" }}>Upcoming Events</Container>
-        {getAllEvents}
+        {/* {getAllEvents} */}
       </Row>
       <div>
         {/* CREATE Event MODAL */}
