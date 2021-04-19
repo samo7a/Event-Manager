@@ -311,9 +311,8 @@ const MyEvents = (props) => {
         </Container>
       </Row>
       <Row>
-        <h3>All these events</h3>
+        <h3>All events</h3>
         <Container style={{ backgroundColor: "" }}>
-          Following All Events
           {generateAllEvents}
         </Container>
       </Row>
