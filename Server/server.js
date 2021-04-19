@@ -295,7 +295,7 @@ app.post("/api/updateRating", async (req, res) => {
       let response = { msg: error.sqlMessage };
       res.status(401).json(response);
     } else {
-      if (result) {
+      if (result.length !== 0) {
         sql = `UPDATE Rates SET rating =  ${rating} WHERE e_id = ${e_id} AND s_id = ${s_id};`;
         conn.query(sql, async (error1, result1) => {
           if (error1) {
