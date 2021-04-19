@@ -35,7 +35,7 @@ const SngGroup = (props) => {
   };
   // Local data
   var user = JSON.parse(localStorage.getItem("user_data"));
-  console.log(user);
+  // console.log(user);
   const s_id = user ? user.id : null;
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMember, setIsMember] = useState(false); // Modal fields
@@ -167,7 +167,8 @@ const SngGroup = (props) => {
 
     try {
       var newEvent = {
-        rso_id: props.rso_id,
+        // rso_id: props.rso_id,
+        rso_id: 13,
         s_id: s_id,
         e_name: e_name,
         e_description: e_description,
@@ -278,6 +279,8 @@ const SngGroup = (props) => {
         console.log(res);
         setRsoDesc(res.rso_description);
         setRsoName(res.rso_name);
+        console.log(res.rso_id);
+
         s_id == res.admin.s_id ? setIsAdmin(true) : setIsAdmin(false);
       }
     } catch (error) {
