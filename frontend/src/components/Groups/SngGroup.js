@@ -317,8 +317,10 @@ const SngGroup = (props) => {
           </Col>
           <Col xs="2">
             <Row>
-              <div style={{ fontWeight: "bold" }}>Total Members</div>:{" "}
-              {rsoDetails.members.length}{" "}
+              <div style={{ fontWeight: "bold", marginRight: "1rem" }}>
+                Total Members
+              </div>
+              : {rsoDetails.members.length}{" "}
             </Row>
             <Row>
               <Card.Link onClick={handleMOpen} style={{ cursor: "pointer" }}>
@@ -338,14 +340,7 @@ const SngGroup = (props) => {
             </Row>
           </Col>
         </Row>
-        <Row>
-          {message != "" ? (
-            <span id="errorMSG">
-              <span style={{ color: "blue" }}> Alert!: </span>
-              {message}
-            </span>
-          ) : null}
-        </Row>
+
         <Row style={{ marginLeft: "1rem" }}>
           {isAdmin || isMember ? (
             <Button variant="danger" onClick={handleLeaveOpen}>
@@ -369,6 +364,14 @@ const SngGroup = (props) => {
             >
               Create Event
             </Button>
+          ) : null}
+        </Row>
+        <Row style={{ width: "100%", justifyContent: "center" }}>
+          {message != "" ? (
+            <span id="errorMSG">
+              <span style={{ color: "blue" }}> Alert!: </span>
+              {message}
+            </span>
           ) : null}
         </Row>
         <Card style={{ margin: "1rem" }}>

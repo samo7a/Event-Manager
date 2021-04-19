@@ -35,6 +35,8 @@
 .upComingETitle{
     font-size: 2rem;
     text-decoration: underline;
+    /* justify-content: center; */
+    text-align: center;
 }
 .tableNumCol {
     width: 1rem;
