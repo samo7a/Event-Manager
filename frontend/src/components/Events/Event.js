@@ -155,7 +155,18 @@ const Event = (props) => {
         </Container>
       </Modal>
       <Modal show={showEventModal} onHide={modalEventClose}>
-        <ModalHeader></ModalHeader>
+        <ModalHeader>
+          <Button
+            type="primary"
+            style={{ position: "fixed", zIndex: "4", right: "10%" }}
+            onClick={() => {
+              modalEventClose();
+              modalClose();
+            }}
+          >
+            Close Event
+          </Button>
+        </ModalHeader>
         {/* CANT CLOSE MODAL, NEED TO FIND ALT way to size it */}
         <Modal.Body
           style={{
