@@ -75,7 +75,7 @@ const EventInfoPage = (props) => {
       } else {
         console.log("The first response: ", res);
         let theComments = res.comments;
-        await theComments.map(async (c) => {
+        let val = await theComments.forEach(async (c) => {
           try {
             let obj = { s_id: c.s_id};
             let js = JSON.stringify(obj);
@@ -103,7 +103,6 @@ const EventInfoPage = (props) => {
             return;
           }
         })
-        let val = theComments;
         console.log("theCommens outside the loop: ", val);
         setEventComments(val);
         setDetails(res);
