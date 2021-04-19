@@ -256,7 +256,9 @@ const MyEvents = (props) => {
         </Col>
         <Container style={{ backgroundColor: "red" }}>
           ADMIN OF THESE GROUPS
-          <Event />
+          {window.location.href == "http://localhost:3000/my-events" ? (
+            <Event />
+          ) : null}
         </Container>
       </Row>
       <Row>
