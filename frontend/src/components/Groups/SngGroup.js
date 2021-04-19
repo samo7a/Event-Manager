@@ -161,6 +161,7 @@ const SngGroup = (props) => {
   };
   // Join RSO
   const joinRSO = async () => {
+    // preventDefault();
     try {
       var obj = {
         rso_id: 13,
