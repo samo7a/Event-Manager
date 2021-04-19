@@ -277,7 +277,7 @@ const EventInfoPage = (props) => {
   }
 
   const rateEventHandler = async () => {
-    let obj = { e_id: eventDetails.e_id, rating: myRating, s_id: s_id};
+    let obj = { e_id: 20, rating: myRating, s_id: s_id};
     var res;
     try {
       let js = JSON.stringify(obj);
