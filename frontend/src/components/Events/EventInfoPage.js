@@ -133,7 +133,7 @@ const EventInfoPage = (props) => {
     return (
       <Card className="cardComment">
         <Card.Title className="cardCommentTitle">
-          {getCommenterName(param.info)}
+          {getCommenterName(param.info.s_id)}
         </Card.Title>
         <Card.Body className="cardCommentBody">{param.info.comment}</Card.Body>
         <Card.Footer className="cardCommentFooter">
@@ -171,7 +171,7 @@ const EventInfoPage = (props) => {
     try {
       var commenter = {
         // e_id: props.e_id,
-        s_id: p.s_id,
+        s_id: p,
       };
       console.log(commenter);
       var js = JSON.stringify(commenter);
