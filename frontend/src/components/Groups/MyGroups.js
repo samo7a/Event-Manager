@@ -136,7 +136,7 @@ const MyGroups = (props) => {
         // console.log(response.status);
         throw new Error(response.status);
       } else {
-        console.log("GetJoinedGroups success");
+        console.log("GetADMIN GROUPS success");
         setAdminGroups(res);
         console.log(joinedGroups);
       }
@@ -258,7 +258,7 @@ const MyGroups = (props) => {
     );
 
   return (
-    <Container>
+    <Container style={{ backgroundColor: "rgba(255,255,255,.3)" }}>
       <h1 style={{ marginLeft: "-1rem" }}> RSOs </h1>
 
       <Row>
@@ -270,7 +270,7 @@ const MyGroups = (props) => {
             Create RSO
           </Button>
         </Col>
-        <Container style={{ backgroundColor: "red" }}>
+        <Container style={{}}>
           ADMIN OF THESE GROUPS
           {generateAdminGroups}{" "}
           {window.location.href == "http://localhost:3000/my-groups" ? (
