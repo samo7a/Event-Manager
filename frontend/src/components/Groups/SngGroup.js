@@ -196,6 +196,8 @@ const SngGroup = (props) => {
     // preventDefault();
     console.log(rsoName);
     console.log(rsoDesc);
+    console.log(rnameEdit);
+    console.log(descEdit);
     rnameEdit == "" ? setRsoName(rsoName) : setRsoName(rnameEdit);
     descEdit == "" ? setRsoDesc(rsoDesc) : setRsoDesc(descEdit);
     try {
