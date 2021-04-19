@@ -150,7 +150,7 @@ const EventInfoPage = (props) => {
       var res = JSON.parse(await response.text());
       if (response.status !== 200) {
         console.log(res.error);
-      } 
+      }
     } catch (e) {
       console.log(e.toString());
       return;
@@ -436,17 +436,20 @@ const EventInfoPage = (props) => {
                 </Form.Row>
               </Form>
             </Card>
-            <Card className="cardComment">
-              <Card.Title className="cardCommentTitle">
-                {comment.commenter}
-              </Card.Title>
-              <Card.Body className="cardCommentBody">
-                {comment.comment}
-              </Card.Body>
-              <Card.Footer className="cardCommentFooter">
-                Posted at {comment.time} on {comment.date}
-              </Card.Footer>
-            </Card>
+            {window.location.href == "http://localhost:3000/my-groups" ? (
+              <Card className="cardComment">
+                <Card.Title className="cardCommentTitle">
+                  {comment.commenter}
+                </Card.Title>
+                <Card.Body className="cardCommentBody">
+                  {comment.comment}
+                </Card.Body>
+                <Card.Footer className="cardCommentFooter">
+                  Posted at {comment.time} on {comment.date}
+                </Card.Footer>
+              </Card>
+            ) : null}
+
             {renderComments}
           </Card.Footer>
         </Card>
