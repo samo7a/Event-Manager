@@ -202,7 +202,7 @@ const SngGroup = (props) => {
     // descEdit.value == "" ? setRsoDesc(rsoDesc) : setRsoDesc(descEdit.value);
     try {
       var objN = rnameEdit.value == "" ? rsoName : rnameEdit.value;
-      var objD = descEdit.value == "" ? setRsoDesc(rsoDesc) : descEdit.value;
+      var objD = descEdit.value == "" ? rsoDesc : descEdit.value;
       var obj = {
         rso_id: 13,
         rso_name: objN,
