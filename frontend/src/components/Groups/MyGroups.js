@@ -41,11 +41,50 @@ const MyGroups = (props) => {
       rso_description: "",
     },
   ]);
+  const [allGroups, setAllGroups] = useState([
+    {
+      rso: {
+        rso_id: 0,
+        rso_name: "",
+        status: "",
+        rso_description: "",
+      },
+      admin: {
+        s_id: 0,
+        s_firstName: "",
+        s_lastName: "",
+      },
+    },
+  ]);
   // New Rso fields
   var newRsoName;
   var newRsoDesc;
   var newRsoPic;
-
+  const getAllGroups = async () => {
+    console.log(s_id);
+    console.log(user);
+    let js = JSON.stringify({ s_id: s_id });
+    try {
+      const response = await fetch("/api/getAllRsos", {
+        method: "POST",
+        // credentials: "include",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+      console.log(js);
+      var res = JSON.parse(await response.text());
+      if (response.status !== 200) {
+        // console.log(response.status);
+        throw new Error(response.status);
+      } else {
+        console.log("GetAllGroups success");
+        setAllGroups(res);
+      }
+    } catch (e) {
+      console.log(e.toString());
+      return;
+    }
+  };
   const getJoinedGroups = async () => {
     console.log(s_id);
     console.log(user);
@@ -76,6 +115,7 @@ const MyGroups = (props) => {
   useEffect(() => {
     // setUserID();
     getJoinedGroups();
+    getAllGroups();
   }, []);
 
   const createNewRso = async (event) => {
@@ -133,6 +173,22 @@ const MyGroups = (props) => {
   //       return e.admin.s_id === s_id ? <Group rso_id={e.rso_id} /> : null;
   //     })
   //   );
+  const generateAllGroups =
+    allGroups.length == 0 ? (
+      <span>Not apart of any groups</span>
+    ) : (
+      allGroups.map((e) => {
+        console.log(e.rso.rso_id);
+        return e.rso.rso_id != "0" ? (
+          <div style={{ marginTop: ".5rem", marginBottom: ".5rem" }}>
+            <Group
+              rso_id={e.rso.rso_id}
+              style={{ marginTop: ".5rem", marginBottom: ".5rem" }}
+            />
+          </div>
+        ) : null;
+      })
+    );
   const generateJoinedGroups =
     joinedGroups.length == 0 ? (
       <span>Not apart of any groups</span>
@@ -187,7 +243,7 @@ const MyGroups = (props) => {
       <Row>
         <h3>Other RSOs at your university</h3>
         <Container style={{ backgroundColor: "red" }}>
-          Member OF THESE GROUPS
+          {generateAllGroups}
         </Container>
       </Row>
       <div>
