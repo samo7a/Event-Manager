@@ -71,12 +71,12 @@ const MyGroups = (props) => {
   };
 
   const updateNewRsoDesc = (e) => {
-    let length = newRsoDescLen - 1;
-    if (length < 0) {
+    let length = newRsoDesc.length + 1;
+    if (length > 1000) {
       return;
     }
     setNewRsoDesc(e.target.value);
-    setNewRsoDescLen(length);
+    setNewRsoDescLen(1000 - length);
   };
   // New Rso fields
   var newRsoPic;
