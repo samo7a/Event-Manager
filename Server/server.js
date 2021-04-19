@@ -429,9 +429,9 @@ app.post("/api/createEventStudent", async (req, res) => {
     let lat = googleJson.results[0].geometry.location.lat;
     let lng = googleJson.results[0].geometry.location.lng;
     let sql = `INSERT INTO Events (e_name, e_description, e_contactPhone, e_contactEmail, e_type, 
-            locationName, latitude, longitude, e_category, e_time, e_date, e_profilePicture, isApproved) 
+            locationName, latitude, longitude, e_category, e_time, e_date, isApproved) 
             VALUES ("${e_name}", "${e_description}", "${e_contactPhone}", "${e_contactEmail}", "public", 
-            "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", 1);`;
+            "${locationName}", "${lat}", "${lng}", "${e_category}", "${e_time}", "${e_date}", 0);`;
     conn.query(sql, async function (error, results) {
       if (error) {
         return conn.rollback(function () {
@@ -630,9 +630,8 @@ app.post("/api/updateAccount", async (req, res) => {
 app.post("/api/updateRso", (res, req) => {
   let rso_name = req.body.rso_name;
   let rso_description = req.body.rso_description;
-  let rso_profilePicture = req.body.rso_profilePicture;
   let rso_id = req.body.rso_id;
-  let sql = `UPDATE Rso SET rso_name = "${rso_name}" , rso_description = "${rso_description}", rso_profilePicture = ${rso_profilePicture} WHERE rso_id = ${rso_id}`;
+  let sql = `UPDATE Rso SET rso_name = "${rso_name}" , rso_description = "${rso_description}" WHERE rso_id = ${rso_id}`;
   conn.query(sql, async function (error) {
     if (error) {
       return res.status(401).json({ msg: error.sqlMessage });

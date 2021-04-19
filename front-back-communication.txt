@@ -413,3 +413,17 @@ b- From Server -> Frontend
     {
         name : string
     }
+
+---------------------------------------------------------
+24- /api/updateRso  (post)
+a- From Frontend -> Server
+{
+    rso_id : int,
+    rso_name : string,
+    rso_description : string
+}
+
+ From Server -> Frontend
+    {
+       msg: "Rso Updated" or a sql message error
+    }
