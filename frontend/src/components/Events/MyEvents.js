@@ -333,7 +333,7 @@ const MyEvents = (props) => {
                   >
                     <option value="public">Public</option>
                     <option value="private">Private</option>
-                    <option value="rso">RSO</option>
+                    {/* <option value="rso">RSO</option> */}
                   </Form.Control>
                   <Form.Label>If RSO was chosen, enter it here</Form.Label>
                   <Form.Control type="text" ref={(c) => (rsoEventOwner = c)} />
