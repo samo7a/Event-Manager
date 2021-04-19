@@ -167,14 +167,14 @@ const MyEvents = (props) => {
       var newEvent = {
         rso_id: createEventObj.rso_id,
         s_id: createEventObj.s_id,
-        e_name: createEventObj.e_name,
-        e_description: createEventObj.e_description,
-        e_contactEmail: createEventObj.e_contactEmail,
-        e_contactPhone: createEventObj.e_contactPhone,
-        e_type: createEventObj.e_type,
-        locationName: createEventObj.locationName,
-        address: createEventObj.address,
-        e_category: createEventObj.e_category,
+        e_name: createEventObj.e_name.value,
+        e_description: createEventObj.e_description.value,
+        e_contactEmail: createEventObj.e_contactEmail.value,
+        e_contactPhone: createEventObj.e_contactPhone.value,
+        e_type: createEventObj.e_type.value,
+        locationName: createEventObj.locationName.value,
+        address: createEventObj.address.value,
+        e_category: createEventObj.e_category.value,
         e_time: formatTime,
         e_date: formatDate,
         e_profilePicture: createEventObj.e_profilePicture,
@@ -314,7 +314,10 @@ const MyEvents = (props) => {
                 </Form.Group>
                 <Form.Group controlId="createEventObj.e_type">
                   <Form.Label>Select event type</Form.Label>
-                  <Form.Control as="select" value={createEventObj.e_type}>
+                  <Form.Control
+                    as="select"
+                    ref={(c) => (createEventObj.e_type = c)}
+                  >
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                     <option value="rso">RSO</option>
