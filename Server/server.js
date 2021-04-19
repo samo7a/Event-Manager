@@ -287,15 +287,35 @@ app.post("/api/signup", async (req, res) => {
 
 app.post("/api/updateRating", async (req, res) => {
   const { e_id, s_id, rating } = req.body;
-  let sql = `UPDATE Rates SET rating =  ${rating} WHERE e_id = ${e_id} AND s_id = ${s_id};`;
-
+  //let sql = `UPDATE Rates SET rating =  ${rating} WHERE e_id = ${e_id} AND s_id = ${s_id};`;
+  //let sql = `REPLACE into Rates (rating, e_id, s_id) values (${rating}, ${e_id}, ${s_id}) WHERE e_id = ${e_id} AND s_id = ${s_id};`;
+  let sql = `select s_id, e_id from Rates WHERE e_id = ${e_id} AND s_id = ${s_id};`;
   conn.query(sql, async (error, result) => {
     if (error) {
       let response = { msg: error.sqlMessage };
-      res.status(200).json(response);
+      res.status(401).json(response);
     } else {
-      let response = { msg: "rating updated" };
-      res.status(200).json(response);
+      if (result) {
+        sql = `UPDATE Rates SET rating =  ${rating} WHERE e_id = ${e_id} AND s_id = ${s_id};`;
+        conn.query(sql, async (error1, result1) => {
+          if (error1) {
+            let response1 = { msg: error1.sqlMessage };
+            res.status(401).json(response1);
+          }
+          let response2 = { msg: "rating updated" };
+          res.status(200).json(response2);
+        });
+      } else {
+        sql = `Insert Into Rates (rating, e_id, s_id) values (${rating}, ${e_id}, ${s_id});`;
+        conn.query(sql, async (error1, result1) => {
+          if (error1) {
+            let response1 = { msg: error1.sqlMessage };
+            res.status(401).json(response1);
+          }
+          let response2 = { msg: "rating updated" };
+          res.status(200).json(response2);
+        });
+      }
     }
   });
 });
