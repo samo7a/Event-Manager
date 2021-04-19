@@ -35,7 +35,8 @@ const SngGroup = (props) => {
   var user = JSON.parse(localStorage.getItem("user_data"));
   console.log(user);
   const s_id = user ? user.id : null;
-  // Modal fields
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isMember, setIsMember] = useState(false); // Modal fields
   var rnameEdit;
   var descEdit;
   var cnameEdit;
@@ -107,6 +108,7 @@ const SngGroup = (props) => {
   const getRsoDetails = async () => {
     try {
       setRsoID(props.rso_id);
+
       // setRsoID(13);
 
       var obj = { rso_id: 13 };
@@ -128,6 +130,7 @@ const SngGroup = (props) => {
         console.log(res);
         setRsoDesc(res.rso_description);
         setRsoName(res.rso_name);
+        s_id == res.admin.s_id ? setIsAdmin(true) : setIsAdmin(false);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -186,6 +189,7 @@ const SngGroup = (props) => {
         throw new Error(response.status);
       } else {
         setMessage("Joined Successfully!");
+        setIsMember(true);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -259,17 +263,6 @@ const SngGroup = (props) => {
         <Row id="cardRow" style={{ padding: 0, width: "auto" }}>
           <Col id="thumbnailIMG" xs="5" style={{ maxWidth: "22rem" }}>
             <Card.Img className="thumbnailImage" src={GroupThumbnail} />
-            {/* <Card.Link
-              onClick={handleEditOpen}
-              style={{
-                marginLeft: "25%",
-                marginRight: "25%",
-                textAlign: "center",
-                cursor: "pointer",
-              }}
-            >
-              Click here to edit page
-            </Card.Link> */}
           </Col>
           <Col xs="7" id="cardInfo" style={{ marginTop: "1rem" }}>
             <Card className="rsoCard2">
@@ -308,17 +301,19 @@ const SngGroup = (props) => {
         </Row>
         <Row style={{}}>
           <Col xs="4">
-            <Card.Link
-              onClick={handleEditOpen}
-              style={{
-                marginLeft: "20%",
-                // marginRight: "25%",
-                textAlign: "center",
-                cursor: "pointer",
-              }}
-            >
-              Click here to edit page
-            </Card.Link>
+            {isAdmin ? (
+              <Card.Link
+                onClick={handleEditOpen}
+                style={{
+                  marginLeft: "20%",
+                  // marginRight: "25%",
+                  textAlign: "center",
+                  cursor: "pointer",
+                }}
+              >
+                Click here to edit page
+              </Card.Link>
+            ) : null}
           </Col>
           <Col xs="2">
             <Row>
@@ -352,16 +347,29 @@ const SngGroup = (props) => {
           ) : null}
         </Row>
         <Row style={{ marginLeft: "1rem" }}>
-          <Button variant="danger" onClick={handleLeaveOpen}>
-            Leave RSO
-          </Button>
-          <Button
-            style={{ marginLeft: "1rem" }}
-            variant="primary"
-            onClick={joinRSO}
-          >
-            Join RSO
-          </Button>
+          {isAdmin || isMember ? (
+            <Button variant="danger" onClick={handleLeaveOpen}>
+              Leave RSO
+            </Button>
+          ) : null}
+          {!isAdmin ? (
+            <Button
+              style={{ marginLeft: "1rem" }}
+              variant="primary"
+              onClick={joinRSO}
+            >
+              Join RSO
+            </Button>
+          ) : null}
+          {isAdmin ? (
+            <Button
+              style={{ marginLeft: "1rem" }}
+              variant="primary"
+              onClick={joinRSO}
+            >
+              Create Event
+            </Button>
+          ) : null}
         </Row>
         <Card style={{ margin: "1rem" }}>
           <Card.Title className="upComingETitle">
