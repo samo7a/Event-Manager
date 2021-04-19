@@ -114,7 +114,7 @@ const Group = (props) => {
                   modalClose();
                 }}
               >
-                Close Event
+                Close Group
               </Button>
             </Modal.Header>
             {/* CANT CLOSE MODAL, NEED TO FIND ALT way to size it */}
