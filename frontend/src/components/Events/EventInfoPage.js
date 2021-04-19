@@ -109,8 +109,8 @@ const EventInfoPage = (props) => {
             return;
           }
         })
-        console.log("theComments outside loop: ", theComments);
-        setEventComments(theComments);
+        let val = await theComments;
+        setEventComments(val);
         setDetails(res);
       }
     } catch (error) {
