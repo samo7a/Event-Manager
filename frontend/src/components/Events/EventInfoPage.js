@@ -77,7 +77,7 @@ const EventInfoPage = (props) => {
       if (response.status != 200) {
         throw new Error(response.status);
       } else {
-        console.log(res);
+        console.log("The first response: ", res);
         let theComments = [];
         res.comments.forEach(async (c) => {
           try {
@@ -95,17 +95,21 @@ const EventInfoPage = (props) => {
             if (response.status != 200) {
               throw new Error(response.status);
             } else {
-                let item = {
-                  comment: c,
-                  author: res1.name,
-                };
-                theComments.push(item);
+              console.log("The second response: ", res1);
+              let item = {
+                comment: c,
+                author: res1.name,
+              };
+              console.log("the item: ", item);
+              theComments.push(item);
+              console.log("theComments in loop: ", theComments);
             }
           } catch (error) {
             console.error("Error:", error);
             return;
           }
         })
+        console.log("theComments outside loop: ", theComments);
         setEventComments(theComments);
         setDetails(res);
       }
