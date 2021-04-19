@@ -627,7 +627,7 @@ app.post("/api/updateAccount", async (req, res) => {
     }
   });
 });
-app.post("/api/updateRso", (req, res) => {
+app.post("/api/updateRso", async (req, res) => {
   let rso_name = req.body.rso_name;
   let rso_description = req.body.rso_description;
   let rso_id = req.body.rso_id;
@@ -639,7 +639,7 @@ app.post("/api/updateRso", (req, res) => {
     return res.status(200).json({ msg: "Rso Updated" });
   });
 });
-app.post("/api/updateEvent", async (res, req) => {
+app.post("/api/updateEvent", async (req, res) => {
   let e_id = req.body.e_id;
   let e_name = req.body.e_name;
   let e_description = req.body.e_description;
