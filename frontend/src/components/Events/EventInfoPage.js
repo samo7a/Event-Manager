@@ -187,7 +187,7 @@ const EventInfoPage = (props) => {
       } else {
         console.log("Ahh");
         console.log(res);
-        return res.name;
+        return res.name.value;
       }
     } catch (e) {
       console.log(e.toString());
