@@ -17,6 +17,8 @@ import {
   Card,
   Table,
   Form,
+  InputGroup,
+  FormControl,
 } from "react-bootstrap";
 import "./SngGroup.css";
 // import Table from "react-bootstrap/Table";
@@ -56,6 +58,151 @@ const SngGroup = (props) => {
   const [showLeave, setLeaveShow] = useState(false);
   const handleLeaveClose = () => setLeaveShow(false);
   const handleLeaveOpen = () => setLeaveShow(true);
+  // create event modal
+  const [createShow, setCreateShow] = useState(false);
+  const createEventClose = () => setCreateShow(false);
+  const createEventOpen = () => setCreateShow(true);
+  var createEventObj = {
+    rso_id: 0,
+    e_name: "",
+    e_description: "",
+    e_contactEmail: "",
+    e_contactPhone: "",
+    e_type: "",
+    locationName: "",
+    address: "",
+    e_category: "",
+    e_time: "",
+    e_date: "",
+    e_profilePicture: "",
+    s_id: s_id,
+  };
+  // newEvent fields
+  var eventHR;
+  var eventMIN;
+  var eventDay;
+  var eventMonth;
+  var eventYear;
+  // Create event
+  const createEvent = async (event) => {
+    event.preventDefault();
+    setMessage("");
+    console.log("Check before Validif. :: ");
+    console.log(createEventObj);
+    if (createEventObj.e_name.value.length == 0) {
+      setMessage("Please include event name");
+      return;
+    }
+    if (createEventObj.e_name.value.length > 45) {
+      setMessage("Event Name exceed limit of 45 Characters");
+      return;
+    }
+    if (createEventObj.e_description == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    if (createEventObj.e_description.value.length > 1000) {
+      setMessage("Over max");
+      return;
+    }
+    if (createEventObj.e_contactEmail == null) {
+      setMessage("Please enter an email");
+      return;
+    }
+    var expression = /\S+@\S+/;
+    if (!expression.test(createEventObj.e_contactEmail.value.toLowerCase())) {
+      setMessage("Please enter a valid email address");
+      return;
+    }
+    if (createEventObj.e_contactPhone == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    // if (createEventObj.e_contactPhone.value.length != 12) {
+    //   setMessage("Enter valid phone #");
+    //   return;
+    // }
+    if (eventHR == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    if (eventMIN == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    if (eventHR >= 24) {
+      setMessage("Please enter a valid hour (0 - 23)");
+      return;
+    }
+    if (eventMIN >= 60) {
+      setMessage("Please enter a valid minute (0 - 59)");
+      return;
+    }
+    if (eventDay == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    if (eventMonth == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    if (eventYear == null) {
+      setMessage("Please fill all fields");
+      return;
+    }
+    var formatTime = eventHR.value + ":" + eventMIN.value;
+    console.log("event time : " + formatTime);
+    var formatDate =
+      "20" + eventYear.value + "/" + eventMonth.value + "/" + eventDay.value;
+    var rso_id = createEventObj.rso_id;
+    var s_id = createEventObj.s_id;
+    var e_name = createEventObj.e_name.value;
+    var e_description = createEventObj.e_description.value;
+    var e_contactEmail = createEventObj.e_contactEmail.value;
+    var e_contactPhone = createEventObj.e_contactPhone.value;
+    var e_type = createEventObj.e_type.value;
+    var locationName = createEventObj.locationName.value;
+    var address = createEventObj.address.value;
+    var e_category = createEventObj.e_category.value;
+
+    try {
+      var newEvent = {
+        rso_id: rsoID,
+        s_id: s_id,
+        e_name: e_name,
+        e_description: e_description,
+        e_contactEmail: e_contactEmail,
+        e_contactPhone: e_contactPhone,
+        e_type: e_type,
+        locationName: locationName,
+        address: address,
+        e_category: e_category,
+        e_time: formatTime,
+        e_date: formatDate,
+        // e_profilePicture: null,
+        // isApproved: 1,
+      };
+      console.log(newEvent);
+      var js = JSON.stringify(newEvent);
+
+      const response = await fetch("/api/createEventRso", {
+        method: "POST",
+        // credentials: "include",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+      var res = JSON.parse(await response.text());
+      if (response.status !== 200) {
+        console.log(res.error);
+      } else {
+        console.log("Rso Created event");
+        console.log(res);
+      }
+    } catch (e) {
+      console.log(e.toString());
+      return;
+    }
+  };
   // Group fields
   const rsoNameDEBUG = "Florida Outdoor Adventure Club";
   const isActive = true;
@@ -256,7 +403,18 @@ const SngGroup = (props) => {
         })
       )
     ) : null;
-
+  const formatDate = (param) => {
+    if (param != null) {
+      let returnVar = "";
+      returnVar +=
+        param.substring(8, 10) +
+        "/" +
+        param.substring(5, 7) +
+        "/" +
+        param.substring(0, 4);
+      return returnVar;
+    } else return "No date";
+  };
   return (
     <div style={{ margin: "auto", minWidth: "40%" }}>
       <Card className="rsoCard">
@@ -315,10 +473,12 @@ const SngGroup = (props) => {
               </Card.Link>
             ) : null}
           </Col>
-          <Col xs="2">
+          <Col xs="4">
             <Row>
-              <div style={{ fontWeight: "bold" }}>Total Members</div>:{" "}
-              {rsoDetails.members.length}{" "}
+              <div style={{ fontWeight: "bold", marginRight: "1rem" }}>
+                Total Members
+              </div>
+              : {rsoDetails.members.length}{" "}
             </Row>
             <Row>
               <Card.Link onClick={handleMOpen} style={{ cursor: "pointer" }}>
@@ -338,14 +498,7 @@ const SngGroup = (props) => {
             </Row>
           </Col>
         </Row>
-        <Row>
-          {message != "" ? (
-            <span id="errorMSG">
-              <span style={{ color: "blue" }}> Alert!: </span>
-              {message}
-            </span>
-          ) : null}
-        </Row>
+
         <Row style={{ marginLeft: "1rem" }}>
           {isAdmin || isMember ? (
             <Button variant="danger" onClick={handleLeaveOpen}>
@@ -365,10 +518,18 @@ const SngGroup = (props) => {
             <Button
               style={{ marginLeft: "1rem" }}
               variant="primary"
-              onClick={joinRSO}
+              onClick={createEventOpen}
             >
               Create Event
             </Button>
+          ) : null}
+        </Row>
+        <Row style={{ width: "100%", justifyContent: "center" }}>
+          {message != "" ? (
+            <span id="errorMSG">
+              <span style={{ color: "blue" }}> Alert!: </span>
+              {message}
+            </span>
           ) : null}
         </Row>
         <Card style={{ margin: "1rem" }}>
@@ -379,17 +540,35 @@ const SngGroup = (props) => {
             {rsoDetails.events.map((e) => {
               return (
                 <Container
-                // className="eventContainer"
-                // onClick={modalOpen}
-                // style={{ backgroundColor: "yellowgreen" }}
+                  style={{
+                    marginLeft: "0",
+                    marginBottom: ".5rem",
+                    border: "1px solid black",
+                  }}
                 >
-                  <Card.Text>{e.e_name}</Card.Text>
-
-                  <h1>{e.e_name}</h1>
-                  {/* <h4>{eventDetails.}</h4> */}
-                  {/* <Image className="previewImage" src={pupFiller} /> */}
-                  {/* <p style={{ fontSize: "1.3rem" }}>{eventDesc}</p> */}
-                  {/* <p style={{ fontSize: "1.3rem" }}> {formatDate(e.e_date)}</p> */}
+                  <Card.Text
+                    style={{
+                      margin: "0",
+                    }}
+                  >
+                    <span>
+                      <span
+                        style={{
+                          margin: "0",
+                          fontWeight: "bold",
+                          fontSize: "2rem",
+                        }}
+                      >
+                        {e.e_name}
+                      </span>
+                    </span>
+                  </Card.Text>
+                  <Card.Text style={{ margin: "0" }}>
+                    {e.e_description}
+                  </Card.Text>
+                  <Card.Text style={{ margin: "0" }}>
+                    {formatDate(e.e_date)}
+                  </Card.Text>
                 </Container>
               );
             })}
@@ -545,6 +724,126 @@ const SngGroup = (props) => {
             </Button>
           </Modal.Footer>
         </Modal>
+        {/* CREATE Event MODAL */}
+        <div>
+          <Modal
+            class="modal-lg"
+            style={{
+              marginTop: "1.75rem",
+            }}
+            show={createShow}
+            onHide={createEventClose}
+          >
+            <Modal.Header>
+              <Modal.Title>Create Event</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group controlID="eventName">
+                  <Form.Label>Enter event name</Form.Label>
+                  <Form.Control
+                    placeholder="Event Name"
+                    type="text"
+                    ref={(c) => (createEventObj.e_name = c)}
+                  ></Form.Control>
+                  <Form.Text>45 characters maximum</Form.Text>
+                </Form.Group>
+                <Form.Group controlID="eventDesc">
+                  <Form.Label>Enter event description</Form.Label>{" "}
+                  <Form.Control
+                    placeholder="Please enter a description about the event"
+                    style={{ marginRight: "1rem", width: "100%" }}
+                    as="textarea"
+                    ref={(c) => (createEventObj.e_description = c)}
+                    rows="7"
+                  />
+                  <Form.Text>1000 characters maximum</Form.Text>
+                </Form.Group>
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Label> Contact email address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    ref={(c) => (createEventObj.e_contactEmail = c)}
+                  />
+                  <Form.Text className="text-muted"></Form.Text>
+                </Form.Group>
+                <Form.Group controlID="eventName">
+                  <Form.Label>Enter contact phone number</Form.Label>
+                  <Form.Control
+                    type="text"
+                    ref={(c) => (createEventObj.e_contactPhone = c)}
+                  />
+                  <Form.Text>Please enter in the form: XXX-XXX-XXXX</Form.Text>
+                </Form.Group>
+
+                <Form.Label>Enter event location</Form.Label>
+                <Form.Control
+                  type="text"
+                  ref={(c) => (createEventObj.locationName = c)}
+                />
+
+                <Form.Label>Enter event address</Form.Label>
+                <Form.Control
+                  type="text"
+                  ref={(c) => (createEventObj.address = c)}
+                />
+
+                <Form.Label>Enter event category</Form.Label>
+                <Form.Control
+                  type="text"
+                  ref={(c) => (createEventObj.e_category = c)}
+                />
+                <Form.Label>Enter event time in 24Hr format</Form.Label>
+                <InputGroup className="mb-3">
+                  <FormControl placeholder="Hour" ref={(c) => (eventHR = c)} />
+                  <FormControl
+                    placeholder="Minutes"
+                    ref={(c) => (eventMIN = c)}
+                  />
+                </InputGroup>
+                <Form.Label>Enter event date</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>DD/MM/YY</InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl ref={(c) => (eventDay = c)} />
+                  <FormControl ref={(c) => (eventMonth = c)} />
+                  <FormControl ref={(c) => (eventYear = c)} />
+                </InputGroup>
+                {/* <Form.Group controlID="rsoPic">
+                  <Form.Label>Upload event profile picture</Form.Label>
+                  <Form.File
+                    ref={(c) => (createEventObj.e_profilePicture = c)}
+                    label=""
+                  /> */}
+                {/* <Form.Text>5MB maximum</Form.Text> */}
+                {/* </Form.Group> */}
+              </Form>
+            </Modal.Body>
+            {message != "" ? (
+              <span id="errorMSG">
+                <span style={{ color: "red" }}>Error : </span>
+                {message}
+              </span>
+            ) : null}
+            <Modal.Footer
+              className="modalFooter"
+              style={{ marginBottom: "1rem", marginRight: "1rem" }}
+            >
+              <Button variant="primary" type="submit" onClick={createEvent}>
+                Create Event
+              </Button>
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={createEventClose}
+              >
+                Cancel
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
       </div>
     </div>
   );
