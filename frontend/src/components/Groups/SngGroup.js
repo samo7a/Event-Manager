@@ -280,7 +280,7 @@ const SngGroup = (props) => {
           <Col xs="2">
             <Row>
               <div style={{ fontWeight: "bold" }}>Total Members</div>:{" "}
-              {/* {rsoDetails.members.length}{" "} */}
+              {rsoDetails.members.length}{" "}
             </Row>
             <Row>
               <Card.Link onClick={handleMOpen} style={{ cursor: "pointer" }}>
