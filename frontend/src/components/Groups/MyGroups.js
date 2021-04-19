@@ -41,6 +41,14 @@ const MyGroups = (props) => {
       rso_description: "",
     },
   ]);
+  const [adminGroups, setAdminGroups] = useState([
+    {
+      rso_id: 0,
+      rso_name: "",
+      status: "",
+      rso_description: "",
+    },
+  ]);
   const [allGroups, setAllGroups] = useState([
     {
       rso: {
@@ -111,11 +119,38 @@ const MyGroups = (props) => {
       return;
     }
   };
+  const getAllAdminGroups = async () => {
+    console.log(s_id);
+    console.log(user);
+    let js = JSON.stringify({ s_id: s_id });
+    try {
+      const response = await fetch("/api/getAllMyRsosStudent", {
+        method: "POST",
+        // credentials: "include",
+        body: js,
+        headers: { "Content-Type": "application/json" },
+      });
+      console.log(js);
+      var res = JSON.parse(await response.text());
+      if (response.status !== 200) {
+        // console.log(response.status);
+        throw new Error(response.status);
+      } else {
+        console.log("GetJoinedGroups success");
+        setAdminGroups(res);
+        console.log(joinedGroups);
+      }
+    } catch (e) {
+      console.log(e.toString());
+      return;
+    }
+  };
 
   useEffect(() => {
     // setUserID();
     getJoinedGroups();
-    getAllGroups();
+    getAllGroups(); //generateAllMyEvents
+    getAllAdminGroups();
   }, []);
 
   const createNewRso = async (event) => {
@@ -173,6 +208,22 @@ const MyGroups = (props) => {
   //       return e.admin.s_id === s_id ? <Group rso_id={e.rso_id} /> : null;
   //     })
   //   );
+  const generateAdminGroups =
+    adminGroups.length == 0 ? (
+      <span>Not apart of any groups</span>
+    ) : (
+      adminGroups.map((e) => {
+        console.log(e.rso.rso_id);
+        return e.rso.rso_id != "0" ? (
+          <div style={{ marginTop: ".5rem", marginBottom: ".5rem" }}>
+            <Group
+              rso_id={e.rso.rso_id}
+              style={{ marginTop: ".5rem", marginBottom: ".5rem" }}
+            />
+          </div>
+        ) : null;
+      })
+    );
   const generateAllGroups =
     allGroups.length == 0 ? (
       <span>Not apart of any groups</span>
@@ -221,7 +272,7 @@ const MyGroups = (props) => {
         </Col>
         <Container style={{ backgroundColor: "red" }}>
           ADMIN OF THESE GROUPS
-          {/* <GroupContainer /> */}
+          {generateAdminGroups}{" "}
           {window.location.href == "http://localhost:3000/my-groups" ? (
             <div>
               <div style={{ marginTop: ".5rem", marginBottom: ".5rem" }}>
