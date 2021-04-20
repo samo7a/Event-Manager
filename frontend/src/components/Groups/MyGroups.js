@@ -71,7 +71,7 @@ const MyGroups = (props) => {
   };
 
   const updateNewRsoDesc = (e) => {
-    let length = newRsoDesc.length + 1;
+    let length = e.target.value.length;
     if (length > 1000) {
       return;
     }

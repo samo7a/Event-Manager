@@ -73,7 +73,7 @@ const MyEvents = (props) => {
   const [newEventLen, setNewEventLen] = useState(1000);
 
   const updateNewEventDesc = e => {
-    let i = newEventDesc.length + 1;
+    let i = e.target.value.length + 1;
     if (i > 1000) {
       return;
     }
